@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 
 public class InvisButton extends JButton {
@@ -21,4 +22,6 @@ public class InvisButton extends JButton {
         setContentAreaFilled(false);
         setBorderPainted(false);
     }
-}
+    protected void paintComponent(Graphics g) {
+    }
+    }

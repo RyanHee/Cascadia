@@ -20,24 +20,18 @@ public class BoardPanel extends JPanel implements ActionListener {
         board=n;
         animalTokenMap=map;
         setBackground(new Color(222,184,135));
+        setBackground(new Color(3, 107, 156));
         bigPanel=BigPan;
     }
-
-
-
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.translate(r,u);
         int w=116;
         int h=116;
         visited =new HashSet<>();
-        putButtons(g, board,getWidth()/2-50, getHeight()/2-58, w, h);
+        putButtons(g, board,getWidth()/2-50, getHeight()/2-h, w, h);
         //animalTokenMap=new HashMap<>();
-
     }
-
-
-
     private void putButtons(Graphics g, Node n, int x, int y, int w, int h){
         if (n==null){
             return;
@@ -45,13 +39,14 @@ public class BoardPanel extends JPanel implements ActionListener {
         if (visited.contains(n)){
             return;
         }
-        double[]xlst=new double[6];
-        double[]ylst=new double[6];
+
+        int[]xlst=new int[6];
+        int[]ylst=new int[6];
         for(int i = 0; i < 6; i++) {
             double v = i*Math.PI/3;
             //use this for ^
-            xlst[i] = x+w/2-w/2*Math.cos(v + Math.PI/2);
-            ylst[i] = y+h/2-h/2*Math.sin(v + Math.PI/2);
+            xlst[i] = (int)(x+w/2-w/2*Math.cos(v + Math.PI/2));
+            ylst[i] = (int) (y+h/2-h/2*Math.sin(v + Math.PI/2));
             //use this for ------
             //xPoints[i] = x + (int)Math.round(-width*Math.sin(v + Math.PI/2));
             //yPoints[i] = y + (int)Math.round(-height*Math.cos(v + Math.PI/2));
@@ -66,8 +61,13 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         Graphics2D g2 = (Graphics2D) g.create();
         g2.rotate(Math.toRadians(n.getRotateAngle()), x + 58, y + 58);
-
-        g2.drawImage(n.getImg(), x+8, y, w*50/58, h, null);
+        // 9,132,219
+        if(n.getPlaced()) {
+            g2.drawImage(n.getImg(), x + 8, y, w * 50 / 58, h, null);
+        }else{
+            g2.setColor(new Color(22, 162, 227));
+            g2.fillPolygon(xlst,ylst,6);
+        }
         if (animalTokenMap.get(n.getAnimal())!=null){
             //System.out.println("animal: "+n.getAnimal());
             g.drawImage(animalTokenMap.get(n.getAnimal())[0], x-17+w*50/116, y-25+h/2, 50, 50, null);
@@ -97,7 +97,6 @@ public class BoardPanel extends JPanel implements ActionListener {
             putButtons(g, n.getNeighbors()[i], nx[i], ny[i], w, h);
         }
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -132,13 +131,10 @@ public class BoardPanel extends JPanel implements ActionListener {
         catch (ClassCastException E){
             System.out.println("error");
         }
-
     }
-
     public Node getCurNode(){
         return curNode;
     }
-
     public void setCurNodeVal(String s){
         System.out.println("setvallllllll");
         curNode.setVal(s);
@@ -146,7 +142,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         this.repaint();
 
     }
-
     public boolean setCurNodeAnimal(String s){
         if (curNode.setAnimal(s)){
             stop=false;
@@ -155,12 +150,10 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         return false;
     }
-
     public void shift(int a, int b){
         r-=a;
         u-=b;
     }
-
     public void setBoard(Node n){
         board=n;
         this.removeAll();

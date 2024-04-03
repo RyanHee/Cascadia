@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Game {
     private ArrayList<String> tileNames, animalDeck;
+    private ArrayList<Node> startTile;
     private String[] tileName4, animalToken4;
     private Player[]playerlst;
     private int cur;
@@ -32,11 +33,28 @@ public class Game {
             tileName4[i]= tileNames.remove(0);
             animalToken4[i]= animalDeck.remove(0);
         }
+        startTile=new ArrayList<>();
+        sc = new Scanner(new File("start.txt"));
+        while (sc.hasNext()){
+            String v = sc.next();
+            if (v.split("-")[1].length()==1){
+                Node n = new Node("", v);
+                n.getNeighbors()[2].setVal(sc.next());
+                n.getNeighbors()[3].setVal(sc.next());
+                startTile.add(n);
+            }
+        }
+        System.out.println(startTile);
+        Collections.shuffle(startTile);
+
+
         playerlst=new Player[4];
         for (int i=0;i<4;i++){
-            playerlst[i]=new Player(new Node("", "MF-FBE"), i);
+            playerlst[i]=new Player(startTile.get(i), i);
         }
         cur=0;
+
+
     }
 
     public String[]getTileName4(){
