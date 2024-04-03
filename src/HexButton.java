@@ -18,12 +18,7 @@ public class HexButton extends JButton {
         setContentAreaFilled(false);
         setBorderPainted(false);
         hexagon = new Polygon(xPoints, yPoints, 6);
-        try{
-            img = ImageIO.read(Panel.class.getResource("tile.png"));
-        }
-        catch (Exception e){
-            System.out.println("fuck");
-        }
+
     }
 
     public HexButton(String label, int x, int y, int width, int height){

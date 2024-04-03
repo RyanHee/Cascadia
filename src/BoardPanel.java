@@ -104,9 +104,12 @@ public class BoardPanel extends JPanel implements ActionListener {
         try{
 
             //System.out.println("hereee");
+
             curNode=(Node) e.getSource();
+            System.out.println(curNode);
             if (bigPanel.getState()==1){
                 if (curNode.getVal()==null||curNode.getVal().equals("")){
+                    System.out.println("bitch");
                     setCurNodeVal(bigPanel.getCurVal());
                     bigPanel.next(curNode);
                 }
@@ -119,6 +122,7 @@ public class BoardPanel extends JPanel implements ActionListener {
                     System.out.println("goofy");
                     repaint();
                     bigPanel.nextA();
+
                 }
             }
             repaint();
@@ -155,5 +159,11 @@ public class BoardPanel extends JPanel implements ActionListener {
     public void shift(int a, int b){
         r-=a;
         u-=b;
+    }
+
+    public void setBoard(Node n){
+        board=n;
+        this.removeAll();
+        repaint();
     }
 }

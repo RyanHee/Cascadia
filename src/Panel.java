@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Panel extends JPanel implements ActionListener {
@@ -12,29 +13,29 @@ public class Panel extends JPanel implements ActionListener {
     //private int[]ylst;
 
     private HashMap<String, BufferedImage[]>animalTokenMap;
-    //private ArrayList<Node>visted;
-    private int[]xPoints, yPoints;
+
     private int angle, numSelectedTile, numSelectedAnimal;
     private static BufferedImage selectOutline, outline, rotateImage;
-    private Node test, n1, nodeSelected;
+    private Node nodeSelected;
     private HexButton rotate;
-    private ArrayList<String> tileNames, animalDeck;
-    private String[] tileName4, animalToken4;
+
     private BufferedImage[] tiles4;
     private HexButton[] fourButtonTiles;
     private InvisButton[]fourButtonAnimal;
     private int state;
-    private boolean drawHighlightAnimal, pickTurn, putTurn, rotateTurn, confirmTurn, animalTurn, putAnimalTurn;
-    private JButton confirmB, cancelB;
+    private boolean drawHighlightAnimal;
+    private JButton confirmB, cancelB, nextB;
     private String curVal, curAnimal;
     private BoardPanel bp;
     private BufferedImage dpad;
     private InvisButton up, down, right, left;
+    private Game game;
 
     //private HexButton hexButton;
-    public Panel(){
+    public Panel() throws FileNotFoundException {
         nodeSelected=null;
         numSelectedAnimal=-1;
+        game=new Game();
         try{
             //img = ImageIO.read(Panel.class.getResource("tile.png"));
             //img1 = ImageIO.read(Panel.class.getResource("tile1.png"));
@@ -42,37 +43,23 @@ public class Panel extends JPanel implements ActionListener {
             outline=ImageIO.read(new File("img/tileOutline.png"));
             selectOutline=ImageIO.read(new File("img/selectedTile.png"));
 
-            Scanner sc = new Scanner(new File("names.txt"));
-            tileNames = new ArrayList<>();
-            animalDeck = new ArrayList<>();
-            while (sc.hasNext()){
-                tileNames.add(sc.next());
-            }
-            for (int i=0;i<20;i++){
-                animalDeck.add("B");
-                animalDeck.add("E");
-                animalDeck.add("H");
-                animalDeck.add("S");
-                animalDeck.add("F");
-            }
-            Collections.shuffle(animalDeck);
-            Collections.shuffle(tileNames);
+
+
             tiles4=new BufferedImage[4];
             fourButtonTiles =new HexButton[4];
             fourButtonAnimal= new InvisButton[4];
-            tileName4 =new String[4];
-            animalToken4=new String[4];
             animalTokenMap=new HashMap<>();
+
             for (int i=0;i<4;i++){
-                tiles4[i]=ImageIO.read(new File("img/Tile/"+ tileNames.get(0)+".png"));
-                tileName4[i]= tileNames.get(0);
-                tileNames.remove(0);
+
+                tiles4[i]=ImageIO.read(new File("img/Tile/"+game.getTileName4()[i]+".png"));
+
                 fourButtonTiles[i]=new HexButton("");
                 fourButtonTiles[i].addActionListener(this);
                 fourButtonAnimal[i]=new InvisButton("");
                 fourButtonAnimal[i].addActionListener(this);
                 //fourButtonAnimal[i].showButton();
-                animalToken4[i]= animalDeck.remove(0);
+
             }
 
             System.out.println("here");
@@ -83,7 +70,6 @@ public class Panel extends JPanel implements ActionListener {
                         ImageIO.read(new File("img/tokens/"+ALong[i]+"Active.png")),
                         ImageIO.read(new File("img/tokens/"+ALong[i]+"Inactive.png"))});
             }
-            System.out.println("blck");
             rotateImage=ImageIO.read(new File("img/tilePlacementRotateClockwise.png"));
             //System.out.println(Arrays.toString(tiles4));
         }
@@ -96,6 +82,8 @@ public class Panel extends JPanel implements ActionListener {
         confirmB.addActionListener(this);
         cancelB=new JButton("cancel");
         cancelB.addActionListener(this);
+        nextB=new JButton("next turn");
+        nextB.addActionListener(this);
 
         up=new InvisButton("");
         down=new InvisButton("");
@@ -106,15 +94,14 @@ public class Panel extends JPanel implements ActionListener {
         right.addActionListener(this);
         left.addActionListener(this);
 
-        test=new Node("", "MS-FHB");
-        n1 = new Node("");
-        n1.addActionListener(this);
+        //test=new Node("", "MS-FHB");
+
         curVal="";
         state=0;
         rotate = new HexButton("");
         rotate.addActionListener(this);
 
-        bp=new BoardPanel(test, animalTokenMap, this);
+        bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
         add(bp);
         setBackground(Color.WHITE);
 
@@ -128,11 +115,16 @@ public class Panel extends JPanel implements ActionListener {
     public void paint(Graphics g){
 
         super.paint(g);
+        add(nextB);
+        nextB.setBounds(1200, 600, 200, 50);
+
         add(confirmB);
         confirmB.setBounds(1200, 700, 200, 50);
 
         add(cancelB);
         cancelB.setBounds(1200, 800, 200, 50);
+
+
 
         for (int i=0;i<4;i++){
             add(fourButtonTiles[i]);
@@ -146,10 +138,10 @@ public class Panel extends JPanel implements ActionListener {
                 g.drawImage(selectOutline, 765, 100+i*100, 75, 87, null);
             }
             if (i==numSelectedAnimal&&drawHighlightAnimal){
-                g.drawImage(animalTokenMap.get(animalToken4[i])[1], 865, 113+i*100, 60, 60, null);
+                g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[1], 865, 113+i*100, 60, 60, null);
             }
             else{
-                g.drawImage(animalTokenMap.get(animalToken4[i])[0], 865, 113+i*100, 60, 60, null);
+                g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[0], 865, 113+i*100, 60, 60, null);
             }
             fourButtonAnimal[i].setBounds(865, 113+i*100, 60, 60);
 
@@ -191,9 +183,9 @@ public class Panel extends JPanel implements ActionListener {
 
     public void nextA(){
         state++;
-        animalToken4[numSelectedAnimal]=animalDeck.remove(0);
+        game.updateAnimalDeck(numSelectedAnimal);
+
         numSelectedAnimal=-1;
-        animalTurn=false;
         drawHighlightAnimal=false;
         repaint();
     }
@@ -201,16 +193,17 @@ public class Panel extends JPanel implements ActionListener {
         nodeSelected=node;
         state++;
         //update deck
-        tileName4[numSelectedTile] = tileNames.get(0);
-        tileNames.remove(0);
+        game.updateTileDeck(numSelectedTile);
         try {
-            tiles4[numSelectedTile] = ImageIO.read(new File("img/Tile/" + tileName4[numSelectedTile] + ".png"));
+            tiles4[numSelectedTile] = ImageIO.read(new File("img/Tile/" + game.getTileName4()[numSelectedTile] + ".png"));
         } catch (Exception E) {
             System.out.println("blah");
         }
         numSelectedTile=-1;
         repaint();
     }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -236,13 +229,15 @@ public class Panel extends JPanel implements ActionListener {
             return;
         }
         System.out.println(state);
-        if (state==5){
-            pickTurn=true;
+
+        if (e.getSource().equals(nextB) && state==5){
+            game.nextTurn();
+            bp.setBoard(game.getCurrPlayer().getBoard());
             state=0;
+            repaint();
+            return;
         }
-        else{
-            pickTurn=false;
-        }
+
 
 
 
@@ -251,9 +246,7 @@ public class Panel extends JPanel implements ActionListener {
             HexButton b = fourButtonTiles[i];
             if (e.getSource().equals(b)&&state==0){
                 System.out.println("FOurbUttons");
-                putTurn=true;
-                pickTurn=false;
-                curVal= tileName4[i];
+                curVal= game.getTileName4()[i];
                 System.out.println(curVal);
                 numSelectedTile =i;
                 numSelectedAnimal=i;
@@ -268,17 +261,12 @@ public class Panel extends JPanel implements ActionListener {
         if (nodeSelected!=null && e.getSource().equals(rotate) && state==2){
             nodeSelected.addRotateAngle();
             System.out.println("rotateeeee");
-            //rotateTurn=false;
-            confirmTurn=true;
             repaint();
             return;
         }
 
         //confirm tile placement
         if (e.getSource().equals(confirmB)&&state==2){
-            animalTurn=true;
-            confirmTurn=false;
-            rotateTurn=false;
             drawHighlightAnimal=true;
             state++;
             System.out.println(state);
@@ -290,9 +278,7 @@ public class Panel extends JPanel implements ActionListener {
 
             //pick animal
             if (fourButtonAnimal[numSelectedAnimal].equals(e.getSource())){
-                curAnimal=animalToken4[numSelectedAnimal];
-                animalTurn=false;
-                putAnimalTurn=true;
+                curAnimal=game.getAnimalToken4()[numSelectedAnimal];
                 state++;
                 repaint();
                 return;
@@ -301,10 +287,10 @@ public class Panel extends JPanel implements ActionListener {
             else if (e.getSource().equals(cancelB)){
                 curAnimal="";
                 numSelectedAnimal=-1;
-                animalTurn=false;
                 drawHighlightAnimal=false;
                 repaint();
                 state+=2;
+
                 return;
             }
 
@@ -315,10 +301,11 @@ public class Panel extends JPanel implements ActionListener {
         if (e.getSource().equals(cancelB)&&state==4){
             curAnimal="";
             numSelectedAnimal=-1;
-            animalTurn=false;
             drawHighlightAnimal=false;
             repaint();
-            state+=1;
+            state++;
+
+
             return;
         }
     }

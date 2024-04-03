@@ -35,7 +35,7 @@ public class Node extends JButton {
             img = ImageIO.read(new File("img/blank.png"));
         }
         catch (Exception e){
-            System.out.println("fuck");
+            System.out.println("fuck2");
         }
     }
 
@@ -201,7 +201,7 @@ public class Node extends JButton {
             }
         }
         catch (Exception e){
-            System.out.println("fuck");
+            System.out.println("fuck1");
         }
         for (int i=0;i<6;i++){
             if (neighbors[i]==null){
