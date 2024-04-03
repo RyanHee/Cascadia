@@ -31,7 +31,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         int w=116;
         int h=116;
         visited =new HashSet<>();
-        putButtons(g, board,getWidth()/2-50, getHeight()/2-58, w, h);
+        putButtons(g, board,getWidth()/2-50, getHeight()/2-h, w, h);
         //animalTokenMap=new HashMap<>();
 
     }
