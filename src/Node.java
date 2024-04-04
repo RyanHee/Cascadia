@@ -290,9 +290,12 @@ public class Node extends JButton {
         //g.drawPolygon(xPoints, yPoints, 6);
         //g.drawImage(img, getX(), getY(), getWidth()*50/58, getHeight(), null);
         //drawImg(g, this.getX(), this.getY(), getWidth(), getHeight());
-        super.paintComponent(g);
+        //super.paintComponent(g);
     }
 
+    public String[] getSides() {
+        return Sides;
+    }
 
     public Node get(int i){
         if (i<6){

@@ -10,6 +10,7 @@ public class Game {
     private String[] tileName4, animalToken4;
     private Player[]playerlst;
     private int cur;
+    private Scoring scoring;
     public Game() throws FileNotFoundException {
         Scanner sc = new Scanner(new File("names.txt"));
         tileNames = new ArrayList<>();
@@ -41,6 +42,11 @@ public class Game {
                 Node n = new Node("", v);
                 n.getNeighbors()[2].setVal(sc.next());
                 n.getNeighbors()[3].setVal(sc.next());
+                for (int i=0;i<5;i++){
+                    n.getNeighbors()[2].addRotateAngle();
+                }
+                n.getNeighbors()[3].addRotateAngle();
+
                 startTile.add(n);
             }
         }
@@ -53,6 +59,7 @@ public class Game {
             playerlst[i]=new Player(startTile.get(i), i);
         }
         cur=0;
+        scoring=new Scoring();
 
 
     }
@@ -82,5 +89,9 @@ public class Game {
 
     public Player getCurrPlayer(){
         return playerlst[cur];
+    }
+
+    public int curPlayerScore(){
+        return scoring.landMass(playerlst[cur].getBoard());
     }
 }

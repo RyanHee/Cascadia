@@ -12,7 +12,6 @@ public class BoardPanel extends JPanel implements ActionListener {
     private HashSet<Node>visited;
     private HashMap<String, BufferedImage[]>animalTokenMap;
     private Node curNode;
-    private boolean stop;
     private Panel bigPanel;
     private int r, u;
 
@@ -149,7 +148,6 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     public boolean setCurNodeAnimal(String s){
         if (curNode.setAnimal(s)){
-            stop=false;
             repaint();
             return true;
         }
