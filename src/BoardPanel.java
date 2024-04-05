@@ -155,8 +155,8 @@ public class BoardPanel extends JPanel implements ActionListener {
     }
 
     public void shift(int a, int b){
-        r-=a;
-        u-=b;
+        r+=a;
+        u+=b;
     }
 
     public void setBoard(Node n){
