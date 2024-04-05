@@ -24,7 +24,10 @@ public class Scoring {
     public int landMass(Node node){
         int s=0;
 
-
+        landScore=new HashMap<>();
+        for (String l:land){
+            landScore.put(l, 0);
+        }
         for (int i=0;i<5;i++){
             allVisited=new HashSet<>();
             dfsLand(node, land[i]);
