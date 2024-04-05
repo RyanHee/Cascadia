@@ -20,7 +20,6 @@ public class HexButton extends JButton {
         hexagon = new Polygon(xPoints, yPoints, 6);
 
     }
-
     public HexButton(String label, int x, int y, int width, int height){
         super(label);
         xPoints = new int[6];
@@ -34,7 +33,6 @@ public class HexButton extends JButton {
         //System.out.println(Arrays.toString(yPoints));
         hexagon = new Polygon(xPoints, yPoints, 6);
     }
-
     protected void paintBorder(Graphics g) {
         g.setColor(Color.BLACK);
         int x0 = getSize().width/2;
@@ -46,7 +44,6 @@ public class HexButton extends JButton {
         }
         g.drawPolygon(xPoints, yPoints,6);
     }
-
     protected void paintComponent(Graphics g) {
         if (getModel().isArmed()) {
             g.setColor(Color.lightGray);
@@ -63,11 +60,8 @@ public class HexButton extends JButton {
         //System.out.println(Arrays.toString(xPoints));
         //System.out.println(Arrays.toString(yPoints));
         g.fillPolygon(xPoints, yPoints, 6);
-        super.paintComponent(g);
+        //super.paintComponent(g);
     }
-
-
-
     @Override
     public boolean contains(int x1, int y1) {
         if (hexagon == null ||
@@ -83,5 +77,4 @@ public class HexButton extends JButton {
         }
         return hexagon.contains(x1, y1);
     }
-
 }

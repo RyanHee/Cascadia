@@ -28,7 +28,7 @@ public class Panel extends JPanel implements ActionListener {
     private String curVal, curAnimal;
     private BoardPanel bp;
     private BufferedImage dpad;
-    private InvisButton up, down, right, left;
+    private JButton up,down,right,left;
     private Game game;
 
     //private HexButton hexButton;
@@ -51,15 +51,12 @@ public class Panel extends JPanel implements ActionListener {
             animalTokenMap=new HashMap<>();
 
             for (int i=0;i<4;i++){
-
                 tiles4[i]=ImageIO.read(new File("img/Tile/"+game.getTileName4()[i]+".png"));
-
                 fourButtonTiles[i]=new HexButton("");
                 fourButtonTiles[i].addActionListener(this);
                 fourButtonAnimal[i]=new InvisButton("");
                 fourButtonAnimal[i].addActionListener(this);
                 //fourButtonAnimal[i].showButton();
-
             }
 
             System.out.println("here");
@@ -79,10 +76,11 @@ public class Panel extends JPanel implements ActionListener {
         angle=0;
         numSelectedTile =-1;
         confirmB=new JButton("confirm");
-        confirmB.addActionListener(this);
         cancelB=new JButton("cancel");
-        cancelB.addActionListener(this);
         nextB=new JButton("next turn");
+
+        confirmB.addActionListener(this);
+        cancelB.addActionListener(this);
         nextB.addActionListener(this);
 
         up=new InvisButton("");
@@ -98,61 +96,40 @@ public class Panel extends JPanel implements ActionListener {
 
         curVal="";
         state=0;
-        rotate = new HexButton("");
+        rotate = new HexButton("arrow.png");
         rotate.addActionListener(this);
 
         bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
         add(bp);
         setBackground(Color.WHITE);
-
-
-
-
-
+        setBackground(new Color(3, 107, 156));
     }
 
 
     public void paint(Graphics g){
-
         super.paint(g);
+        g.setColor(new Color(0,80,117));
+        for(int i = 0;i<5;i++) {
+            g.drawRect(getWidth()/8-i, getHeight()/8-i, getWidth() - getWidth() / 5+2*i, getHeight()*3/4 +2*i);
+        }
+        bp.setBounds(getWidth()/8, getHeight()/8, getWidth()-getWidth()/10-5, getHeight()*3/4);
         add(nextB);
-        nextB.setBounds(1200, 600, 200, 50);
+        nextB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/10, getWidth()/15, getHeight()/15);
 
         add(confirmB);
-        confirmB.setBounds(1200, 700, 200, 50);
+        confirmB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/5, getWidth()/15, getHeight()/15);
 
         add(cancelB);
-        cancelB.setBounds(1200, 800, 200, 50);
+        cancelB.setBounds(getWidth()/30, getHeight()*3/5, getWidth()/15, getHeight()/15);
 
+        add(up);
 
-
-        for (int i=0;i<4;i++){
-            add(fourButtonTiles[i]);
-            add(fourButtonAnimal[i]);
-
-            //FourButtons[i].paintComponent(g);
-            g.drawImage(tiles4[i], 765, 100+i*100, 75, 87, null);
-            g.drawImage(outline, 765, 100+i*100, 75, 87, null);
-            fourButtonTiles[i].setBounds(760, 100+i*100, 87, 87);
-            if (i== numSelectedTile){
-                g.drawImage(selectOutline, 765, 100+i*100, 75, 87, null);
-            }
-            if (i==numSelectedAnimal&&drawHighlightAnimal){
-                g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[1], 865, 113+i*100, 60, 60, null);
-            }
-            else{
-                g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[0], 865, 113+i*100, 60, 60, null);
-            }
-            fourButtonAnimal[i].setBounds(865, 113+i*100, 60, 60);
-
-        }
-
+        up.setBounds(0,0,50,50);
         g.drawImage(dpad, 800, 600, 240, 240, null);
 
         g.drawImage(rotateImage, 1204, 500, 75, 87, null);
         add(rotate);
         rotate.setBounds(1200, 500, 87, 87);
-
         //left.showButton();
         add(left);
         left.setBounds(847, 698, 50, 50);
@@ -203,12 +180,8 @@ public class Panel extends JPanel implements ActionListener {
         numSelectedTile=-1;
         repaint();
     }
-
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource().equals(up)){
             bp.shift(0, -116);
             repaint();
@@ -238,15 +211,11 @@ public class Panel extends JPanel implements ActionListener {
             repaint();
             return;
         }
-
-
-
-
         //select tile
         for (int i=0;i<4;i++){
             HexButton b = fourButtonTiles[i];
             if (e.getSource().equals(b)&&state==0){
-                System.out.println("FOurbUttons");
+                System.out.println("FourbUttons");
                 curVal= game.getTileName4()[i];
                 System.out.println(curVal);
                 numSelectedTile =i;
@@ -257,7 +226,6 @@ public class Panel extends JPanel implements ActionListener {
                 return;
             }
         }
-
         //rotate angle
         if (nodeSelected!=null && e.getSource().equals(rotate) && state==2){
             nodeSelected.addRotateAngle();
@@ -265,7 +233,6 @@ public class Panel extends JPanel implements ActionListener {
             repaint();
             return;
         }
-
         //confirm tile placement
         if (e.getSource().equals(confirmB)&&state==2){
             drawHighlightAnimal=true;

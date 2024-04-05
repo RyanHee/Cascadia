@@ -250,6 +250,7 @@ public class Node extends JButton {
             xPoints[i] = x0 + (int)Math.round((getWidth()/2)*Math.sin(v));
             yPoints[i] = y0 + (int)Math.round((getHeight()/2)*Math.cos(v));
         }
+        g.setColor(new Color(0,80,117));
         g.drawPolygon(xPoints, yPoints,6);
     }
 
@@ -272,12 +273,13 @@ public class Node extends JButton {
     }
 
     protected void paintComponent(Graphics g) {
-
+       // g.setColor(rrgb(45, 160, 224));
         if (getModel().isArmed()) {
             g.setColor(Color.lightGray);
         } else {
             g.setColor(getBackground());
         }
+
         int x0 = getSize().width/2;
         int y0 = getSize().height/2;
         //System.out.println(x0+" "+y0+" 00");
