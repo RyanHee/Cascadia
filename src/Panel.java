@@ -142,24 +142,8 @@ public class Panel extends JPanel implements ActionListener {
         //down.showButton();
         add(down);
         down.setBounds(897, 747, 50, 50);
-        for (int i=0;i<4;i++){
-            add(fourButtonTiles[i]);
-            add(fourButtonAnimal[i]);
-            g.drawImage(tiles4[i], getWidth()/75, getHeight()/8+i*95, 75, 87, null);
-            g.drawImage(outline,   getWidth()/75, getHeight()/8+i*95, 75, 87, null);
-            fourButtonTiles[i].setBounds(getWidth()/75, getHeight()/8+i*95, 75, 87);
-            if (i == numSelectedTile){
-                g.drawImage(selectOutline, getWidth()/75, getHeight()/8+i*95, 75, 87, null);
-            }
-            if (i==numSelectedAnimal&&drawHighlightAnimal) {
-                g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[1], 115, getHeight()/8+i*95, 60, 60, null);
-
-            }else{
-                g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[0], 115, getHeight()/8+i*95, 60, 60, null);
-            }
-            fourButtonAnimal[i].setBounds(115, getHeight()/8+i*95, 60, 60);
-        }
-
+        bp.setBounds(30, 80, 700, 700);
+        g.drawString(String.valueOf(game.curPlayerScore()), 1200, 300);
     }
 
     public int getState(){

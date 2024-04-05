@@ -288,13 +288,16 @@ public class Node extends JButton {
             xPoints[i] = x0 + (int)Math.round((getWidth()/2)*Math.sin(v));
             yPoints[i] = y0 + (int)Math.round((getHeight()/2)*Math.cos(v));
         }
-        g.setColor(Color.lightGray);
-      //  g.drawPolygon(xPoints, yPoints, 6);
-       // g.drawImage(img, getX(), getY(), getWidth()*50/58, getHeight(), null);
-       // g.drawImg(g, this.getX(), this.getY(), getWidth(), getHeight());
-//        super.paintComponent(g);
+        //g.setColor(Color.lightGray);
+        //g.drawPolygon(xPoints, yPoints, 6);
+        //g.drawImage(img, getX(), getY(), getWidth()*50/58, getHeight(), null);
+        //drawImg(g, this.getX(), this.getY(), getWidth(), getHeight());
+        //super.paintComponent(g);
     }
 
+    public String[] getSides() {
+        return Sides;
+    }
 
     public Node get(int i){
         if (i<6){
