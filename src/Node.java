@@ -53,7 +53,7 @@ public class Node extends JButton {
         //System.out.println(Arrays.toString(yPoints));
         setOpaque(false);
         setContentAreaFilled(false);
-        setBorderPainted(false);
+        //setBorderPainted(false);
         animals=new HashSet<>();
         hexagon = new Polygon(xPoints, yPoints, 6);
         try{
@@ -72,7 +72,7 @@ public class Node extends JButton {
         for (int i=3;i<6;i++) {
             Sides[i]=left;
         }
-        System.out.println(Arrays.toString(Sides));
+        //System.out.println(Arrays.toString(Sides));
         char[]animallst=lst[1].toCharArray();
         for (char c:animallst){
             animals.add(Character.toString(c));
@@ -119,7 +119,7 @@ public class Node extends JButton {
                 lst[i]=Sides[5];
             }
         }
-        System.out.println(Arrays.toString(lst));
+        //System.out.println(Arrays.toString(lst));
         Sides=lst;
         return rotateAngle;
     }
@@ -194,7 +194,7 @@ public class Node extends JButton {
             for (int i=3;i<6;i++) {
                 Sides[i]=left;
             }
-            System.out.println(Arrays.toString(Sides));
+            //System.out.println(Arrays.toString(Sides));
             char[]animallst=lst[1].toCharArray();
             for (char c:animallst){
                 animals.add(Character.toString(c));

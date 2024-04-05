@@ -165,6 +165,7 @@ public class Panel extends JPanel implements ActionListener {
         //down.showButton();
         add(down);
         down.setBounds(897, 747, 50, 50);
+        //add(bp);
         bp.setBounds(30, 80, 700, 700);
         g.drawString(String.valueOf(game.curPlayerScore()), 1200, 300);
     }
