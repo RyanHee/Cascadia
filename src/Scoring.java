@@ -2,41 +2,80 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class Scoring {
-    private HashMap<Integer, Integer>map = new HashMap<>();
+    private HashMap<Integer, Integer> opp;
+    private HashMap<String, Integer> landScore;
+    private HashSet<Node> allVisited;
     private String[]land;
     public Scoring(){
-        map.put(0,3);
-        map.put(1,4);
-        map.put(2,5);
-        map.put(3,0);
-        map.put(4,1);
-        map.put(5,2);
+        opp = new HashMap<>();
+        opp.put(0,3);
+        opp.put(1,4);
+        opp.put(2,5);
+        opp.put(3,0);
+        opp.put(4,1);
+        opp.put(5,2);
         land=new String[]{"D", "F", "S", "L", "M"};
-
+        landScore=new HashMap<>();
+        for (String s:land){
+            landScore.put(s, 0);
+        }
     }
 
     public int landMass(Node node){
         int s=0;
+
+        landScore=new HashMap<>();
+        for (String l:land){
+            landScore.put(l, 0);
+        }
         for (int i=0;i<5;i++){
-            s+=dfsLand(node, land[i], new HashSet<>(), 0);
+            allVisited=new HashSet<>();
+            dfsLand(node, land[i]);
+            System.out.println(i);
+            s+=landScore.get(land[i]);
         }
         return s;
     }
 
-    public int dfsLand(Node node, String land, HashSet<Node> visited, int sum){
-        System.out.println(node);
+    public void dfsLand(Node node, String land){
+        if (allVisited.contains(node)){
+            return ;
+        }
+        if (node.getVal()==null){
+            return ;
+        }
+        allVisited.add(node);
+        boolean score=false;
+        for (int i=0;i<6;i++){
+            if (node.getSides()[i].equals(land)){
+                score=true;
+            }
+        }
+        if (score){
+            System.out.println("a"+land);
+            landScore.replace(land, Math.max(landScore.get(land), scoreLand(node, land, new HashSet<>(), 0)));
+        }
+        for (int i=0;i<6;i++){
+            dfsLand(node.getNeighbors()[i], land);
+        }
+    }
+
+    public int scoreLand(Node node, String land, HashSet<Node> visited, int sum){
+
+        allVisited.add(node);
         if (visited.contains(node)){
             return 0;
         }
         visited.add(node);
         Node[]lst = node.getNeighbors();
         int a = 0;
+        //System.out.println(node);
         for (int i=0;i<6;i++){
-
-            if (node.getSides()[i].equals(land)){
+            //System.out.println(lst[i]);
+            if (node.getSides()[i]!=null && node.getSides()[i].equals(land)){
                 a++;
-                if (lst[i].getSides()[map.get(i)].equals(land)){
-                    sum+=dfsLand(lst[i], land, visited, sum);
+                if (lst[i].getSides()[opp.get(i)]!=null && lst[i].getSides()[opp.get(i)].equals(land)){
+                    sum+=scoreLand(lst[i], land, visited, sum);
                 }
             }
         }
