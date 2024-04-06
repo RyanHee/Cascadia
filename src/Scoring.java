@@ -31,7 +31,7 @@ public class Scoring {
         for (int i=0;i<5;i++){
             allVisited=new HashSet<>();
             dfsLand(node, land[i]);
-            System.out.println(i);
+            // System.out.println(i);
             s+=landScore.get(land[i]);
         }
         return s;
@@ -52,7 +52,7 @@ public class Scoring {
             }
         }
         if (score){
-            System.out.println("a"+land);
+           // System.out.println("a"+land);
             landScore.replace(land, Math.max(landScore.get(land), scoreLand(node, land, new HashSet<>(), 0)));
         }
         for (int i=0;i<6;i++){

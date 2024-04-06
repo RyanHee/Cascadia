@@ -28,7 +28,6 @@ public class Panel extends JPanel implements ActionListener {
     private String curVal, curAnimal;
     private BoardPanel bp;
     private BufferedImage dpad;
-    private JButton up,down,right,left;
     private Game game;
 
     //private HexButton hexButton;
@@ -83,14 +82,7 @@ public class Panel extends JPanel implements ActionListener {
         cancelB.addActionListener(this);
         nextB.addActionListener(this);
 
-        up=new InvisButton("");
-        down=new InvisButton("");
-        right=new InvisButton("");
-        left=new InvisButton("");
-        up.addActionListener(this);
-        down.addActionListener(this);
-        right.addActionListener(this);
-        left.addActionListener(this);
+       
 
         //test=new Node("", "MS-FHB");
 
@@ -110,9 +102,9 @@ public class Panel extends JPanel implements ActionListener {
         super.paint(g);
         g.setColor(new Color(0,80,117));
         for(int i = 0;i<5;i++) {
-            g.drawRect(getWidth()/8-i, getHeight()/8-i, getWidth() - getWidth() / 5+2*i, getHeight()*3/4 +2*i);
+            g.drawRect(getWidth()/7-i, getHeight()/8-i, getWidth() - getWidth() / 3+2*i, getHeight()*3/4 +2*i);
         }
-        bp.setBounds(getWidth()/8, getHeight()/8, getWidth()-getWidth()/10-5, getHeight()*3/4);
+        bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
         add(nextB);
         nextB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/10, getWidth()/15, getHeight()/15);
 
@@ -121,26 +113,13 @@ public class Panel extends JPanel implements ActionListener {
 
         add(cancelB);
         cancelB.setBounds(getWidth()/30, getHeight()*3/5, getWidth()/15, getHeight()/15);
+        //g.drawImage(dpad, 800, 600, 240, 240, null);
 
-       
-        g.drawImage(dpad, 800, 600, 240, 240, null);
 
         g.drawImage(rotateImage, 1204, 500, 75, 87, null);
         add(rotate);
         rotate.setBounds(1200, 500, 87, 87);
         //left.showButton();
-        add(left);
-        left.setBounds(847, 698, 50, 50);
-        //right.showButton();
-        add(right);
-        right.setBounds(946, 698, 50, 50);
-        //up.showButton();
-        add(up);
-        up.setBounds(897, 650, 50, 50);
-        //down.showButton();
-        add(down);
-        down.setBounds(897, 747, 50, 50);
-        
         g.drawString(String.valueOf(game.curPlayerScore()), 1200, 300);
         for (int i=0;i<4;i++){
             add(fourButtonTiles[i]);
@@ -196,26 +175,7 @@ public class Panel extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(up)){
-            bp.shift(0, -116);
-            repaint();
-            return;
-        }
-        if (e.getSource().equals(down)){
-            bp.shift(0, 116);
-            repaint();
-            return;
-        }
-        if (e.getSource().equals(right)){
-            bp.shift(100, 0);
-            repaint();
-            return;
-        }
-        if (e.getSource().equals(left)){
-            bp.shift(-100, 0);
-            repaint();
-            return;
-        }
+       
         System.out.println(state);
 
         if (e.getSource().equals(nextB) && state==5){

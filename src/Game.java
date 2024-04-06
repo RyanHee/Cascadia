@@ -50,7 +50,7 @@ public class Game {
                 startTile.add(n);
             }
         }
-        System.out.println(startTile);
+        //System.out.println(startTile);
         Collections.shuffle(startTile);
 
 
