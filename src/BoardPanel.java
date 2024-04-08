@@ -1,8 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.nio.Buffer;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +17,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private Panel bigPanel;
     private int r, u;
     private JButton up,down,right,left;
+    private BufferedImage outline;
     private int hs,vs;
 
     public BoardPanel (Node n, HashMap<String, BufferedImage[]>map, Panel BigPan){
@@ -34,6 +37,12 @@ public class BoardPanel extends JPanel implements ActionListener {
         down.addActionListener(this);
         right.addActionListener(this);
         left.addActionListener(this);
+        try{
+            outline= ImageIO.read(new File("img/tileOutline.png"));
+        }
+        catch (Exception E){
+
+        }
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -83,6 +92,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.rotate(Math.toRadians(n.getRotateAngle()), x + 58, y + 58);
         g2.drawImage(n.getImg(), x + 8, y, w * 50 / 58, h, null);
+        g.drawImage(outline, x+8, y, w*50/58, h, null);
         // 9,132,219
         /*
         if(n.getPlaced()) {
@@ -93,8 +103,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
 
          */
-        g.setColor(Color.BLACK);
-        g.drawPolygon(xlst,ylst,6);
+        //g.setColor(Color.BLACK);
+        //g.drawPolygon(xlst,ylst,6);
         if (animalTokenMap.get(n.getAnimal())!=null){
             //System.out.println("animal: "+n.getAnimal());
             g.drawImage(animalTokenMap.get(n.getAnimal())[0], (x-17+w*50/116), (y-25+h/2), 50, 50, null);
