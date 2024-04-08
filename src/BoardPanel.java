@@ -23,7 +23,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         board=n;
         animalTokenMap=map;
         setBackground(new Color(222,184,135));
-        setBackground(new Color(3, 107, 156));
+        //setBackground(new Color(3, 107, 156));
         bigPanel=BigPan;
 
         up   =new JButton("");
@@ -40,16 +40,17 @@ public class BoardPanel extends JPanel implements ActionListener {
         int w=116;
         int h=116;
         visited =new HashSet<>();
+        g.translate(r,u);
         putButtons(g, board,getWidth()/2-50, getHeight()/2-h, w, h);
 
         add(up);
         add(down);
         add(left);
         add(right);
-          left.setBounds(getWidth()/20*17, getHeight()/6*5  , getWidth()/20,getHeight()/12);
-         right.setBounds(getWidth()/20*19 , getHeight()/6*5, getWidth()/20,getHeight()/12);
-            up.setBounds(getWidth()/20*18, getHeight()/12*9 ,getWidth()/20,getHeight()/12);
-          down.setBounds(getWidth()/20*18, getHeight()/12*11,getWidth()/20,getHeight()/12);
+        left.setBounds(getWidth()-90, getHeight()-60 , 30,30);
+        right.setBounds(getWidth()-30 , getHeight()-60, 30, 30);
+        up.setBounds(getWidth()-60, getHeight()-90 ,30,30);
+        down.setBounds(getWidth()-60, getHeight()-30,30,30);
 //
     }
     private void putButtons(Graphics g, Node n, int x, int y, int w, int h){
@@ -65,8 +66,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         for(int i = 0; i < 6; i++) {
             double v = i*Math.PI/3;
             //use this for ^
-            xlst[i] = (int)(x+w/2-w/2*Math.cos(v + Math.PI/2))+r;
-            ylst[i] = (int) (y+h/2-h/2*Math.sin(v + Math.PI/2))+u;
+            xlst[i] = (int)(x+w/2-w/2*Math.cos(v + Math.PI/2));
+            ylst[i] = (int) (y+h/2-h/2*Math.sin(v + Math.PI/2));
             //use this for ------
             //xPoints[i] = x + (int)Math.round(-width*Math.sin(v + Math.PI/2));
             //yPoints[i] = y + (int)Math.round(-height*Math.cos(v + Math.PI/2));
@@ -81,22 +82,28 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         Graphics2D g2 = (Graphics2D) g.create();
         g2.rotate(Math.toRadians(n.getRotateAngle()), x + 58, y + 58);
+        g2.drawImage(n.getImg(), x + 8, y, w * 50 / 58, h, null);
         // 9,132,219
+        /*
         if(n.getPlaced()) {
-            g2.drawImage(n.getImg(), x + 8+r, y+u, w * 50 / 58, h, null);
+            g2.drawImage(n.getImg(), x + 8, y, w * 50 / 58, h, null);
         }else{
             g2.setColor(new Color(22, 162, 227));
             g2.fillPolygon(xlst,ylst,6);
         }
+
+         */
+        g.setColor(Color.BLACK);
+        g.drawPolygon(xlst,ylst,6);
         if (animalTokenMap.get(n.getAnimal())!=null){
             //System.out.println("animal: "+n.getAnimal());
-            g.drawImage(animalTokenMap.get(n.getAnimal())[0], (x-17+w*50/116)+r, (y-25+h/2)+u, 50, 50, null);
+            g.drawImage(animalTokenMap.get(n.getAnimal())[0], (x-17+w*50/116), (y-25+h/2), 50, 50, null);
         }
         g2.dispose();
         n.paintComponent(g);
         n.addActionListener(this);
         add(n);
-        n.setBounds(x,y,w,h);
+        n.setBounds(x+r,y+u,w,h);
         visited.add(n);
 
 
