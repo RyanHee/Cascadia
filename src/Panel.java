@@ -105,14 +105,15 @@ public class Panel extends JPanel implements ActionListener {
             g.drawRect(getWidth()/7-i, getHeight()/8-i, getWidth() - getWidth() / 3+2*i, getHeight()*3/4 +2*i);
         }
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
+        add(cancelB);
+        cancelB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/10, getWidth()/15, getHeight()/15);
         add(nextB);
-        nextB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/10, getWidth()/15, getHeight()/15);
+        nextB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/5, getWidth()/15, getHeight()/15);
 
         add(confirmB);
-        confirmB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/5, getWidth()/15, getHeight()/15);
+        confirmB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15, getHeight()/15);
 
-        add(cancelB);
-        cancelB.setBounds(getWidth()/30, getHeight()*3/5, getWidth()/15, getHeight()/15);
+        
         //g.drawImage(dpad, 800, 600, 240, 240, null);
 
 
