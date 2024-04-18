@@ -179,7 +179,7 @@ public class Panel extends JPanel implements ActionListener {
         add(rotate);
         rotate.setBounds(120, 490, 50, 50);
         //left.showButton();
-        g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), 200, 650);
+        g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), 1200, 300);
         for (int i=0;i<4;i++){
             add(fourButtonTiles[i]);
             add(fourButtonAnimal[i]);
@@ -293,7 +293,7 @@ public class Panel extends JPanel implements ActionListener {
             return;
         }
         
-        if (e.getSource().equals(nextB) && state==5){
+        if (e.getSource().equals(nextB)){
             game.nextTurn();
             bp.setBoard(game.getCurrPlayer().getBoard());
             state=0;

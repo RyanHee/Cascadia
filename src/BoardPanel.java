@@ -174,10 +174,10 @@ public class BoardPanel extends JPanel implements ActionListener {
             //System.out.println("hereee");
 
             curNode=(Node) e.getSource();
-            System.out.println(curNode);
+            //System.out.println(curNode);
             if (bigPanel.getState()==1){
                 if (curNode.getVal()==null||curNode.getVal().equals("")){
-                    System.out.println("bitch");
+                    //System.out.println("bitch");
                     setCurNodeVal(bigPanel.getCurVal());
                     bigPanel.next(curNode);
                 }
@@ -187,7 +187,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             else if (bigPanel.getState()==4){
 
                 if (setCurNodeAnimal(bigPanel.getCurAnimal())){
-                    System.out.println("goofy");
+                    //System.out.println("goofy");
                     //if keystone tile-> add nature token
                     String[] hold = curNode.getSides();
                     if(hold[0].equals(hold[3])) {
@@ -210,7 +210,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         return curNode;
     }
     public void setCurNodeVal(String s){
-        System.out.println("setvallllllll");
+        //System.out.println("setvallllllll");
         curNode.setVal(s);
         //stop=false;
         this.repaint();

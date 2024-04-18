@@ -20,10 +20,16 @@ public class Game {
         }
         for (int i=0;i<20;i++){
             animalDeck.add("B");
+            /*
             animalDeck.add("E");
             animalDeck.add("H");
             animalDeck.add("S");
             animalDeck.add("F");
+             */
+            animalDeck.add("B");
+            animalDeck.add("B");
+            animalDeck.add("B");
+            animalDeck.add("B");
         }
         Collections.shuffle(animalDeck);
         Collections.shuffle(tileNames);
@@ -106,6 +112,6 @@ public class Game {
     }
 
     public int curPlayerScore(){
-        return scoring.landMass(playerlst[cur].getBoard());
+        return scoring.bearB(playerlst[cur].getBoard());
     }
 }
