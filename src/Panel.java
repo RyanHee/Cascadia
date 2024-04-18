@@ -23,12 +23,13 @@ public class Panel extends JPanel implements ActionListener {
     private BufferedImage[] tiles4;
     private HexButton[] fourButtonTiles;
     private InvisButton[]fourButtonAnimal;
-    private boolean dupAnimalsUsed = false, natureTokenUsed = false;
+    private boolean dupAnimalsUsed = false, natureTokenUsed = false, mixMatchUsed = false, clearAnimalsUsed = false;
     private int state;
     private boolean drawHighlightAnimal;
     private JButton confirmB, cancelB, nextB;
     private JButton help, scoreCards, actionLog, useNature, removeDups;
-    private JButton clearAnimals, mixMatch;
+    private JButton confirmClear, clearAnimals, mixMatch;
+    private ArrayList<Integer> animalsToClear = new ArrayList<>();
     private String curVal, curAnimal;
     private BoardPanel bp;
     private BufferedImage dpad;
@@ -86,6 +87,7 @@ public class Panel extends JPanel implements ActionListener {
         actionLog=new JButton("Action Log");
         useNature=new JButton("Use Nature Token");
         removeDups=new JButton("Remove Duplicate Tokens");
+        confirmClear = new JButton("Confirm Clearing Animals");
         clearAnimals = new JButton("Clear X Animals");
         mixMatch = new JButton("Mix & Match tile & token");
         
@@ -97,6 +99,7 @@ public class Panel extends JPanel implements ActionListener {
         actionLog.addActionListener(this);
         useNature.addActionListener(this);
         removeDups.addActionListener(this);
+        confirmClear.addActionListener(this);
         clearAnimals.addActionListener(this);
         mixMatch.addActionListener(this);
        
@@ -142,6 +145,8 @@ public class Panel extends JPanel implements ActionListener {
         useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
         add(removeDups);
         removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
+        add(confirmClear);
+        confirmClear.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
         add(clearAnimals);
         clearAnimals.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
         add(mixMatch);
@@ -149,6 +154,7 @@ public class Panel extends JPanel implements ActionListener {
         if(!natureTokenUsed) {
         	clearAnimals.setVisible(false);
         	mixMatch.setVisible(false);
+        	confirmClear.setVisible(false);
         }
         
         if(game.getCurrPlayer().getNumTokens() == 0) {
@@ -192,7 +198,7 @@ public class Panel extends JPanel implements ActionListener {
         add(rotate);
         rotate.setBounds(120, 490, 50, 50);
         //left.showButton();
-        g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), 1200, 300);
+        g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()/5, getHeight() *13/14);
         for (int i=0;i<4;i++){
             add(fourButtonTiles[i]);
             add(fourButtonAnimal[i]);
@@ -202,11 +208,21 @@ public class Panel extends JPanel implements ActionListener {
             if (i == numSelectedTile){
                 g.drawImage(selectOutline, getWidth()/75, getHeight()/8+i*95, 75, 87, null);
             }
-            if (i==numSelectedAnimal&&drawHighlightAnimal) {
-                g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[1], 115, getHeight()/8+i*95, 60, 60, null);
-
-            }else{
-                g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[0], 115, getHeight()/8+i*95, 60, 60, null);
+            if(!clearAnimalsUsed) {
+	            if (i==numSelectedAnimal&&drawHighlightAnimal) {
+	                g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[1], 115, getHeight()/8+i*95, 60, 60, null);
+	
+	            }else{
+	                g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[0], 115, getHeight()/8+i*95, 60, 60, null);
+	            }
+            }
+            else {
+            	if(animalsToClear.contains(i)) {
+            		g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[1], 115, getHeight()/8+i*95, 60, 60, null);
+            	}
+            	else {
+            		g.drawImage(animalTokenMap.get(game.getAnimalToken4()[i])[0], 115, getHeight()/8+i*95, 60, 60, null);
+            	}
             }
             fourButtonAnimal[i].setBounds(115, getHeight()/8+i*95, 60, 60);
         }
@@ -262,6 +278,33 @@ public class Panel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
        
         System.out.println(state);
+        if(e.getSource().equals(confirmClear)) {
+        	for(int i=animalsToClear.size()-1; i>-1; i--) {
+        		int hold = animalsToClear.get(i);
+        		game.returnAnimalToken(game.getAnimalToken4()[hold]);
+            	game.updateAnimalDeck(hold);
+        	}
+        	drawHighlightAnimal = false;
+        	confirmClear.setVisible(false);
+        	animalsToClear.clear();
+        	repaint();
+    		return;
+        }
+        
+        if(e.getSource().equals(clearAnimals)) {
+        	clearAnimals.setVisible(false);
+            mixMatch.setVisible(false);
+            confirmClear.setVisible(true);
+            clearAnimalsUsed = true;
+            state = 3;
+        }
+        if(e.getSource().equals(mixMatch)) {
+        	//numSelectedAnimal = -1;//basically u can choose any animal
+        	mixMatchUsed = true;
+        	clearAnimals.setVisible(false);
+            mixMatch.setVisible(false);
+        }
+        
         if(e.getSource().equals(useNature)) {
         	help.setVisible(false);
         	scoreCards.setVisible(false);
@@ -323,6 +366,12 @@ public class Panel extends JPanel implements ActionListener {
             bp.setBoard(game.getCurrPlayer().getBoard());
             state=0;
             dupAnimalsUsed = false;
+            natureTokenUsed = false;
+            mixMatchUsed = false;
+            clearAnimalsUsed = false;
+            help.setVisible(true);
+        	scoreCards.setVisible(true);
+            actionLog.setVisible(true);
             repaint();
             return;
         }
@@ -334,7 +383,9 @@ public class Panel extends JPanel implements ActionListener {
                 curVal= game.getTileName4()[i];
                 System.out.println(curVal);
                 numSelectedTile =i;
-                numSelectedAnimal=i;
+                if(!mixMatchUsed) {
+                	numSelectedAnimal=i;
+                }
                 nodeSelected=null;
                 state++;
                 repaint();
@@ -359,8 +410,43 @@ public class Panel extends JPanel implements ActionListener {
 
         if (state==3){
 
-            //pick animal
-            if (fourButtonAnimal[numSelectedAnimal].equals(e.getSource())){
+        	//clearAnimals
+        	if(clearAnimalsUsed) {
+	        	for (int i=0;i<4;i++){
+	                InvisButton b = fourButtonAnimal[i];
+	                if (e.getSource().equals(b)){
+	                	System.out.println("click to clear");
+	                	if(!animalsToClear.contains(i)) {
+	                		animalsToClear.add(i);
+	                	}
+	                	else {
+	                		animalsToClear.remove(Integer.valueOf(i));
+	                	}
+	                	numSelectedAnimal = i;
+	                	drawHighlightAnimal = true;
+	                	repaint();
+	                	return;
+	                }
+	    		}
+        	}
+            //pick animal (mix&match)
+        	else if(mixMatchUsed) {
+        		System.out.println("grr");
+        		for (int i=0;i<4;i++){
+                    InvisButton b = fourButtonAnimal[i];
+                    if (e.getSource().equals(b)){
+                    	System.out.println("click");
+                    	numSelectedAnimal = i;
+                    	curAnimal = game.getAnimalToken4()[i];
+                    	state++;
+                    	drawHighlightAnimal = true;
+                    	repaint();
+                    	return;
+                    }
+        		}
+        	}
+        	//pick animal regular
+        	else if (!mixMatchUsed && fourButtonAnimal[numSelectedAnimal].equals(e.getSource())){
                 curAnimal=game.getAnimalToken4()[numSelectedAnimal];
                 state++;
                 //System.out.println("placed animal");
