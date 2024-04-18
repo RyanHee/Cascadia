@@ -7,8 +7,8 @@ public class Scoring {
     private HashSet<Node> allVisited, bVisited;
     private String[]land;
     private int bearBScore;
-    ArrayList<Node> v = new ArrayList<>();
-    ArrayList<Node> go = new ArrayList<>();
+    ArrayList<Node> v;
+    ArrayList<Node> go;
     public Scoring(){
         opp = new HashMap<>();
         animalScore=new HashMap<>();
@@ -71,14 +71,15 @@ public class Scoring {
     }
     public int hawkIDK(Node n,boolean b){
         int num = 0;
-        if(v.contains(n)||n==null) return 0;
         if(b)  v = new ArrayList<>();
         if(b)  go = new ArrayList<>();
+        if(v.contains(n)||n==null) return 0;
         v.add(n);
-        boolean b_b= true;
-        for(Node a:n.getNeighbors()) if(a!=null&&a.getAnimal().equals("h")) b_b = false;
+        boolean b_b= n.getAnimal().equals("H");
+        for(Node a:n.getNeighbors()) if(a!=null&&a.getAnimal().equals("H")) b_b = false;
         for(Node a:n.getNeighbors()) go.add(a);
-        for(Node a: go) num +=hawkIDK(a,false);
+        ArrayList<Node> t = new ArrayList<>(); t.addAll(go);
+        for(Node a: t) num +=hawkIDK(a,false);
         if (b_b) num++;
         return num;
     }

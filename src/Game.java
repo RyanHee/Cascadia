@@ -26,10 +26,10 @@ public class Game {
             animalDeck.add("S");
             animalDeck.add("F");
              */
-            animalDeck.add("B");
-            animalDeck.add("B");
-            animalDeck.add("B");
-            animalDeck.add("B");
+            animalDeck.add("H");
+            animalDeck.add("H");
+            animalDeck.add("H");
+            animalDeck.add("H");
         }
         Collections.shuffle(animalDeck);
         Collections.shuffle(tileNames);
@@ -112,6 +112,18 @@ public class Game {
     }
 
     public int curPlayerScore(){
-        return scoring.bearB(playerlst[cur].getBoard())+scoring.hawkIDK(playerlst[cur].getBoard(),true);
+        int num = 0;
+        num+=scoring.bearB(playerlst[cur].getBoard());
+        int h = scoring.hawkIDK(playerlst[cur].getBoard(),true);
+        if(h==1) num+= 2;
+        if(h==2) num+= 5;
+        if(h==3) num+= 8;
+        if(h==4) num+= 11;
+        if(h==5) num+=14;
+        if(h==6) num+= 18;
+        if(h==7) num+= 22;
+        if(h>=8) num+= 26;
+
+        return num;
     }
 }

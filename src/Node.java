@@ -251,10 +251,7 @@ public class Node extends JButton {
             yPoints[i] = y0 + (int)Math.round((getHeight()/2)*Math.cos(v));
         }
         g.setColor(new Color(0,80,117));
-        /*
         g.drawPolygon(xPoints, yPoints,6);
-
-         */
     }
 
     public void updateNeighbor(){
@@ -288,8 +285,8 @@ public class Node extends JButton {
         //System.out.println(x0+" "+y0+" 00");
         for(int i=0; i<6; i++) {
             double v = i*Math.PI/3;
-            xPoints[i] = x0 + (int)Math.round((getWidth()/2)*Math.sin(v));
-            yPoints[i] = y0 + (int)Math.round((getHeight()/2)*Math.cos(v));
+            // xPoints[i] = x0 + (int)Math.round((getWidth()/2)*Math.sin(v));
+            // yPoints[i] = y0 + (int)Math.round((getHeight()/2)*Math.cos(v));
         }
         //g.setColor(Color.lightGray);
         //g.drawPolygon(xPoints, yPoints, 6);
