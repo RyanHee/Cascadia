@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private Panel bigPanel;
     private int r, u;
     private JButton up,down,right,left;
-    private BufferedImage outline;
+    private BufferedImage outline, dpad;
     private int hs,vs;
 
     public BoardPanel (Node n, HashMap<String, BufferedImage[]>map, Panel BigPan){
@@ -29,16 +29,17 @@ public class BoardPanel extends JPanel implements ActionListener {
         //setBackground(new Color(3, 107, 156));
         bigPanel=BigPan;
 
-        up   =new JButton("");
-        down =new JButton("");
-        right=new JButton("");
-        left =new JButton("");
+        up   =new InvisButton("");
+        down =new InvisButton("");
+        right=new InvisButton("");
+        left =new InvisButton("");
         up.addActionListener(this);
         down.addActionListener(this);
         right.addActionListener(this);
         left.addActionListener(this);
         try{
             outline= ImageIO.read(new File("img/tileOutline.png"));
+            dpad=ImageIO.read(new File("img/DPAD.png"));
         }
         catch (Exception E){
 
@@ -63,7 +64,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         right.setBounds(getWidth()-30 , getHeight()-60, 30, 30);
         up.setBounds(getWidth()-60, getHeight()-90 ,30,30);
         down.setBounds(getWidth()-60, getHeight()-30,30,30);
-        
+        g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, 90, 90, null);
         
         putButtons(g, board,getWidth()/2-50, getHeight()/2-h, w, h);
 //

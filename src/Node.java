@@ -251,7 +251,7 @@ public class Node extends JButton {
             yPoints[i] = y0 + (int)Math.round((getHeight()/2)*Math.cos(v));
         }
         g.setColor(new Color(0,80,117));
-        g.drawPolygon(xPoints, yPoints,6);
+        //g.drawPolygon(xPoints, yPoints,6);
     }
 
     public void updateNeighbor(){
