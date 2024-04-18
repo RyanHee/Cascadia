@@ -1,12 +1,14 @@
 import java.util.HashMap;
 import java.util.HashSet;
-
+import java.util.*;
 public class Scoring {
     private HashMap<Integer, Integer> opp;
     private HashMap<String, Integer> landScore, animalScore;
     private HashSet<Node> allVisited, bVisited;
     private String[]land;
     private int bearBScore;
+    ArrayList<Node> v = new ArrayList<>();
+    ArrayList<Node> go = new ArrayList<>();
     public Scoring(){
         opp = new HashMap<>();
         animalScore=new HashMap<>();
@@ -66,6 +68,19 @@ public class Scoring {
         for (int i=0;i<6;i++){
             dfsLand(node.getNeighbors()[i], land);
         }
+    }
+    public int hawkIDK(Node n,boolean b){
+        int num = 0;
+        if(v.contains(n)) return 0;
+        if(b)  v = new ArrayList<>();
+        if(b)  go = new ArrayList<>();
+        v.add(n);
+        boolean b_b= true;
+        for(Node a:n.getNeighbors()) if(a.getAnimal().equals("b")) b_b = false;
+        for(Node a:n.getNeighbors()) go.add(a);
+        for(Node a: go) num +=hawkIDK(a,false);
+        if (b_b) num++;
+        return num;
     }
 
     private int scoreLand(Node node, String land, HashSet<Node> visited, int sum){
