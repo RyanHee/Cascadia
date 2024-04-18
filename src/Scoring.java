@@ -71,7 +71,7 @@ public class Scoring {
     }
     public int hawkIDK(Node n,boolean b){
         int num = 0;
-        if(v.contains(n)) return 0;
+        if(v.contains(n)||n==null) return 0;
         if(b)  v = new ArrayList<>();
         if(b)  go = new ArrayList<>();
         v.add(n);
