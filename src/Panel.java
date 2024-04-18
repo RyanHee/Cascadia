@@ -23,11 +23,12 @@ public class Panel extends JPanel implements ActionListener {
     private BufferedImage[] tiles4;
     private HexButton[] fourButtonTiles;
     private InvisButton[]fourButtonAnimal;
-    private boolean dupAnimalsUsed = false;// use this in action performed
+    private boolean dupAnimalsUsed = false, natureTokenUsed = false;
     private int state;
     private boolean drawHighlightAnimal;
     private JButton confirmB, cancelB, nextB;
     private JButton help, scoreCards, actionLog, useNature, removeDups;
+    private JButton clearAnimals, mixMatch;
     private String curVal, curAnimal;
     private BoardPanel bp;
     private BufferedImage dpad;
@@ -85,6 +86,8 @@ public class Panel extends JPanel implements ActionListener {
         actionLog=new JButton("Action Log");
         useNature=new JButton("Use Nature Token");
         removeDups=new JButton("Remove Duplicate Tokens");
+        clearAnimals = new JButton("Clear X Animals");
+        mixMatch = new JButton("Mix & Match tile & token");
         
         confirmB.addActionListener(this);
         cancelB.addActionListener(this);
@@ -94,7 +97,8 @@ public class Panel extends JPanel implements ActionListener {
         actionLog.addActionListener(this);
         useNature.addActionListener(this);
         removeDups.addActionListener(this);
-
+        clearAnimals.addActionListener(this);
+        mixMatch.addActionListener(this);
        
 
         //test=new Node("", "MS-FHB");
@@ -138,6 +142,15 @@ public class Panel extends JPanel implements ActionListener {
         useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
         add(removeDups);
         removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
+        add(clearAnimals);
+        clearAnimals.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
+        add(mixMatch);
+        mixMatch.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
+        if(!natureTokenUsed) {
+        	clearAnimals.setVisible(false);
+        	mixMatch.setVisible(false);
+        }
+        
         if(game.getCurrPlayer().getNumTokens() == 0) {
         	useNature.setVisible(false);
         }
@@ -249,6 +262,18 @@ public class Panel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
        
         System.out.println(state);
+        if(e.getSource().equals(useNature)) {
+        	help.setVisible(false);
+        	scoreCards.setVisible(false);
+            actionLog.setVisible(false);
+            useNature.setVisible(false);
+            removeDups.setVisible(false);
+            clearAnimals.setVisible(true);
+            mixMatch.setVisible(true);
+            natureTokenUsed = true;
+            game.getCurrPlayer().useNt();//remove token (token >0 -> nature token buttons appears)
+        }
+        
         //help button -> open link
         if(e.getSource().equals(help)) {
         	openWebPage("https://www.alderac.com/wp-content/uploads/2021/08/Cascadia-Rules.pdf");

@@ -20,16 +20,16 @@ public class Game {
         }
         for (int i=0;i<20;i++){
             animalDeck.add("B");
-            /*
+            
             animalDeck.add("E");
             animalDeck.add("H");
             animalDeck.add("S");
             animalDeck.add("F");
-             */
+             
+            /*animalDeck.add("H");
             animalDeck.add("H");
             animalDeck.add("H");
-            animalDeck.add("H");
-            animalDeck.add("H");
+            animalDeck.add("H");*/
         }
         Collections.shuffle(animalDeck);
         Collections.shuffle(tileNames);
