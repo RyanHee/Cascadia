@@ -14,6 +14,10 @@ public class Player {
     public void addNt(){
         nt++;
     }
+    
+    public int getNumTokens() {
+    	return nt;
+    }
 
     public boolean useNt(){
         if (nt>0){

@@ -49,9 +49,12 @@ public class BoardPanel extends JPanel implements ActionListener {
         int w=116;
         int h=116;
         visited =new HashSet<>();
+        
         g.translate(r,u);
-        putButtons(g, board,getWidth()/2-50, getHeight()/2-h, w, h);
-
+        /*left.setVisible(true);
+        right.setVisible(true);
+        up.setVisible(true);
+        down.setVisible(true);*/
         add(up);
         add(down);
         add(left);
@@ -60,6 +63,9 @@ public class BoardPanel extends JPanel implements ActionListener {
         right.setBounds(getWidth()-30 , getHeight()-60, 30, 30);
         up.setBounds(getWidth()-60, getHeight()-90 ,30,30);
         down.setBounds(getWidth()-60, getHeight()-30,30,30);
+        
+        
+        putButtons(g, board,getWidth()/2-50, getHeight()/2-h, w, h);
 //
     }
     private void putButtons(Graphics g, Node n, int x, int y, int w, int h){
@@ -138,7 +144,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
     }
     @Override
-  public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(up)){
             System.out.println("UP");
             this.shift(0, 116);
@@ -182,6 +188,11 @@ public class BoardPanel extends JPanel implements ActionListener {
 
                 if (setCurNodeAnimal(bigPanel.getCurAnimal())){
                     System.out.println("goofy");
+                    //if keystone tile-> add nature token
+                    String[] hold = curNode.getSides();
+                    if(hold[0].equals(hold[3])) {
+                    	bigPanel.getGame().getCurrPlayer().addNt();
+                    }
                     repaint();
                     bigPanel.nextA();
 
@@ -213,8 +224,13 @@ public class BoardPanel extends JPanel implements ActionListener {
         return false;
     }
     public void shift(int a, int b){
-        r+=a;
-        u+=b;
+        r-=a;
+        u-=b;
+        /*left.setVisible(false);
+        right.setVisible(false);
+        up.setVisible(false);
+        down.setVisible(false);*/
+        
     }
     public void setBoard(Node n){
         board=n;

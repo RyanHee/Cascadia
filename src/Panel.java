@@ -16,15 +16,18 @@ public class Panel extends JPanel implements ActionListener {
 
     private int angle, numSelectedTile, numSelectedAnimal;
     private static BufferedImage selectOutline, outline, rotateImage;
+    private static BufferedImage natureToken;
     private Node nodeSelected;
     private HexButton rotate;
 
     private BufferedImage[] tiles4;
     private HexButton[] fourButtonTiles;
     private InvisButton[]fourButtonAnimal;
+    private boolean dupAnimalsUsed = false;// use this in action performed
     private int state;
     private boolean drawHighlightAnimal;
     private JButton confirmB, cancelB, nextB;
+    private JButton help, scoreCards, actionLog, useNature, removeDups;
     private String curVal, curAnimal;
     private BoardPanel bp;
     private BufferedImage dpad;
@@ -41,7 +44,7 @@ public class Panel extends JPanel implements ActionListener {
             dpad=ImageIO.read(new File("img/DPAD.jpg"));
             outline=ImageIO.read(new File("img/tileOutline.png"));
             selectOutline=ImageIO.read(new File("img/selectedTile.png"));
-
+            natureToken=ImageIO.read(new File("img/tokens/nature-token.png"));
 
 
             tiles4=new BufferedImage[4];
@@ -77,10 +80,20 @@ public class Panel extends JPanel implements ActionListener {
         confirmB=new JButton("confirm");
         cancelB=new JButton("cancel");
         nextB=new JButton("next turn");
-
+        help=new JButton("Help");
+        scoreCards=new JButton("Scoring Cards");
+        actionLog=new JButton("Action Log");
+        useNature=new JButton("Use Nature Token");
+        removeDups=new JButton("Remove Duplicate Tokens");
+        
         confirmB.addActionListener(this);
         cancelB.addActionListener(this);
         nextB.addActionListener(this);
+        help.addActionListener(this);
+        scoreCards.addActionListener(this);
+        actionLog.addActionListener(this);
+        useNature.addActionListener(this);
+        removeDups.addActionListener(this);
 
        
 
@@ -100,28 +113,73 @@ public class Panel extends JPanel implements ActionListener {
 
     public void paint(Graphics g){
         super.paint(g);
-        g.setColor(new Color(0,80,117));
+        g.setColor(new Color(0,0,0));
+        g.setFont(new Font("Arial", Font.PLAIN, 25));
+        g.drawString("Player "+(game.getPlayerNum()+1), getWidth()/30+20, 50);
+        g.drawImage(natureToken, getWidth()/5, 20, 50, 50, null);
+        g.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 50);
         for(int i = 0;i<5;i++) {
             g.drawRect(getWidth()/7-i, getHeight()/8-i, getWidth() - getWidth() / 3+2*i, getHeight()*3/4 +2*i);
         }
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
         add(cancelB);
-        cancelB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/10, getWidth()/15, getHeight()/15);
+        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15, getHeight()/15);
         add(nextB);
-        nextB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/5, getWidth()/15, getHeight()/15);
-
+        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15, getHeight()/15);
         add(confirmB);
-        confirmB.setBounds(getWidth()/30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15, getHeight()/15);
-
+        confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15, getHeight()/15);
+        add(help);
+        help.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
+        add(scoreCards);
+        scoreCards.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
+        add(actionLog);
+        actionLog.setBounds(getWidth()/3+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
+        add(useNature);
+        useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
+        add(removeDups);
+        removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
+        if(game.getCurrPlayer().getNumTokens() == 0) {
+        	useNature.setVisible(false);
+        }
+        else {
+        	useNature.setVisible(true);
+        }
+        //only show removeDups when 3 animals are same
         
+        //4 animals are same
+        if(game.getAnimalToken4()[0]==game.getAnimalToken4()[1] && game.getAnimalToken4()[2]==game.getAnimalToken4()[3] && game.getAnimalToken4()[1]==game.getAnimalToken4()[2]) {
+        	for(int i =0; i<4; i++) {
+        		//System.out.println("animal tokens: "+game.getAnimalToken4()[i]);
+        		game.returnAnimalToken(game.getAnimalToken4()[i]);
+        		game.updateAnimalDeck(i);
+        	}
+        }
+        boolean match12 = (game.getAnimalToken4()[0]==game.getAnimalToken4()[1]);
+        boolean match34 = (game.getAnimalToken4()[2]==game.getAnimalToken4()[3]);
+        boolean match23 = (game.getAnimalToken4()[1]==game.getAnimalToken4()[2]);
+        //System.out.println(match12 +""+ match34 + ""+ match23);
+        if(!dupAnimalsUsed) {
+        	//2 or 1 animals are same
+	        if((match12 && match34 && !match23) || (!match12 && !match34 && match23) || (!match12 && !match34 && !match23)) {
+	        	removeDups.setVisible(false);
+	        }
+	        //3 animals are same
+	        else if((match12 && !match34 && match23) || (!match12 && match34 && match23)) {
+	        	removeDups.setVisible(true);
+	        }
+	        //2 animals are same (3rd could exist)
+	        else {
+	        	removeDups.setVisible(game.getAnimalToken4()[0]==game.getAnimalToken4()[3]);
+	        }
+        }
         //g.drawImage(dpad, 800, 600, 240, 240, null);
 
 
-        g.drawImage(rotateImage, 1204, 500, 75, 87, null);
+        g.drawImage(rotateImage, 120, 488, 50, 55, null);
         add(rotate);
-        rotate.setBounds(1200, 500, 87, 87);
+        rotate.setBounds(120, 490, 50, 50);
         //left.showButton();
-        g.drawString(String.valueOf(game.curPlayerScore()), 1200, 300);
+        g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), 200, 650);
         for (int i=0;i<4;i++){
             add(fourButtonTiles[i]);
             add(fourButtonAnimal[i]);
@@ -152,6 +210,10 @@ public class Panel extends JPanel implements ActionListener {
     public String getCurAnimal(){
         return curAnimal;
     }
+    
+    public Game getGame() {
+    	return game;
+    }
 
     public void nextA(){
         state++;
@@ -174,15 +236,68 @@ public class Panel extends JPanel implements ActionListener {
         numSelectedTile=-1;
         repaint();
     }
+    
+    public void openWebPage(String url){
+	   try {         
+		   java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+	   }
+	   catch (java.io.IOException e) {
+	       System.out.println(e.getMessage());
+	   }
+	}
     @Override
     public void actionPerformed(ActionEvent e) {
        
         System.out.println(state);
-
+        //help button -> open link
+        if(e.getSource().equals(help)) {
+        	openWebPage("https://www.alderac.com/wp-content/uploads/2021/08/Cascadia-Rules.pdf");
+        }
+        //remove duplicate animals
+        if(e.getSource().equals(removeDups) && !dupAnimalsUsed) {
+        	dupAnimalsUsed = true;
+        	boolean match12 = (game.getAnimalToken4()[0]==game.getAnimalToken4()[1]);
+            boolean match34 = (game.getAnimalToken4()[2]==game.getAnimalToken4()[3]);
+            boolean match23 = (game.getAnimalToken4()[1]==game.getAnimalToken4()[2]);
+            boolean match14 = (game.getAnimalToken4()[0]==game.getAnimalToken4()[3]);
+            if(match12 && !match34 && match23) {
+            	for(int i =0; i<3; i++) {
+            		game.returnAnimalToken(game.getAnimalToken4()[i]);
+            		game.updateAnimalDeck(i);
+            	}
+            }
+            else if(!match12 && match34 && match23) {
+            	for(int i =1; i<4; i++) {
+            		game.returnAnimalToken(game.getAnimalToken4()[i]);
+            		game.updateAnimalDeck(i);
+            	}
+            }
+            else if(match12 && !match34 && !match23 && match14) {
+            	for(int i =0; i<4; i++) {
+            		game.returnAnimalToken(game.getAnimalToken4()[i]);
+            		game.updateAnimalDeck(i);
+            		if(i==1) 
+            			i=2;
+            	}
+            }
+            else {
+            	for(int i =0; i<4; i++) {
+            		game.returnAnimalToken(game.getAnimalToken4()[i]);
+            		game.updateAnimalDeck(i);
+            		if(i==0) 
+            			i=1;
+            	}
+            }
+            removeDups.setVisible(false);
+            repaint();
+            return;
+        }
+        
         if (e.getSource().equals(nextB) && state==5){
             game.nextTurn();
             bp.setBoard(game.getCurrPlayer().getBoard());
             state=0;
+            dupAnimalsUsed = false;
             repaint();
             return;
         }
@@ -223,6 +338,7 @@ public class Panel extends JPanel implements ActionListener {
             if (fourButtonAnimal[numSelectedAnimal].equals(e.getSource())){
                 curAnimal=game.getAnimalToken4()[numSelectedAnimal];
                 state++;
+                //System.out.println("placed animal");
                 repaint();
                 return;
             }
@@ -236,7 +352,7 @@ public class Panel extends JPanel implements ActionListener {
 
                 return;
             }
-
+            
         }
 
 

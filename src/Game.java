@@ -27,6 +27,12 @@ public class Game {
         }
         Collections.shuffle(animalDeck);
         Collections.shuffle(tileNames);
+        
+        //testing purposes
+        //animalDeck.add(0,"B");
+        //animalDeck.add(0,"B");
+        //animalDeck.add(0,"B");
+        //animalDeck.add(0,"B");
 
         tileName4=new String[4];
         animalToken4=new String[4];
@@ -80,6 +86,10 @@ public class Game {
         tileName4[numSelectedTile] = tileNames.get(0);
         tileNames.remove(0);
     }
+    
+    public void returnAnimalToken(String token) {
+    	animalDeck.add(token);
+    }
 
     public void nextTurn(){
         cur++;
@@ -89,6 +99,10 @@ public class Game {
 
     public Player getCurrPlayer(){
         return playerlst[cur];
+    }
+    
+    public int getPlayerNum() {
+    	return cur;
     }
 
     public int curPlayerScore(){
