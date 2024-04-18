@@ -76,7 +76,7 @@ public class Scoring {
         if(b)  go = new ArrayList<>();
         v.add(n);
         boolean b_b= true;
-        for(Node a:n.getNeighbors()) if(a.getAnimal().equals("b")) b_b = false;
+        for(Node a:n.getNeighbors()) if(a.getAnimal().equals("h")) b_b = false;
         for(Node a:n.getNeighbors()) go.add(a);
         for(Node a: go) num +=hawkIDK(a,false);
         if (b_b) num++;

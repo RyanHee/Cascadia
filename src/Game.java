@@ -112,6 +112,6 @@ public class Game {
     }
 
     public int curPlayerScore(){
-        return scoring.bearB(playerlst[cur].getBoard());
+        return scoring.bearB(playerlst[cur].getBoard())+scoring.hawkIDK(playerlst[cur].getBoard(),true);
     }
 }
