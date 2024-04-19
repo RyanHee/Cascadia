@@ -9,6 +9,8 @@ public class Scoring {
     private int bearBScore;
     ArrayList<Node> v;
     ArrayList<Node> go;
+    ArrayList<String> temp;
+
     public Scoring(){
         opp = new HashMap<>();
         animalScore=new HashMap<>();
@@ -69,7 +71,7 @@ public class Scoring {
             dfsLand(node.getNeighbors()[i], land);
         }
     }
-    public int hawkIDK(Node n,boolean b){
+    public int hawkA(Node n,boolean b){
         int num = 0;
         if(b)  v = new ArrayList<>();
         if(b)  go = new ArrayList<>();
@@ -79,9 +81,30 @@ public class Scoring {
         for(Node a:n.getNeighbors()) if(a!=null&&a.getAnimal().equals("H")) b_b = false;
         for(Node a:n.getNeighbors()) go.add(a);
         ArrayList<Node> t = new ArrayList<>(); t.addAll(go);
-        for(Node a: t) num +=hawkIDK(a,false);
+        for(Node a: t) num +=hawkA(a,false);
         if (b_b) num++;
         return num;
+    }
+    public int foxA(Node n,boolean b){
+        int num = 0;
+        if(b)  v = new ArrayList<>();
+        if(b)  go = new ArrayList<>();
+        if(v.contains(n)||n==null) return 0;
+        v.add(n);
+        boolean b_b= n.getAnimal().equals("F");
+        temp = new ArrayList<>();
+        if(b_b){
+        for(Node a:n.getNeighbors()) {
+            if(a!=null&&!a.getAnimal().equals("")&&!temp.contains(a.getAnimal())){
+                temp.add(a.getAnimal());
+            }
+        }
+        num+=temp.size();
+         }
+         for(Node a:n.getNeighbors()) go.add(a);
+        ArrayList<Node> t = new ArrayList<>(); t.addAll(go);
+        for(Node a: t) num +=foxA(a,false);
+       return num;
     }
 
     private int scoreLand(Node node, String land, HashSet<Node> visited, int sum){

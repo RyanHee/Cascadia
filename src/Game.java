@@ -21,16 +21,11 @@ public class Game {
         }
         for (int i=0;i<20;i++){
             animalDeck.add("B");
-            
             animalDeck.add("E");
             animalDeck.add("H");
             animalDeck.add("S");
             animalDeck.add("F");
-             
-            /*animalDeck.add("H");
-            animalDeck.add("H");
-            animalDeck.add("H");
-            animalDeck.add("H");*/
+
         }
         Collections.shuffle(animalDeck);
         Collections.shuffle(tileNames);
@@ -129,7 +124,7 @@ public class Game {
     public int curPlayerScore(){
         int num = 0;
         num+=scoring.bearB(playerlst[cur].getBoard());
-        int h = scoring.hawkIDK(playerlst[cur].getBoard(),true);
+        int h = scoring.hawkA(playerlst[cur].getBoard(),true);
         if(h==1) num+= 2;
         if(h==2) num+= 5;
         if(h==3) num+= 8;
@@ -138,7 +133,7 @@ public class Game {
         if(h==6) num+= 18;
         if(h==7) num+= 22;
         if(h>=8) num+= 26;
-
+        num+=scoring.foxA(playerlst[cur].getBoard(),true);
         return num;
     }
 }
