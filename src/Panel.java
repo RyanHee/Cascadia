@@ -122,9 +122,21 @@ public class Panel extends JPanel implements ActionListener {
         super.paint(g);
         g.setColor(new Color(0,0,0));
         g.setFont(new Font("Arial", Font.PLAIN, 25));
-        g.drawString("Player "+(game.getPlayerNum()+1), getWidth()/30+20, 50);
+        g.drawString("Player "+(game.getPlayerNum()+1), getWidth()/15+20, 50);
         g.drawImage(natureToken, getWidth()/5, 20, 50, 50, null);
         g.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 50);
+        g.drawString("Turn "+game.getTurn(), getWidth()/40-20, 50);
+        int yPlay = 0;
+        for(int pNum = 1; pNum<5; pNum++) {
+        	if(pNum != game.getPlayerNum()+1) {
+        		g.drawString("Player "+pNum, getWidth()*13/16 +10, getHeight()*yPlay/4 +50);
+        		g.drawImage(natureToken, getWidth()*7/8 +50, getHeight()*yPlay/4+20, 50, 50, null);
+        		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*13/14+20, getHeight()*yPlay/4+50);
+        		yPlay++;
+        		//draw other players boards (but not as buttons)
+        		//drawBoard(g, game.getCurrPlayer().getBoard(), getWidth()*13/16 +10, getHeight()*yPlay/4 +70);
+        	}
+        }
         for(int i = 0;i<5;i++) {
             g.drawRect(getWidth()/7-i, getHeight()/8-i, getWidth() - getWidth() / 3+2*i, getHeight()*3/4 +2*i);
         }
@@ -274,6 +286,70 @@ public class Panel extends JPanel implements ActionListener {
 	       System.out.println(e.getMessage());
 	   }
 	}
+    
+    /*public void drawBoard(Graphics g, Node n, int x, int y) {
+    	HashSet<Node>visited = new HashSet<Node>();
+    	int w=116;
+        int h=116;
+    	if(n == null) {
+    		return;
+    	}
+    	if (visited.contains(n)){
+            return;
+        }
+
+        int[]xlst=new int[6];
+        int[]ylst=new int[6];
+        for(int i = 0; i < 6; i++) {
+            double v = i*Math.PI/3;
+            //use this for ^
+            xlst[i] = (int)(x+w/2-w/2*Math.cos(v + Math.PI/2));
+            ylst[i] = (int) (y+h/2-h/2*Math.sin(v + Math.PI/2));
+            
+        }
+        if (n.getVal()!=null){
+            n.updateNeighbor();
+        }
+        else{
+            if (n.neighborCount()==6){
+                n.updateNeighbor();
+            }
+        }
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.rotate(Math.toRadians(n.getRotateAngle()), x + 58, y + 58);
+        g2.drawImage(n.getImg(), x + 8, y, w * 25 / 58, h/2, null);
+        g.drawImage(outline, x+8, y, w*25/58, h/2, null);
+
+        if (animalTokenMap.get(n.getAnimal())!=null){
+            //System.out.println("animal: "+n.getAnimal());
+            g.drawImage(animalTokenMap.get(n.getAnimal())[0], (x-17+w*25/116), (y-25+h/4), 50, 50, null);
+        }
+        g2.dispose();
+
+        visited.add(n);
+
+
+        int[]nx=new int[6];
+        int[]ny=new int[6];
+        nx[0]=x+w*50/116;
+        nx[1]=x+w*50/58;
+        nx[2]=x+w*50/116;
+        nx[3]=x-w*50/116;
+        nx[4]=x-w*50/58;
+        nx[5]=x-w*50/116;
+
+        ny[0]=y-h*3/4;
+        ny[1]=y;
+        ny[2]=y+h*3/4;
+        ny[3]=y+h*3/4;
+        ny[4]=y;
+        ny[5]=y-h*3/4;
+        
+        for (int i=0;i<6;i++){
+            drawBoard(g, n.getNeighbors()[i], nx[i], ny[i]);
+        }
+    }*/
+    
     @Override
     public void actionPerformed(ActionEvent e) {
        
@@ -372,6 +448,9 @@ public class Panel extends JPanel implements ActionListener {
             help.setVisible(true);
         	scoreCards.setVisible(true);
             actionLog.setVisible(true);
+            if(game.getTurn() >= 20) {
+            	//end the game
+            }
             repaint();
             return;
         }

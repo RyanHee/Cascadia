@@ -11,6 +11,7 @@ public class Game {
     private Player[]playerlst;
     private int cur;
     private Scoring scoring;
+    private int turn = 1;
     public Game() throws FileNotFoundException {
         Scanner sc = new Scanner(new File("names.txt"));
         tileNames = new ArrayList<>();
@@ -70,10 +71,17 @@ public class Game {
         for (int i=0;i<4;i++){
             playerlst[i]=new Player(startTile.get(i), i);
         }
+        while(tileNames.size()!= (4*playerlst.length)+3) {
+        	tileNames.remove(tileNames.size()-1);
+        }
         cur=0;
         scoring=new Scoring();
 
 
+    }
+    
+    public Player[] getPlayerList() {
+    	return playerlst;
     }
 
     public String[]getTileName4(){
@@ -99,8 +107,15 @@ public class Game {
 
     public void nextTurn(){
         cur++;
-        cur=cur%4;
-
+        if(cur>=4) {
+        	cur=cur%4;
+        	turn++;
+        	//System.out.println("turn"+ turn);
+        }
+    }
+    
+    public int getTurn() {
+    	return turn;
     }
 
     public Player getCurrPlayer(){
