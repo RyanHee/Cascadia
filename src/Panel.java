@@ -141,7 +141,7 @@ public class Panel extends JPanel implements ActionListener {
         		g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()*13/14, getHeight()*yPlay/4+50);
         		yPlay++;
         		//draw other players boards (but not as buttons)
-        		//drawBoard(g, game.getCurrPlayer().getBoard(), getWidth()*13/16 +10, getHeight()*yPlay/4 +70);
+        		// drawBoard(g, game.getCurrPlayer().getBoard(), getWidth()*13/16 +10, getHeight()*yPlay/4 +70);
         	}
         }
         for(int i = 0;i<5;i++) {
