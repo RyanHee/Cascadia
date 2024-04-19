@@ -294,6 +294,24 @@ public class Panel extends JPanel implements ActionListener {
 	   }
 	}
     
+    public void nextTurn() {
+    	game.nextTurn();
+        bp.setBoard(game.getCurrPlayer().getBoard());
+        state=0;
+        dupAnimalsUsed = false;
+        natureTokenUsed = false;
+        mixMatchUsed = false;
+        clearAnimalsUsed = false;
+        help.setVisible(true);
+    	scoreCards.setVisible(true);
+        actionLog.setVisible(true);
+        if(game.getTurn() >= 20) {
+        	//end the game
+        }
+        repaint();
+        return;
+    }
+    
     /*public void drawBoard(Graphics g, Node n, int x, int y) {
     	HashSet<Node>visited = new HashSet<Node>();
     	int w=116;
@@ -444,6 +462,7 @@ public class Panel extends JPanel implements ActionListener {
             return;
         }
         
+        //will need to remove later on
         if (e.getSource().equals(nextB)){
             game.nextTurn();
             bp.setBoard(game.getCurrPlayer().getBoard());
@@ -548,7 +567,7 @@ public class Panel extends JPanel implements ActionListener {
                 drawHighlightAnimal=false;
                 repaint();
                 state+=2;
-
+                nextTurn();
                 return;
             }
             
