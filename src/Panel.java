@@ -541,6 +541,8 @@ public class Panel extends JPanel implements ActionListener {
             }
             //cancel animal
             else if (e.getSource().equals(cancelB)){
+            	game.returnAnimalToken(game.getAnimalToken4()[numSelectedAnimal]);
+            	game.updateAnimalDeck(numSelectedAnimal);
                 curAnimal="";
                 numSelectedAnimal=-1;
                 drawHighlightAnimal=false;
