@@ -121,17 +121,24 @@ public class Panel extends JPanel implements ActionListener {
     public void paint(Graphics g){
         super.paint(g);
         g.setColor(new Color(0,0,0));
+        g.setFont(new Font("Arial", Font.PLAIN, 30));
+        g.drawString("Turn "+game.getTurn(), getWidth()/40-20, 40);
         g.setFont(new Font("Arial", Font.PLAIN, 25));
-        g.drawString("Player "+(game.getPlayerNum()+1), getWidth()/15+20, 50);
-        g.drawImage(natureToken, getWidth()/5, 20, 50, 50, null);
-        g.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 50);
-        g.drawString("Turn "+game.getTurn(), getWidth()/40-20, 50);
+        g.drawString("Player "+(game.getPlayerNum()+1), getWidth()/15+30, 40);
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
+        g.drawImage(natureToken, getWidth()/5, 10, 50, 50, null);
+        g.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 40);
+        g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()/15+20, 70);
         int yPlay = 0;
         for(int pNum = 1; pNum<5; pNum++) {
         	if(pNum != game.getPlayerNum()+1) {
+        		g.setFont(new Font("Arial", Font.PLAIN, 18));
         		g.drawString("Player "+pNum, getWidth()*13/16 +10, getHeight()*yPlay/4 +50);
-        		g.drawImage(natureToken, getWidth()*7/8 +50, getHeight()*yPlay/4+20, 50, 50, null);
-        		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*13/14+20, getHeight()*yPlay/4+50);
+        		g.setFont(new Font("Arial", Font.PLAIN, 15));
+        		g.drawImage(natureToken, getWidth()*7/8+10, getHeight()*yPlay/4+30, 30, 30, null);
+        		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+40, getHeight()*yPlay/4+50);
+        		g.setFont(new Font("Arial", Font.PLAIN, 10));
+        		g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()*13/14, getHeight()*yPlay/4+50);
         		yPlay++;
         		//draw other players boards (but not as buttons)
         		//drawBoard(g, game.getCurrPlayer().getBoard(), getWidth()*13/16 +10, getHeight()*yPlay/4 +70);
@@ -142,11 +149,11 @@ public class Panel extends JPanel implements ActionListener {
         }
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
         add(cancelB);
-        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15, getHeight()/15);
+        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
         add(nextB);
-        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15, getHeight()/15);
+        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15-10, getHeight()/15);
         add(confirmB);
-        confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15, getHeight()/15);
+        confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
         add(help);
         help.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
         add(scoreCards);
@@ -206,11 +213,11 @@ public class Panel extends JPanel implements ActionListener {
         //g.drawImage(dpad, 800, 600, 240, 240, null);
 
 
-        g.drawImage(rotateImage, 120, 488, 50, 55, null);
+        g.drawImage(rotateImage, 125, 488, 50, 55, null);
         add(rotate);
-        rotate.setBounds(120, 490, 50, 50);
+        rotate.setBounds(125, 490, 50, 50);
         //left.showButton();
-        g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()/5, getHeight() *13/14);
+        
         for (int i=0;i<4;i++){
             add(fourButtonTiles[i]);
             add(fourButtonAnimal[i]);
