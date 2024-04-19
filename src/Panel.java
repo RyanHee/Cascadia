@@ -308,8 +308,8 @@ public class Panel extends JPanel implements ActionListener {
         if(game.getTurn() >= 20) {
         	//end the game
         }
-        repaint();
-        return;
+        //repaint();
+        //return;
     }
     
     /*public void drawBoard(Graphics g, Node n, int x, int y) {
@@ -379,15 +379,18 @@ public class Panel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
        
         System.out.println(state);
+        
         if(e.getSource().equals(confirmClear)) {
         	for(int i=animalsToClear.size()-1; i>-1; i--) {
         		int hold = animalsToClear.get(i);
         		game.returnAnimalToken(game.getAnimalToken4()[hold]);
             	game.updateAnimalDeck(hold);
         	}
+        	clearAnimalsUsed = false;
         	drawHighlightAnimal = false;
         	confirmClear.setVisible(false);
         	animalsToClear.clear();
+        	state = 0;
         	repaint();
     		return;
         }
@@ -490,6 +493,8 @@ public class Panel extends JPanel implements ActionListener {
                 numSelectedTile =i;
                 if(!mixMatchUsed) {
                 	numSelectedAnimal=i;
+                	curAnimal = game.getAnimalToken4()[i];
+                	//state = 3;
                 }
                 nodeSelected=null;
                 state++;
@@ -510,7 +515,7 @@ public class Panel extends JPanel implements ActionListener {
             state++;
             System.out.println(state);
             repaint();
-            return;
+            //return;
         }
 
         if (state==3){
@@ -551,8 +556,9 @@ public class Panel extends JPanel implements ActionListener {
         		}
         	}
         	//pick animal regular
-        	else if (!mixMatchUsed && fourButtonAnimal[numSelectedAnimal].equals(e.getSource())){
-                curAnimal=game.getAnimalToken4()[numSelectedAnimal];
+        	else if (!mixMatchUsed /*&& fourButtonAnimal[numSelectedAnimal].equals(e.getSource())*/){
+                //curAnimal=game.getAnimalToken4()[numSelectedAnimal];
+        		//System.out.println("whats up");
                 state++;
                 //System.out.println("placed animal");
                 repaint();

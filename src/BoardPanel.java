@@ -194,11 +194,12 @@ public class BoardPanel extends JPanel implements ActionListener {
                     if(hold[0].equals(hold[3])) {
                     	bigPanel.getGame().getCurrPlayer().addNt();
                     }
+                    bigPanel.nextA();
                     bigPanel.nextTurn();
                     /*bigPanel.getGame().nextTurn();
                     setBoard(bigPanel.getGame().getCurrPlayer().getBoard());*/
                     repaint();
-                    bigPanel.nextA();
+                    
 
                 }
             }
