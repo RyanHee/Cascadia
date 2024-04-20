@@ -18,6 +18,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private int r, u;
     private JButton up,down,right,left;
     private BufferedImage outline, dpad;
+    private int moveUD=0, moveLR=0;
     private int hs,vs;
 
     public BoardPanel (Node n, HashMap<String, BufferedImage[]>map, Panel BigPan){
@@ -148,25 +149,53 @@ public class BoardPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(up)){
             System.out.println("UP");
-            this.shift(0, 116);
+            if(moveUD < 4) {
+            	down.setVisible(true);
+            	moveUD++;
+            	this.shift(0, -116);
+            }
+            else {
+            	up.setVisible(false);
+            }
             repaint();
             return;
         }
         if (e.getSource().equals(down)){
             System.out.println("DOWN");
-            this.shift(0, -116);
+            if(moveUD > -4) {
+            	up.setVisible(true);
+            	moveUD--;
+            	this.shift(0, 116);
+            }
+            else {
+            	down.setVisible(false);
+            }
             repaint();
             return;
         }
         if (e.getSource().equals(right)){
             System.out.println("RIGHT");
-            this.shift(-100, 0);
+            if(moveLR < 6) {
+            	left.setVisible(true);
+            	moveLR++;
+            	this.shift(100, 0);
+            }
+            else {
+            	right.setVisible(false);
+            }
             repaint();
             return;
         }
         if (e.getSource().equals(left)){
             System.out.println("LEFT");
-            this.shift(100, 0);
+            if(moveLR > -6) {
+            	right.setVisible(true);
+            	moveLR--;
+            	this.shift(-100, 0);
+            }
+            else {
+            	left.setVisible(false);
+            }
             repaint();
             return;
         }
@@ -229,8 +258,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         return false;
     }
     public void shift(int a, int b){
-        r-=a;
-        u-=b;
+        r+=a;
+        u+=b;
         /*left.setVisible(false);
         right.setVisible(false);
         up.setVisible(false);

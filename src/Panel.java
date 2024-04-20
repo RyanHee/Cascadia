@@ -23,7 +23,7 @@ public class Panel extends JPanel implements ActionListener {
     private BufferedImage[] tiles4;
     private HexButton[] fourButtonTiles;
     private InvisButton[]fourButtonAnimal;
-    private boolean dupAnimalsUsed = false, natureTokenUsed = false, mixMatchUsed = false, clearAnimalsUsed = false;
+    private boolean tileChose = false, dupAnimalsUsed = false, natureTokenUsed = false, mixMatchUsed = false, clearAnimalsUsed = false;
     private int state;
     private boolean drawHighlightAnimal;
     private JButton confirmB, cancelB, nextB;
@@ -150,6 +150,22 @@ public class Panel extends JPanel implements ActionListener {
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
         add(cancelB);
         cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
+        //cancelB.setVisible(false);//make buttons appear at right time
+        if(tileChose || (mixMatchUsed && state == 4)) {
+        	cancelB.setVisible(true);
+        }
+        else {
+        	cancelB.setVisible(false);
+        }
+        if(nodeSelected!=null) {
+        	confirmB.setVisible(true);
+        	g.drawImage(rotateImage, 125, 488, 50, 55, null);
+        	rotate.setVisible(true);
+        }
+        else {
+        	confirmB.setVisible(false);
+        	rotate.setVisible(false);
+        }
         add(nextB);
         nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15-10, getHeight()/15);
         add(confirmB);
@@ -213,7 +229,7 @@ public class Panel extends JPanel implements ActionListener {
         //g.drawImage(dpad, 800, 600, 240, 240, null);
 
 
-        g.drawImage(rotateImage, 125, 488, 50, 55, null);
+       
         add(rotate);
         rotate.setBounds(125, 490, 50, 50);
         //left.showButton();
@@ -273,6 +289,7 @@ public class Panel extends JPanel implements ActionListener {
     }
     public void next(Node node){
         nodeSelected=node;
+        tileChose = false;
         state++;
         //update deck
         game.updateTileDeck(numSelectedTile);
@@ -302,6 +319,10 @@ public class Panel extends JPanel implements ActionListener {
         natureTokenUsed = false;
         mixMatchUsed = false;
         clearAnimalsUsed = false;
+        curVal="";
+    	numSelectedTile = -1;
+    	numSelectedAnimal =-1;
+    	curAnimal ="";
         help.setVisible(true);
     	scoreCards.setVisible(true);
         actionLog.setVisible(true);
@@ -486,7 +507,7 @@ public class Panel extends JPanel implements ActionListener {
         //select tile
         for (int i=0;i<4;i++){
             HexButton b = fourButtonTiles[i];
-            if (e.getSource().equals(b)&&state==0){
+            if (e.getSource().equals(b)&&state==0&&curVal!=game.getTileName4()[i]){
                 System.out.println("FourbUttons");
                 curVal= game.getTileName4()[i];
                 System.out.println(curVal);
@@ -498,9 +519,33 @@ public class Panel extends JPanel implements ActionListener {
                 }
                 nodeSelected=null;
                 state++;
+                tileChose = true;
                 repaint();
                 return;
             }
+            //cancel tile via clicking it
+            else if(curVal==game.getTileName4()[i]){
+            	curVal ="";
+            	numSelectedTile = -1;
+            	numSelectedAnimal = -1;
+            	curAnimal = "";
+            	state = 0;
+            	tileChose = false;
+            	repaint();
+            	return;
+            }
+        }
+        //cancel tile
+        if(e.getSource().equals(cancelB) && state==1) {
+        	curVal="";
+        	numSelectedTile = -1;
+        	numSelectedAnimal =-1;
+        	curAnimal ="";
+        	state = 0;
+        	tileChose = false;
+        	repaint();
+        	return;
+        	
         }
         //rotate angle
         if (nodeSelected!=null && e.getSource().equals(rotate) && state==2){
@@ -511,6 +556,7 @@ public class Panel extends JPanel implements ActionListener {
         }
         //confirm tile placement
         if (e.getSource().equals(confirmB)&&state==2){
+        	nodeSelected = null;
             drawHighlightAnimal=true;
             state++;
             System.out.println(state);
@@ -518,75 +564,87 @@ public class Panel extends JPanel implements ActionListener {
             //return;
         }
 
-        if (state==3){
+       
 
-        	//clearAnimals
-        	if(clearAnimalsUsed) {
-	        	for (int i=0;i<4;i++){
-	                InvisButton b = fourButtonAnimal[i];
-	                if (e.getSource().equals(b)){
-	                	System.out.println("click to clear");
-	                	if(!animalsToClear.contains(i)) {
-	                		animalsToClear.add(i);
-	                	}
-	                	else {
-	                		animalsToClear.remove(Integer.valueOf(i));
-	                	}
-	                	numSelectedAnimal = i;
-	                	drawHighlightAnimal = true;
-	                	repaint();
-	                	return;
-	                }
-	    		}
-        	}
-            //pick animal (mix&match)
-        	else if(mixMatchUsed) {
-        		System.out.println("grr");
-        		for (int i=0;i<4;i++){
-                    InvisButton b = fourButtonAnimal[i];
-                    if (e.getSource().equals(b)){
-                    	System.out.println("click");
-                    	numSelectedAnimal = i;
-                    	curAnimal = game.getAnimalToken4()[i];
-                    	state++;
-                    	drawHighlightAnimal = true;
-                    	repaint();
-                    	return;
-                    }
-        		}
-        	}
-        	//pick animal regular
-        	else if (!mixMatchUsed /*&& fourButtonAnimal[numSelectedAnimal].equals(e.getSource())*/){
-                //curAnimal=game.getAnimalToken4()[numSelectedAnimal];
-        		//System.out.println("whats up");
-                state++;
-                //System.out.println("placed animal");
-                repaint();
-                return;
-            }
-            //cancel animal
-            else if (e.getSource().equals(cancelB)){
-            	game.returnAnimalToken(game.getAnimalToken4()[numSelectedAnimal]);
-            	game.updateAnimalDeck(numSelectedAnimal);
-                curAnimal="";
-                numSelectedAnimal=-1;
-                drawHighlightAnimal=false;
-                repaint();
-                state+=2;
-                nextTurn();
-                return;
-            }
-            
+    	//clearAnimals
+    	if(state ==3 && clearAnimalsUsed) {
+        	for (int i=0;i<4;i++){
+                InvisButton b = fourButtonAnimal[i];
+                if (e.getSource().equals(b)){
+                	System.out.println("click to clear");
+                	if(!animalsToClear.contains(i)) {
+                		animalsToClear.add(i);
+                	}
+                	else {
+                		animalsToClear.remove(Integer.valueOf(i));
+                	}
+                	numSelectedAnimal = i;
+                	drawHighlightAnimal = true;
+                	repaint();
+                	return;
+                }
+    		}
+    	}
+        //pick animal (mix&match)
+    	else if((state == 3 || state==4) && mixMatchUsed) {
+    		//System.out.println("grr");
+    		for (int i=0;i<4;i++){
+                InvisButton b = fourButtonAnimal[i];
+                if (e.getSource().equals(b) && curAnimal!=game.getAnimalToken4()[i]){
+                	//System.out.println("click");
+                	numSelectedAnimal = i;
+                	curAnimal = game.getAnimalToken4()[i];
+                	state++;
+                	drawHighlightAnimal = true;
+                	cancelB.setVisible(true);
+                	repaint();
+                	return;
+                }
+                //cancel animal by clicking on it
+                else if(curAnimal==game.getAnimalToken4()[i]) {
+                	numSelectedAnimal = -1;
+                	curAnimal = "";
+                	state--;
+                	drawHighlightAnimal = false;
+                	cancelB.setVisible(false);
+                	repaint();
+                	return;
+                }
+    		}
+    	}
+    	//pick animal regular
+    	else if (state == 3 && !mixMatchUsed /*&& fourButtonAnimal[numSelectedAnimal].equals(e.getSource())*/){
+            //curAnimal=game.getAnimalToken4()[numSelectedAnimal];
+    		//System.out.println("whats up");
+            state++;
+            //System.out.println("placed animal");
+            repaint();
+            return;
         }
-
-
-
-        if (e.getSource().equals(cancelB)&&state==4){
+        //cancel animal (will never be reached -> we must check no places, show prompt and then button to remove)
+    	//fix to show prompt and it will not allow player to place
+        else if (state == 3 && e.getSource().equals(cancelB)){
+        	game.returnAnimalToken(game.getAnimalToken4()[numSelectedAnimal]);
+        	game.updateAnimalDeck(numSelectedAnimal);
             curAnimal="";
             numSelectedAnimal=-1;
             drawHighlightAnimal=false;
             repaint();
-            state++;
+            state+=2;
+            nextTurn();
+            return;
+        }
+            
+        
+
+
+        //cancel animal chosen wrong in mix and match
+        if (e.getSource().equals(cancelB)&&state==4 &&mixMatchUsed){
+            curAnimal="";
+            numSelectedAnimal=-1;
+            drawHighlightAnimal=false;
+            repaint();
+            state--;
 
 
             return;
