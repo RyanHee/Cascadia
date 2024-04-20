@@ -63,7 +63,7 @@ public class Panel extends JPanel implements ActionListener {
                 //fourButtonAnimal[i].showButton();
             }
 
-            System.out.println("here");
+            //System.out.println("here");
             String[]A=new String[]{"B", "E", "F", "H", "S"};
             String[] ALong=new String[]{"bear", "elk", "fox", "hawk", "salmon"};
             for (int i=0;i<5;i++){
@@ -200,18 +200,20 @@ public class Panel extends JPanel implements ActionListener {
         }
         //only show removeDups when 3 animals are same
         
+
+        boolean match12 = (game.getAnimalToken4()[0].equals(game.getAnimalToken4()[1]));
+        boolean match34 = (game.getAnimalToken4()[2].equals(game.getAnimalToken4()[3]));
+        boolean match23 = (game.getAnimalToken4()[1].equals(game.getAnimalToken4()[2]));
         //4 animals are same
-        if(game.getAnimalToken4()[0]==game.getAnimalToken4()[1] && game.getAnimalToken4()[2]==game.getAnimalToken4()[3] && game.getAnimalToken4()[1]==game.getAnimalToken4()[2]) {
+        if(match12 && match34 && match23) {
         	for(int i =0; i<4; i++) {
         		//System.out.println("animal tokens: "+game.getAnimalToken4()[i]);
         		game.returnAnimalToken(game.getAnimalToken4()[i]);
         		game.updateAnimalDeck(i);
         	}
         }
-        boolean match12 = (game.getAnimalToken4()[0]==game.getAnimalToken4()[1]);
-        boolean match34 = (game.getAnimalToken4()[2]==game.getAnimalToken4()[3]);
-        boolean match23 = (game.getAnimalToken4()[1]==game.getAnimalToken4()[2]);
-        //System.out.println(match12 +""+ match34 + ""+ match23);
+
+
         if(!dupAnimalsUsed) {
         	//2 or 1 animals are same
 	        if((match12 && match34 && !match23) || (!match12 && !match34 && match23) || (!match12 && !match34 && !match23)) {
@@ -293,6 +295,8 @@ public class Panel extends JPanel implements ActionListener {
         state++;
         //update deck
         game.updateTileDeck(numSelectedTile);
+        numSelectedAnimal=numSelectedTile;
+        curAnimal = game.getAnimalToken4()[numSelectedAnimal];
         try {
             tiles4[numSelectedTile] = ImageIO.read(new File("img/Tile/" + game.getTileName4()[numSelectedTile] + ".png"));
         } catch (Exception E) {
@@ -327,80 +331,19 @@ public class Panel extends JPanel implements ActionListener {
         help.setVisible(true);
     	scoreCards.setVisible(true);
         actionLog.setVisible(true);
-        if(game.getTurn() >= 20) {
+        if(game.getTurn() > 20) {
         	//end the game
         }
         //repaint();
         //return;
     }
     
-    /*public void drawBoard(Graphics g, Node n, int x, int y) {
-    	HashSet<Node>visited = new HashSet<Node>();
-    	int w=116;
-        int h=116;
-    	if(n == null) {
-    		return;
-    	}
-    	if (visited.contains(n)){
-            return;
-        }
 
-        int[]xlst=new int[6];
-        int[]ylst=new int[6];
-        for(int i = 0; i < 6; i++) {
-            double v = i*Math.PI/3;
-            //use this for ^
-            xlst[i] = (int)(x+w/2-w/2*Math.cos(v + Math.PI/2));
-            ylst[i] = (int) (y+h/2-h/2*Math.sin(v + Math.PI/2));
-            
-        }
-        if (n.getVal()!=null){
-            n.updateNeighbor();
-        }
-        else{
-            if (n.neighborCount()==6){
-                n.updateNeighbor();
-            }
-        }
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.rotate(Math.toRadians(n.getRotateAngle()), x + 58, y + 58);
-        g2.drawImage(n.getImg(), x + 8, y, w * 25 / 58, h/2, null);
-        g.drawImage(outline, x+8, y, w*25/58, h/2, null);
-
-        if (animalTokenMap.get(n.getAnimal())!=null){
-            //System.out.println("animal: "+n.getAnimal());
-            g.drawImage(animalTokenMap.get(n.getAnimal())[0], (x-17+w*25/116), (y-25+h/4), 50, 50, null);
-        }
-        g2.dispose();
-
-        visited.add(n);
-
-
-        int[]nx=new int[6];
-        int[]ny=new int[6];
-        nx[0]=x+w*50/116;
-        nx[1]=x+w*50/58;
-        nx[2]=x+w*50/116;
-        nx[3]=x-w*50/116;
-        nx[4]=x-w*50/58;
-        nx[5]=x-w*50/116;
-
-        ny[0]=y-h*3/4;
-        ny[1]=y;
-        ny[2]=y+h*3/4;
-        ny[3]=y+h*3/4;
-        ny[4]=y;
-        ny[5]=y-h*3/4;
-        
-        for (int i=0;i<6;i++){
-            drawBoard(g, n.getNeighbors()[i], nx[i], ny[i]);
-        }
-    }*/
     
     @Override
     public void actionPerformed(ActionEvent e) {
        
-        System.out.println(state);
+        //System.out.println(state);
         
         if(e.getSource().equals(confirmClear)) {
         	for(int i=animalsToClear.size()-1; i>-1; i--) {
@@ -432,6 +375,8 @@ public class Panel extends JPanel implements ActionListener {
         }
         
         if(e.getSource().equals(useNature)) {
+            if (!game.getCurrPlayer().useNt())
+                return;
         	help.setVisible(false);
         	scoreCards.setVisible(false);
             actionLog.setVisible(false);
@@ -440,7 +385,7 @@ public class Panel extends JPanel implements ActionListener {
             clearAnimals.setVisible(true);
             mixMatch.setVisible(true);
             natureTokenUsed = true;
-            game.getCurrPlayer().useNt();//remove token (token >0 -> nature token buttons appears)
+            //remove token (token >0 -> nature token buttons appears)
         }
         
         //help button -> open link
@@ -450,23 +395,23 @@ public class Panel extends JPanel implements ActionListener {
         //remove duplicate animals
         if(e.getSource().equals(removeDups) && !dupAnimalsUsed) {
         	dupAnimalsUsed = true;
-        	boolean match12 = (game.getAnimalToken4()[0]==game.getAnimalToken4()[1]);
-            boolean match34 = (game.getAnimalToken4()[2]==game.getAnimalToken4()[3]);
-            boolean match23 = (game.getAnimalToken4()[1]==game.getAnimalToken4()[2]);
-            boolean match14 = (game.getAnimalToken4()[0]==game.getAnimalToken4()[3]);
-            if(match12 && !match34 && match23) {
+        	boolean match12 = (game.getAnimalToken4()[0].equals(game.getAnimalToken4()[1]));
+            boolean match34 = (game.getAnimalToken4()[2].equals(game.getAnimalToken4()[3]));
+            boolean match23 = (game.getAnimalToken4()[1].equals(game.getAnimalToken4()[2]));
+            boolean match14 = (game.getAnimalToken4()[0].equals(game.getAnimalToken4()[3]));
+            if(match12 && !match34 && match23) { //123
             	for(int i =0; i<3; i++) {
             		game.returnAnimalToken(game.getAnimalToken4()[i]);
             		game.updateAnimalDeck(i);
             	}
             }
-            else if(!match12 && match34 && match23) {
+            else if(!match12 && match34 && match23) { //234
             	for(int i =1; i<4; i++) {
             		game.returnAnimalToken(game.getAnimalToken4()[i]);
             		game.updateAnimalDeck(i);
             	}
             }
-            else if(match12 && !match34 && !match23 && match14) {
+            else if(match12 && !match34 && !match23 && match14) { //124
             	for(int i =0; i<4; i++) {
             		game.returnAnimalToken(game.getAnimalToken4()[i]);
             		game.updateAnimalDeck(i);
@@ -489,35 +434,25 @@ public class Panel extends JPanel implements ActionListener {
         
         //will need to remove later on
         if (e.getSource().equals(nextB)){
-            game.nextTurn();
-            bp.setBoard(game.getCurrPlayer().getBoard());
-            state=0;
-            dupAnimalsUsed = false;
-            natureTokenUsed = false;
-            mixMatchUsed = false;
-            clearAnimalsUsed = false;
-            help.setVisible(true);
-        	scoreCards.setVisible(true);
-            actionLog.setVisible(true);
-            if(game.getTurn() >= 20) {
-            	//end the game
-            }
+            nextTurn();
             repaint();
             return;
         }
         //select tile
         for (int i=0;i<4;i++){
             HexButton b = fourButtonTiles[i];
-            if (e.getSource().equals(b)&&state==0&&curVal!=game.getTileName4()[i]){
-                System.out.println("FourbUttons");
+            if (e.getSource().equals(b)&&state==0&&!curVal.equals(game.getTileName4()[i])){
+                //System.out.println("FourbUttons");
                 curVal= game.getTileName4()[i];
-                System.out.println(curVal);
+                //System.out.println(curVal);
                 numSelectedTile =i;
+                /*
                 if(!mixMatchUsed) {
                 	numSelectedAnimal=i;
                 	curAnimal = game.getAnimalToken4()[i];
                 	//state = 3;
                 }
+                 */
                 nodeSelected=null;
                 state++;
                 tileChose = true;
@@ -525,7 +460,7 @@ public class Panel extends JPanel implements ActionListener {
                 return;
             }
             //cancel tile via clicking it
-            else if(curVal==game.getTileName4()[i]){
+            else if(curVal.equals(game.getTileName4()[i])){
             	curVal ="";
             	numSelectedTile = -1;
             	numSelectedAnimal = -1;
@@ -551,7 +486,7 @@ public class Panel extends JPanel implements ActionListener {
         //rotate angle
         if (nodeSelected!=null && e.getSource().equals(rotate) && state==2){
             nodeSelected.addRotateAngle();
-            System.out.println("rotateeeee");
+            //System.out.println("rotateeeee");
             repaint();
             return;
         }
@@ -560,7 +495,7 @@ public class Panel extends JPanel implements ActionListener {
         	nodeSelected = null;
             drawHighlightAnimal=true;
             state++;
-            System.out.println(state);
+            //System.out.println(state);
             repaint();
             //return;
         }
@@ -572,7 +507,7 @@ public class Panel extends JPanel implements ActionListener {
         	for (int i=0;i<4;i++){
                 InvisButton b = fourButtonAnimal[i];
                 if (e.getSource().equals(b)){
-                	System.out.println("click to clear");
+                	//System.out.println("click to clear");
                 	if(!animalsToClear.contains(i)) {
                 		animalsToClear.add(i);
                 	}
@@ -591,7 +526,7 @@ public class Panel extends JPanel implements ActionListener {
     		//System.out.println("grr");
     		for (int i=0;i<4;i++){
                 InvisButton b = fourButtonAnimal[i];
-                if (e.getSource().equals(b) && curAnimal!=game.getAnimalToken4()[i]){
+                if (e.getSource().equals(b) && !curAnimal.equals(game.getAnimalToken4()[i])){
                 	//System.out.println("click");
                 	numSelectedAnimal = i;
                 	curAnimal = game.getAnimalToken4()[i];
@@ -602,7 +537,7 @@ public class Panel extends JPanel implements ActionListener {
                 	return;
                 }
                 //cancel animal by clicking on it
-                else if(curAnimal==game.getAnimalToken4()[i]) {
+                else if(curAnimal.equals(game.getAnimalToken4()[i])) {
                 	numSelectedAnimal = -1;
                 	curAnimal = "";
                 	state--;
