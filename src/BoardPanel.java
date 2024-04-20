@@ -149,7 +149,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(up)){
             System.out.println("UP");
-            if(moveUD < 4) {
+            if(moveUD < 6) {
             	down.setVisible(true);
             	moveUD++;
             	this.shift(0, -116);
@@ -162,7 +162,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         if (e.getSource().equals(down)){
             System.out.println("DOWN");
-            if(moveUD > -4) {
+            if(moveUD > -6) {
             	up.setVisible(true);
             	moveUD--;
             	this.shift(0, 116);
@@ -175,7 +175,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         if (e.getSource().equals(right)){
             System.out.println("RIGHT");
-            if(moveLR < 6) {
+            if(moveLR < 9) {
             	left.setVisible(true);
             	moveLR++;
             	this.shift(100, 0);
@@ -188,7 +188,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         if (e.getSource().equals(left)){
             System.out.println("LEFT");
-            if(moveLR > -6) {
+            if(moveLR > -9) {
             	right.setVisible(true);
             	moveLR--;
             	this.shift(-100, 0);
@@ -200,18 +200,13 @@ public class BoardPanel extends JPanel implements ActionListener {
             return;
         }
         try{
-
-            //System.out.println("hereee");
-
             curNode=(Node) e.getSource();
             //System.out.println(curNode);
             if (bigPanel.getState()==1){
-                if (curNode.getVal()==null||curNode.getVal().equals("")){
-                    //System.out.println("bitch");
+                if (curNode.getVal()==null|| curNode.getVal().isEmpty()){
                     setCurNodeVal(bigPanel.getCurVal());
                     bigPanel.next(curNode);
                 }
-                //stop=true;
 
             }
             else if (bigPanel.getState()==4){
@@ -233,7 +228,6 @@ public class BoardPanel extends JPanel implements ActionListener {
                 }
             }
             repaint();
-            //System.out.println(curNode);
 
         }
         catch (ClassCastException E){
@@ -260,11 +254,6 @@ public class BoardPanel extends JPanel implements ActionListener {
     public void shift(int a, int b){
         r+=a;
         u+=b;
-        /*left.setVisible(false);
-        right.setVisible(false);
-        up.setVisible(false);
-        down.setVisible(false);*/
-        
     }
     public void setBoard(Node n){
         board=n;
