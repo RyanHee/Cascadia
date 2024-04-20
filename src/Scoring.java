@@ -31,6 +31,9 @@ public class Scoring {
         score+=foxA(node);
         score+=hawkA(node);
         score+=salmonC(node);
+        System.out.println("Land: D" + landScore.get("D") + "F" + landScore.get("F") +"S" + landScore.get("S") + "L" + landScore.get("L") + "M" + landScore.get("M"));
+        System.out.println("Animal: B" + animalScore.get("B") + "E" + animalScore.get("E") +"F" + animalScore.get("F") + "H" + animalScore.get("H") + "S" + animalScore.get("S"));
+        //add bonus habitat score here
         return score;
     }
 
@@ -54,6 +57,7 @@ public class Scoring {
         bearBScore=0;
         bVisited=new HashSet<>();
         dfsBear(node);
+        animalScore.put("B", bearBScore);
         return bearBScore;
     }
 
@@ -61,6 +65,7 @@ public class Scoring {
         elkCScore=0;
         eVisited=new HashSet<>();
         dfsElk(node);
+        animalScore.put("E", elkCScore);
         return elkCScore;
     }
 
@@ -68,6 +73,7 @@ public class Scoring {
         foxAScore=0;
         fVisited=new HashSet<>();
         dfsFox(node);
+        animalScore.put("F", foxAScore);
         return foxAScore;
     }
 
@@ -75,16 +81,27 @@ public class Scoring {
         hVisited=new HashSet<>();
         hawkAcnt=0;
         dfsHawk(node);
-        if (hawkAcnt<1)
+        if (hawkAcnt<1) {
+        	animalScore.put("H", 0);
             return 0;
-        if (hawkAcnt==1)
+        }
+        if (hawkAcnt==1) {
+        	animalScore.put("H", 2);
             return 2;
-        if (hawkAcnt<6)
+        }
+        if (hawkAcnt<6) {
+        	animalScore.put("H", hawkAcnt*3-1);
             return hawkAcnt*3-1;
-        if (hawkAcnt==6)
+        }
+        if (hawkAcnt==6) {
+        	animalScore.put("H", 18);
             return 18;
-        if (hawkAcnt==7)
-            return 22;
+        }
+        if (hawkAcnt==7) {
+        	animalScore.put("H", 22);
+        	return 22;
+        }
+        animalScore.put("H", 28);
         return 28;
     }
 
@@ -93,6 +110,7 @@ public class Scoring {
         salmonCScore =0;
         sVisited=new HashSet<>();
         dfsSalmon(node);
+        animalScore.put("S", salmonCScore);
         return salmonCScore;
     }
 
@@ -190,7 +208,14 @@ public class Scoring {
             return;
         hVisited.add(n);
         if (n.getAnimal().equals("H"))
-            hawkAcnt++;
+        	hawkAcnt++;
+        for(int i=0;i<6;i++) {
+        	if(n.getNeighbors()[i]!= null && n.getNeighbors()[i].getAnimal().equals("H") && n.getAnimal().equals("H")) {
+        		//System.out.println("2 close hawks");
+        		hawkAcnt--;
+        		i=6;
+        	}
+        }
         for (Node c:n.getNeighbors())
             dfsHawk(c);
     }
@@ -208,6 +233,7 @@ public class Scoring {
                 if (cnt==3) salmonCScore+=10;
                 if (cnt==4) salmonCScore+=12;
                 if (cnt>=5) salmonCScore+=15;
+                //System.out.println("numSal" +cnt);
             }
         }
         for (Node c:n.getNeighbors())
@@ -292,7 +318,7 @@ public class Scoring {
             sValid=false;
             return 0;
         }
-            for (Node c:n.getNeighbors()){
+        for (Node c:n.getNeighbors()){
             if (c.getAnimal().equals("S"))
                 cnt+=cntSalmon(c, cnt, visited);
         }

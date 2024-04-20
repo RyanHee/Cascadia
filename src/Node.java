@@ -107,6 +107,10 @@ public class Node extends JButton {
         }
         return false;
     }
+    
+    public HashSet<String> animalsAllowed(){
+    	return animals;
+    }
 
     public int addRotateAngle(){
         rotateAngle+=60;
