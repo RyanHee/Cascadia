@@ -29,7 +29,7 @@ public class Panel extends JPanel implements ActionListener {
     private JButton confirmB, cancelB, nextB;
     private JButton help, scoreCards, actionLog, useNature, removeDups;
     private JButton confirmClear, clearAnimals, mixMatch;
-    private ArrayList<Integer> animalsToClear = new ArrayList<>();
+    private HashSet<Integer> animalsToClear = new HashSet<>();
     private String curVal, curAnimal;
     private BoardPanel bp;
     private BufferedImage dpad;
@@ -205,28 +205,18 @@ public class Panel extends JPanel implements ActionListener {
         boolean match34 = (game.getAnimalToken4()[2].equals(game.getAnimalToken4()[3]));
         boolean match23 = (game.getAnimalToken4()[1].equals(game.getAnimalToken4()[2]));
         //4 animals are same
-        if(match12 && match34 && match23) {
-        	for(int i =0; i<4; i++) {
-        		//System.out.println("animal tokens: "+game.getAnimalToken4()[i]);
-        		game.returnAnimalToken(game.getAnimalToken4()[i]);
-        		game.updateAnimalDeck(i);
-        	}
-        }
+
 
 
         if(!dupAnimalsUsed) {
-        	//2 or 1 animals are same
-	        if((match12 && match34 && !match23) || (!match12 && !match34 && match23) || (!match12 && !match34 && !match23)) {
-	        	removeDups.setVisible(false);
-	        }
-	        //3 animals are same
-	        else if((match12 && !match34 && match23) || (!match12 && match34 && match23)) {
-	        	removeDups.setVisible(true);
-	        }
-	        //2 animals are same (3rd could exist)
-	        else {
-	        	removeDups.setVisible(game.getAnimalToken4()[0]==game.getAnimalToken4()[3]);
-	        }
+        	//3 same animal
+            if (game.cntDup()==3){
+                removeDups.setVisible(true);
+            }
+	        else{ // less than 3
+                removeDups.setVisible(false);
+            }
+
         }
         //g.drawImage(dpad, 800, 600, 240, 240, null);
 
@@ -283,7 +273,7 @@ public class Panel extends JPanel implements ActionListener {
 
     public void nextA(){
         state++;
-        game.updateAnimalDeck(numSelectedAnimal);
+        game.updateAnimal4(numSelectedAnimal);
 
         numSelectedAnimal=-1;
         drawHighlightAnimal=false;
@@ -296,7 +286,6 @@ public class Panel extends JPanel implements ActionListener {
         //update deck
         game.updateTileDeck(numSelectedTile);
         numSelectedAnimal=numSelectedTile;
-        curAnimal = game.getAnimalToken4()[numSelectedAnimal];
         try {
             tiles4[numSelectedTile] = ImageIO.read(new File("img/Tile/" + game.getTileName4()[numSelectedTile] + ".png"));
         } catch (Exception E) {
@@ -346,11 +335,10 @@ public class Panel extends JPanel implements ActionListener {
         //System.out.println(state);
         
         if(e.getSource().equals(confirmClear)) {
-        	for(int i=animalsToClear.size()-1; i>-1; i--) {
-        		int hold = animalsToClear.get(i);
-        		game.returnAnimalToken(game.getAnimalToken4()[hold]);
-            	game.updateAnimalDeck(hold);
-        	}
+            for (int i:animalsToClear){
+                game.returnAnimalToken(game.getAnimalToken4()[i]);
+                game.updateAnimal4(i);
+            }
         	clearAnimalsUsed = false;
         	drawHighlightAnimal = false;
         	confirmClear.setVisible(false);
@@ -368,7 +356,8 @@ public class Panel extends JPanel implements ActionListener {
             state = 3;
         }
         if(e.getSource().equals(mixMatch)) {
-        	//numSelectedAnimal = -1;//basically u can choose any animal
+            curAnimal="";
+        	numSelectedAnimal = -1;//basically u can choose any animal
         	mixMatchUsed = true;
         	clearAnimals.setVisible(false);
             mixMatch.setVisible(false);
@@ -395,38 +384,7 @@ public class Panel extends JPanel implements ActionListener {
         //remove duplicate animals
         if(e.getSource().equals(removeDups) && !dupAnimalsUsed) {
         	dupAnimalsUsed = true;
-        	boolean match12 = (game.getAnimalToken4()[0].equals(game.getAnimalToken4()[1]));
-            boolean match34 = (game.getAnimalToken4()[2].equals(game.getAnimalToken4()[3]));
-            boolean match23 = (game.getAnimalToken4()[1].equals(game.getAnimalToken4()[2]));
-            boolean match14 = (game.getAnimalToken4()[0].equals(game.getAnimalToken4()[3]));
-            if(match12 && !match34 && match23) { //123
-            	for(int i =0; i<3; i++) {
-            		game.returnAnimalToken(game.getAnimalToken4()[i]);
-            		game.updateAnimalDeck(i);
-            	}
-            }
-            else if(!match12 && match34 && match23) { //234
-            	for(int i =1; i<4; i++) {
-            		game.returnAnimalToken(game.getAnimalToken4()[i]);
-            		game.updateAnimalDeck(i);
-            	}
-            }
-            else if(match12 && !match34 && !match23 && match14) { //124
-            	for(int i =0; i<4; i++) {
-            		game.returnAnimalToken(game.getAnimalToken4()[i]);
-            		game.updateAnimalDeck(i);
-            		if(i==1) 
-            			i=2;
-            	}
-            }
-            else {
-            	for(int i =0; i<4; i++) {
-            		game.returnAnimalToken(game.getAnimalToken4()[i]);
-            		game.updateAnimalDeck(i);
-            		if(i==0) 
-            			i=1;
-            	}
-            }
+            game.removeDups();
             removeDups.setVisible(false);
             repaint();
             return;
@@ -441,18 +399,19 @@ public class Panel extends JPanel implements ActionListener {
         //select tile
         for (int i=0;i<4;i++){
             HexButton b = fourButtonTiles[i];
-            if (e.getSource().equals(b)&&state==0&&!curVal.equals(game.getTileName4()[i])){
+            if (e.getSource().equals(b) && state==0 && !curVal.equals(game.getTileName4()[i])){
                 //System.out.println("FourbUttons");
                 curVal= game.getTileName4()[i];
                 //System.out.println(curVal);
-                numSelectedTile =i;
-                /*
+                numSelectedTile=i;
                 if(!mixMatchUsed) {
+                    System.out.println("no mixMatch");
                 	numSelectedAnimal=i;
                 	curAnimal = game.getAnimalToken4()[i];
+                    //drawHighlightAnimal=true;
                 	//state = 3;
                 }
-                 */
+
                 nodeSelected=null;
                 state++;
                 tileChose = true;
@@ -486,24 +445,26 @@ public class Panel extends JPanel implements ActionListener {
         //rotate angle
         if (nodeSelected!=null && e.getSource().equals(rotate) && state==2){
             nodeSelected.addRotateAngle();
-            //System.out.println("rotateeeee");
             repaint();
             return;
         }
         //confirm tile placement
-        if (e.getSource().equals(confirmB)&&state==2){
-        	nodeSelected = null;
-            drawHighlightAnimal=true;
+        if (e.getSource().equals(confirmB)&&state==2) {
+            nodeSelected = null;
+            if (!mixMatchUsed)
+                drawHighlightAnimal = true;
+
             state++;
             //System.out.println(state);
             repaint();
             //return;
         }
 
-       
+
+
 
     	//clearAnimals
-    	if(state ==3 && clearAnimalsUsed) {
+    	if(state == 3 && clearAnimalsUsed) {
         	for (int i=0;i<4;i++){
                 InvisButton b = fourButtonAnimal[i];
                 if (e.getSource().equals(b)){
@@ -512,64 +473,40 @@ public class Panel extends JPanel implements ActionListener {
                 		animalsToClear.add(i);
                 	}
                 	else {
-                		animalsToClear.remove(Integer.valueOf(i));
+                		animalsToClear.remove(i);
                 	}
-                	numSelectedAnimal = i;
-                	drawHighlightAnimal = true;
                 	repaint();
                 	return;
                 }
     		}
     	}
         //pick animal (mix&match)
-    	else if((state == 3 || state==4) && mixMatchUsed) {
-    		//System.out.println("grr");
+    	else if(state == 3 && mixMatchUsed) {
     		for (int i=0;i<4;i++){
                 InvisButton b = fourButtonAnimal[i];
-                if (e.getSource().equals(b) && !curAnimal.equals(game.getAnimalToken4()[i])){
-                	//System.out.println("click");
-                	numSelectedAnimal = i;
-                	curAnimal = game.getAnimalToken4()[i];
-                	state++;
-                	drawHighlightAnimal = true;
-                	cancelB.setVisible(true);
-                	repaint();
-                	return;
-                }
                 //cancel animal by clicking on it
-                else if(curAnimal.equals(game.getAnimalToken4()[i])) {
+                if (e.getSource().equals(b) && i==numSelectedAnimal) {
                 	numSelectedAnimal = -1;
                 	curAnimal = "";
-                	state--;
                 	drawHighlightAnimal = false;
                 	cancelB.setVisible(false);
                 	repaint();
                 	return;
                 }
+                else if (e.getSource().equals(b)){
+                    numSelectedAnimal = i;
+                    curAnimal = game.getAnimalToken4()[i];
+                    drawHighlightAnimal = true;
+                    cancelB.setVisible(true);
+                    repaint();
+                    return;
+                }
     		}
     	}
-    	//pick animal regular
-    	else if (state == 3 && !mixMatchUsed /*&& fourButtonAnimal[numSelectedAnimal].equals(e.getSource())*/){
-            //curAnimal=game.getAnimalToken4()[numSelectedAnimal];
-    		//System.out.println("whats up");
-            state++;
-            //System.out.println("placed animal");
-            repaint();
-            return;
-        }
-        //cancel animal (will never be reached -> we must check no places, show prompt and then button to remove)
-    	//fix to show prompt and it will not allow player to place
-        else if (state == 3 && e.getSource().equals(cancelB)){
-        	game.returnAnimalToken(game.getAnimalToken4()[numSelectedAnimal]);
-        	game.updateAnimalDeck(numSelectedAnimal);
-            curAnimal="";
-            numSelectedAnimal=-1;
-            drawHighlightAnimal=false;
-            repaint();
-            state+=2;
-            nextTurn();
-            return;
-        }
+
+
+
+
             
         
 

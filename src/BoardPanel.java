@@ -19,11 +19,9 @@ public class BoardPanel extends JPanel implements ActionListener {
     private JButton up,down,right,left;
     private BufferedImage outline, dpad;
     private int moveUD=0, moveLR=0;
-    private int hs,vs;
 
     public BoardPanel (Node n, HashMap<String, BufferedImage[]>map, Panel BigPan){
-        hs = 0;
-        vs = 0;
+
         board=n;
         animalTokenMap=map;
         setBackground(new Color(222,184,135));
@@ -53,10 +51,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         visited =new HashSet<>();
         
         g.translate(r,u);
-        /*left.setVisible(true);
-        right.setVisible(true);
-        up.setVisible(true);
-        down.setVisible(true);*/
         add(up);
         add(down);
         add(left);
@@ -101,18 +95,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         g2.rotate(Math.toRadians(n.getRotateAngle()), x + 58, y + 58);
         g2.drawImage(n.getImg(), x + 8, y, w * 50 / 58, h, null);
         g.drawImage(outline, x+8, y, w*50/58, h, null);
-        // 9,132,219
-        /*
-        if(n.getPlaced()) {
-            g2.drawImage(n.getImg(), x + 8, y, w * 50 / 58, h, null);
-        }else{
-            g2.setColor(new Color(22, 162, 227));
-            g2.fillPolygon(xlst,ylst,6);
-        }
 
-         */
-        //g.setColor(Color.BLACK);
-        //g.drawPolygon(xlst,ylst,6);
         if (animalTokenMap.get(n.getAnimal())!=null){
             //System.out.println("animal: "+n.getAnimal());
             g.drawImage(animalTokenMap.get(n.getAnimal())[0], (x-17+w*50/116), (y-25+h/2), 50, 50, null);
@@ -201,7 +184,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         try{
             curNode=(Node) e.getSource();
-            //System.out.println(curNode);
             if (bigPanel.getState()==1){
                 if (curNode.getVal()==null|| curNode.getVal().isEmpty()){
                     setCurNodeVal(bigPanel.getCurVal());
@@ -209,10 +191,9 @@ public class BoardPanel extends JPanel implements ActionListener {
                 }
 
             }
-            else if (bigPanel.getState()==4){
+            else if (bigPanel.getState()==3){
 
                 if (setCurNodeAnimal(bigPanel.getCurAnimal())){
-                    //System.out.println("goofy");
                     //if keystone tile-> add nature token
                     String[] hold = curNode.getSides();
                     if(hold[0].equals(hold[3])) {
@@ -220,11 +201,7 @@ public class BoardPanel extends JPanel implements ActionListener {
                     }
                     bigPanel.nextA();
                     bigPanel.nextTurn();
-                    /*bigPanel.getGame().nextTurn();
-                    setBoard(bigPanel.getGame().getCurrPlayer().getBoard());*/
                     repaint();
-                    
-
                 }
             }
             repaint();
@@ -238,9 +215,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         return curNode;
     }
     public void setCurNodeVal(String s){
-        //System.out.println("setvallllllll");
         curNode.setVal(s);
-        //stop=false;
         this.repaint();
 
     }

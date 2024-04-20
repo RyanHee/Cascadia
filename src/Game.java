@@ -1,8 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     private ArrayList<String> tileNames, animalDeck;
@@ -11,6 +9,7 @@ public class Game {
     private Player[]playerlst;
     private int cur;
     private Scoring scoring;
+    private String dupAnimal;
     private int turn = 1;
     public Game() throws FileNotFoundException {
         Scanner sc = new Scanner(new File("names.txt"));
@@ -94,10 +93,50 @@ public class Game {
     }
 
     public String[] getAnimalToken4() {
+        if (cntDup()==4){
+            for (int i=0;i<4;i++){
+                returnAnimalToken(animalToken4[i]);
+                updateAnimal4(i);
+            }
+        }
         return animalToken4;
     }
 
-    public void updateAnimalDeck(int numSelectedAnimal){
+    public int cntDup(){
+        HashMap<String, Integer>mp=new HashMap<>();
+        dupAnimal="";
+        for (String animal:animalToken4){
+            mp.putIfAbsent(animal, 0);
+            mp.put(animal, mp.get(animal)+1);
+        }
+        Set<String> st = mp.keySet();
+        int max=0;
+        for (String s:st){
+            if (mp.get(s)>max){
+                max=mp.get(s);
+                dupAnimal=s;
+            }
+        }
+        return max;
+    }
+
+    public String getDupAnimal(){
+        return dupAnimal;
+    }
+
+    public void removeDups(){
+        while (cntDup()>2){
+            for (int i=0;i<4;i++){
+                if (animalToken4[i].equals(dupAnimal)){
+                    returnAnimalToken(dupAnimal);
+                    updateAnimal4(i);
+                }
+            }
+        }
+
+
+    }
+    public void updateAnimal4(int numSelectedAnimal){
         animalToken4[numSelectedAnimal]=animalDeck.remove(0);
     }
 
