@@ -24,6 +24,16 @@ public class Scoring {
         }
     }
 
+    public int score(Node node){
+        int score=landMass(node);
+        score+=bearB(node);
+        score+=elkC(node);
+        score+=foxA(node);
+        score+=hawkA(node);
+        score+=salmonC(node);
+        return score;
+    }
+
     public int landMass(Node node){
         int s=0;
 
