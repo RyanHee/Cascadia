@@ -1,16 +1,13 @@
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.*;
+
 public class Scoring {
     private HashMap<Integer, Integer> opp;
     private HashMap<String, Integer> landScore, animalScore;
-    private HashSet<Node> allVisited, bVisited;
+    private HashSet<Node> landVisited, bVisited, fVisited, hVisited, eVisited, sVisited;
     private String[]land;
-    private int bearBScore;
-    ArrayList<Node> v;
-    ArrayList<Node> go;
-    ArrayList<String> temp;
-
+    private int bearBScore, foxAScore, hawkAcnt, elkCScore, salmonCScore;
+    private boolean sValid;
     public Scoring(){
         opp = new HashMap<>();
         animalScore=new HashMap<>();
@@ -35,7 +32,7 @@ public class Scoring {
             landScore.put(l, 0);
         }
         for (int i=0;i<5;i++){
-            allVisited=new HashSet<>();
+            landVisited =new HashSet<>();
             dfsLand(node, land[i]);
             // System.out.println(i);
             s+=landScore.get(land[i]);
@@ -49,14 +46,54 @@ public class Scoring {
         dfsBear(node);
         return bearBScore;
     }
+
+    public int elkC(Node node){
+        elkCScore=0;
+        eVisited=new HashSet<>();
+        dfsElk(node);
+        return elkCScore;
+    }
+
+    public int foxA(Node node){
+        foxAScore=0;
+        fVisited=new HashSet<>();
+        dfsFox(node);
+        return foxAScore;
+    }
+
+    public int hawkA(Node node){
+        hVisited=new HashSet<>();
+        hawkAcnt=0;
+        dfsHawk(node);
+        if (hawkAcnt<1)
+            return 0;
+        if (hawkAcnt==1)
+            return 2;
+        if (hawkAcnt<6)
+            return hawkAcnt*3-1;
+        if (hawkAcnt==6)
+            return 18;
+        if (hawkAcnt==7)
+            return 22;
+        return 28;
+    }
+
+
+    public int salmonC (Node node){
+        salmonCScore =0;
+        sVisited=new HashSet<>();
+        dfsSalmon(node);
+        return salmonCScore;
+    }
+
     private void dfsLand(Node node, String land){
-        if (allVisited.contains(node)){
+        if (landVisited.contains(node)){
             return ;
         }
         if (node.getVal()==null){
             return ;
         }
-        allVisited.add(node);
+        landVisited.add(node);
         boolean score=false;
         for (int i=0;i<6;i++){
             if (node.getSides()[i].equals(land)){
@@ -71,45 +108,107 @@ public class Scoring {
             dfsLand(node.getNeighbors()[i], land);
         }
     }
-    public int hawkA(Node n,boolean b){
-        int num = 0;
-        if(b)  v = new ArrayList<>();
-        if(b)  go = new ArrayList<>();
-        if(v.contains(n)||n==null) return 0;
-        v.add(n);
-        boolean b_b= n.getAnimal().equals("H");
-        for(Node a:n.getNeighbors()) if(a!=null&&a.getAnimal().equals("H")) b_b = false;
-        for(Node a:n.getNeighbors()) go.add(a);
-        ArrayList<Node> t = new ArrayList<>(); t.addAll(go);
-        for(Node a: t) num +=hawkA(a,false);
-        if (b_b) num++;
-        return num;
-    }
-    public int foxA(Node n,boolean b){
-        int num = 0;
-        if(b)  v = new ArrayList<>();
-        if(b)  go = new ArrayList<>();
-        if(v.contains(n)||n==null) return 0;
-        v.add(n);
-        boolean b_b= n.getAnimal().equals("F");
-        temp = new ArrayList<>();
-        if(b_b){
-        for(Node a:n.getNeighbors()) {
-            if(a!=null&&!a.getAnimal().equals("")&&!temp.contains(a.getAnimal())){
-                temp.add(a.getAnimal());
+
+    private void dfsBear(Node n){
+        int a;
+        if (bVisited.contains(n)){
+            return;
+        }
+        if (n==null){
+            return;
+        }
+
+        if (n.getAnimal().equals("B")){
+            //System.out.println("at bear");
+            a = cntBear(n,0, new HashSet<>());
+
+            //System.out.println(a);
+            if (a==3){
+                bearBScore+=10;
             }
         }
-        num+=temp.size();
-         }
-         for(Node a:n.getNeighbors()) go.add(a);
-        ArrayList<Node> t = new ArrayList<>(); t.addAll(go);
-        for(Node a: t) num +=foxA(a,false);
-       return num;
+        bVisited.add(n);
+        for (Node c:n.getNeighbors()){
+            dfsBear(c);
+        }
+
+
     }
+
+    private void dfsElk(Node n){
+        if (n==null)
+            return;
+        if (eVisited.contains(n))
+            return;
+        eVisited.add(n);
+        if (n.getAnimal().equals("E")){
+            int cnt = cntElk(n, 0, new HashSet<>());
+            if (cnt<3){
+                elkCScore+=cnt*2;
+            }
+            if (cnt==3) elkCScore+=7;
+            if (cnt==4) elkCScore+=10;
+            if (cnt==5) elkCScore+=14;
+            if (cnt==6) elkCScore+=18;
+            if (cnt==7) elkCScore+=23;
+            if (cnt>=8) elkCScore+=28;
+        }
+        for (Node c:n.getNeighbors())
+            dfsElk(c);
+    }
+
+    private void dfsFox(Node n){
+        if (n==null)
+            return;
+        if (fVisited.contains(n))
+            return;
+        fVisited.add(n);
+        if (n.getAnimal().equals("F")){
+            HashSet<String>st=new HashSet<>();
+            for (Node c:n.getNeighbors())
+                st.add(c.getAnimal());
+            foxAScore+=st.size()-1;
+        }
+        for (Node c:n.getNeighbors())
+            dfsFox(c);
+    }
+
+    private void dfsHawk(Node n){
+        if (n==null)
+            return;
+        if (hVisited.contains(n))
+            return;
+        hVisited.add(n);
+        if (n.getAnimal().equals("H"))
+            hawkAcnt++;
+        for (Node c:n.getNeighbors())
+            dfsHawk(c);
+    }
+
+    private void dfsSalmon(Node n){
+        if (n==null)
+            return;
+        if (sVisited.contains(n))
+            return;
+        sVisited.add(n);
+        if (n.getAnimal().equals("S")){
+            sValid=true;
+            int cnt = cntSalmon(n, 0, new HashSet<>());
+            if (sValid){
+                if (cnt==3) salmonCScore+=10;
+                if (cnt==4) salmonCScore+=12;
+                if (cnt>=5) salmonCScore+=15;
+            }
+        }
+        for (Node c:n.getNeighbors())
+            dfsSalmon(c);
+    }
+
+
 
     private int scoreLand(Node node, String land, HashSet<Node> visited, int sum){
 
-        allVisited.add(node);
+        landVisited.add(node);
         if (visited.contains(node)){
             return 0;
         }
@@ -140,49 +239,55 @@ public class Scoring {
         if (visited.contains(n)){
             return 0;
         }
-        //System.out.println("CNTBEAR");
         visited.add(n);
         bVisited.add(n);
-        //int ret=cnt;
-        int a=0;
         for (Node c:n.getNeighbors()){
-            if (c.getAnimal().equals("B")){
-                //System.out.println("child bear");
+            if (c.getAnimal().equals("B"))
                 cnt+=cntBear(c, cnt, visited);
-                a++;
-            }
         }
-        if (a>0){
-            cnt++;
-        }
+        cnt++;
         return cnt;
     }
-    private void dfsBear(Node n){
-        int a;
-        if (bVisited.contains(n)){
-            return;
-        }
-        if (n==null){
-            return;
-        }
 
-        if (n.getAnimal().equals("B")){
-            //System.out.println("at bear");
-            a = cntBear(n,0, new HashSet<>());
-
-            //System.out.println(a);
-            if (a==3){
-                bearBScore+=10;
+    private int cntElk(Node n, int cnt, HashSet<Node>visited){
+        if (!n.getAnimal().equals("E"))
+            return 0;
+        if (visited.contains(n))
+            return 0;
+        visited.add(n);
+        eVisited.add(n);
+        for (Node c:n.getNeighbors()){
+            if (c.getAnimal().equals("E")){
+                cnt+=cntElk(c, cnt, visited);
             }
         }
-        bVisited.add(n);
-        for (Node c:n.getNeighbors()){
-            dfsBear(c);
-        }
-
-
+        cnt++;
+        return cnt;
     }
 
+    private int cntSalmon(Node n, int cnt, HashSet<Node>visited){
+        if (!n.getAnimal().equals("S"))
+            return 0;
+        if (visited.contains(n))
+            return 0;
 
+        visited.add(n);
+        sVisited.add(n);
+        int a=0;
+        for (Node c:n.getNeighbors()){
+            if (c.getAnimal().equals("S"))
+                a++;
+        }
+        if (a>2) {
+            sValid=false;
+            return 0;
+        }
+            for (Node c:n.getNeighbors()){
+            if (c.getAnimal().equals("S"))
+                cnt+=cntSalmon(c, cnt, visited);
+        }
+        cnt++;
+        return cnt;
+    }
 
 }
