@@ -20,11 +20,21 @@ public class Game {
             tileNames.add(sc.next());
         }
         for (int i=0;i<20;i++){
+            /*
+            animalDeck.add("S");
+            animalDeck.add("S");
+            animalDeck.add("S");
+            animalDeck.add("S");
+            animalDeck.add("S");
+             */
+
             animalDeck.add("B");
             animalDeck.add("E");
             animalDeck.add("H");
             animalDeck.add("S");
             animalDeck.add("F");
+
+
 
         }
         Collections.shuffle(animalDeck);
@@ -123,18 +133,8 @@ public class Game {
 
     public int curPlayerScore(){
         int num = 0;
-        num+=scoring.bearB(playerlst[cur].getBoard());
-        int h = scoring.hawkA(playerlst[cur].getBoard(),true);
-        if(h==1) num+= 2;
-        if(h==2) num+= 5;
-        if(h==3) num+= 8;
-        if(h==4) num+= 11;
-        if(h==5) num+=14;
-        if(h==6) num+= 18;
-        if(h==7) num+= 22;
-        if(h>=8) num+= 26;
-        num+=scoring.foxA(playerlst[cur].getBoard(),true);
-        playerlst[cur].setScore(num + playerlst[cur].getNumTokens());
+        num+=scoring.score(playerlst[cur].getBoard());
+        playerlst[cur].setScore(num);
         return num;
     }
 }
