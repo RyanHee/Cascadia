@@ -134,6 +134,7 @@ public class Game {
         if(h==7) num+= 22;
         if(h>=8) num+= 26;
         num+=scoring.foxA(playerlst[cur].getBoard(),true);
+        playerlst[cur].setScore(num + playerlst[cur].getNumTokens());
         return num;
     }
 }

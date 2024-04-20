@@ -138,7 +138,7 @@ public class Panel extends JPanel implements ActionListener {
         		g.drawImage(natureToken, getWidth()*7/8+10, getHeight()*yPlay/4+30, 30, 30, null);
         		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+40, getHeight()*yPlay/4+50);
         		g.setFont(new Font("Arial", Font.PLAIN, 10));
-        		g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()*13/14, getHeight()*yPlay/4+50);
+        		g.drawString("Current Score: "+String.valueOf(game.getPlayerList()[pNum-1].getScore()), getWidth()*13/14, getHeight()*yPlay/4+50);
         		yPlay++;
         		//draw other players boards (but not as buttons)
         		// drawBoard(g, game.getCurrPlayer().getBoard(), getWidth()*13/16 +10, getHeight()*yPlay/4 +70);
@@ -312,6 +312,7 @@ public class Panel extends JPanel implements ActionListener {
 	}
     
     public void nextTurn() {
+    	game.curPlayerScore();//sets score of player
     	game.nextTurn();
         bp.setBoard(game.getCurrPlayer().getBoard());
         state=0;
