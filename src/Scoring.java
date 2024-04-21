@@ -159,8 +159,6 @@ public class Scoring {
         for (Node c:n.getNeighbors()){
             dfsBear(c);
         }
-
-
     }
 
     private void dfsElk(Node n){
@@ -207,15 +205,8 @@ public class Scoring {
         if (hVisited.contains(n))
             return;
         hVisited.add(n);
-        if (n.getAnimal().equals("H"))
-        	hawkAcnt++;
-        for(int i=0;i<6;i++) {
-        	if(n.getNeighbors()[i]!= null && n.getNeighbors()[i].getAnimal().equals("H") && n.getAnimal().equals("H")) {
-        		//System.out.println("2 close hawks");
-        		hawkAcnt--;
-        		i=6;
-        	}
-        }
+        if (validHawk(n))
+            hawkAcnt++;
         for (Node c:n.getNeighbors())
             dfsHawk(c);
     }
@@ -324,6 +315,16 @@ public class Scoring {
         }
         cnt++;
         return cnt;
+    }
+
+    private boolean validHawk(Node n){
+        if (!n.getAnimal().equals("H"))
+            return false;
+        for (Node c:n.getNeighbors()){
+            if (c.getAnimal().equals("H"))
+                return false;
+        }
+        return true;
     }
 
 }
