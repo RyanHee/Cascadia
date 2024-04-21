@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Game {
-    private ArrayList<String> tileNames, animalDeck;
+    private ArrayList<String> tileNames, animalDeck, actionLog;
     private ArrayList<Node> startTile;
     private String[] tileName4, animalToken4;
     private Player[]playerlst;
@@ -11,10 +11,13 @@ public class Game {
     private Scoring scoring;
     private String dupAnimal;
     private int turn = 1;
+    private HashSet<Node> visited = new HashSet<>();
+    private boolean animalAllowed = false;
     public Game() throws FileNotFoundException {
         Scanner sc = new Scanner(new File("names.txt"));
         tileNames = new ArrayList<>();
         animalDeck = new ArrayList<>();
+        actionLog = new ArrayList<>();
         while (sc.hasNext()){
             tileNames.add(sc.next());
         }
@@ -170,10 +173,61 @@ public class Game {
     	return cur;
     }
 
+    public void updateScore() {
+    	int hold = cur;
+    	for(int i=0; i<playerlst.length;i++) {
+    		cur = i;
+    		playerlst[i].setScore(curPlayerScore());
+    	}
+    	cur = hold;
+    }
+    
     public int curPlayerScore(){
         int num = 0;
         num+=scoring.score(playerlst[cur].getBoard());
-        playerlst[cur].setScore(num);
-        return num;
+        playerlst[cur].setScore(num+playerlst[cur].getNumTokens());
+        return num+playerlst[cur].getNumTokens();
+    }
+    
+    public void getAllowedSpace(Node n, String animal) {
+    	if (n==null)
+             return ;
+        if (visited.contains(n))
+             return ;
+        //System.out.println("its new and exists");
+        visited.add(n);
+    	if(n.animalsAllowed(animal)) {
+    		animalAllowed = true;
+    		//System.out.println("its allowed");
+    		return ;
+    	}
+    	else {
+    		//System.out.println("neighbor check");
+	    	for (Node c:n.getNeighbors())
+	            getAllowedSpace(c, animal);
+    	}
+    }
+    
+    public boolean getAnimalAllowed(Node n, String animal) {
+    	animalAllowed = false;
+    	getAllowedSpace(n,animal);
+    	//System.out.println("animal"+animalAllowed);
+    	visited.clear();
+    	return animalAllowed;
+    }
+    
+    public void addAction(String action) {
+    	actionLog.add(action);
+    	updateActionLog();
+    }
+    
+    public void updateActionLog() {
+    	if(actionLog.size() > 8) {
+    		actionLog.remove(0);
+    	}
+    }
+    
+    public ArrayList<String> getActionLog(){
+    	return actionLog;
     }
 }

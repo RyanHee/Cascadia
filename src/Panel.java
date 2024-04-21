@@ -23,7 +23,7 @@ public class Panel extends JPanel implements ActionListener {
     private BufferedImage[] tiles4;
     private HexButton[] fourButtonTiles;
     private InvisButton[]fourButtonAnimal;
-    private boolean tileChose = false, dupAnimalsUsed = false, natureTokenUsed = false, mixMatchUsed = false, clearAnimalsUsed = false;
+    private boolean tileChose = false, dupAnimalsUsed = false, natureTokenUsed = false, mixMatchUsed = false, clearAnimalsUsed = false, noAnimalPlace = false, actionLogUsed = false;
     private int state;
     private boolean drawHighlightAnimal;
     private JButton confirmB, cancelB, nextB;
@@ -120,6 +120,7 @@ public class Panel extends JPanel implements ActionListener {
 
     public void paint(Graphics g){
         super.paint(g);
+        game.updateScore();
         g.setColor(new Color(0,0,0));
         g.setFont(new Font("Arial", Font.PLAIN, 30));
         g.drawString("Turn "+game.getTurn(), getWidth()/40-20, 40);
@@ -151,8 +152,18 @@ public class Panel extends JPanel implements ActionListener {
         add(cancelB);
         cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
         //cancelB.setVisible(false);//make buttons appear at right time
-        if(tileChose || (mixMatchUsed && state == 4)) {
+        if(tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) {
         	cancelB.setVisible(true);
+        	if(noAnimalPlace) {
+        		g.setFont(new Font("Arial", Font.PLAIN, 20));
+        		g.drawString("There is no place for this animal. Please click cancel to replace the animal and end your turn.", getWidth()/5, getHeight()*9/10+20);
+        	}
+        }
+        //allow the user to choose not to keep animal
+        else if(!noAnimalPlace && !clearAnimalsUsed && state == 3) {
+        	cancelB.setVisible(true);
+        	g.setFont(new Font("Arial", Font.PLAIN, 20));
+    		g.drawString("You may choose to click cancel, not place an animal and end your turn.", getWidth()/5, getHeight()*9/10+20);
         }
         else {
         	cancelB.setVisible(false);
@@ -253,6 +264,14 @@ public class Panel extends JPanel implements ActionListener {
             }
             fourButtonAnimal[i].setBounds(115, getHeight()/8+i*95, 60, 60);
         }
+        
+        if(actionLogUsed) {
+        	ArrayList<String> actions = game.getActionLog();
+        	g.setFont(new Font("Arial", Font.PLAIN, 10));
+        	for(int i =0; i<actions.size(); i++) {
+        		g.drawString(actions.get(i), getWidth()*13/16+10, getHeight()*3/4+(i*20));
+        	}
+        }
     }
 
     public int getState(){
@@ -313,6 +332,7 @@ public class Panel extends JPanel implements ActionListener {
         natureTokenUsed = false;
         mixMatchUsed = false;
         clearAnimalsUsed = false;
+        noAnimalPlace = false;
         curVal="";
     	numSelectedTile = -1;
     	numSelectedAnimal =-1;
@@ -320,6 +340,7 @@ public class Panel extends JPanel implements ActionListener {
         help.setVisible(true);
     	scoreCards.setVisible(true);
         actionLog.setVisible(true);
+        game.addAction("Next Turn: Player "+(game.getPlayerNum()+1));
         if(game.getTurn() > 20) {
         	//end the game
         }
@@ -333,6 +354,16 @@ public class Panel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
        
         //System.out.println(state);
+    	
+    	if(e.getSource().equals(actionLog)) {
+    		actionLogUsed = !actionLogUsed;
+    		if(actionLogUsed) {
+    			game.getActionLog().clear();
+    			game.addAction("Action Log was turned on.");
+    		}
+    		repaint();
+    		return;
+    	}
         
         if(e.getSource().equals(confirmClear)) {
             for (int i:animalsToClear){
@@ -344,6 +375,9 @@ public class Panel extends JPanel implements ActionListener {
         	confirmClear.setVisible(false);
         	animalsToClear.clear();
         	state = 0;
+        	if(actionLogUsed) {
+        		game.addAction("Player "+(game.getPlayerNum()+1)+" confirmed clearing animals.");
+            }
         	repaint();
     		return;
         }
@@ -354,6 +388,10 @@ public class Panel extends JPanel implements ActionListener {
             confirmClear.setVisible(true);
             clearAnimalsUsed = true;
             state = 3;
+            if(actionLogUsed) {
+        		game.addAction("Player "+(game.getPlayerNum()+1)+" chose to clear animals.");
+            }
+            repaint();
         }
         if(e.getSource().equals(mixMatch)) {
             curAnimal="";
@@ -361,6 +399,10 @@ public class Panel extends JPanel implements ActionListener {
         	mixMatchUsed = true;
         	clearAnimals.setVisible(false);
             mixMatch.setVisible(false);
+            if(actionLogUsed) {
+        		game.addAction("Player "+(game.getPlayerNum()+1)+" chose to mix and match tile & token.");
+            }
+            repaint();
         }
         
         if(e.getSource().equals(useNature)) {
@@ -374,6 +416,10 @@ public class Panel extends JPanel implements ActionListener {
             clearAnimals.setVisible(true);
             mixMatch.setVisible(true);
             natureTokenUsed = true;
+            if(actionLogUsed) {
+        		game.addAction("Player "+(game.getPlayerNum()+1)+" used a nature token.");
+            }
+            repaint();
             //remove token (token >0 -> nature token buttons appears)
         }
         
@@ -386,6 +432,9 @@ public class Panel extends JPanel implements ActionListener {
         	dupAnimalsUsed = true;
             game.removeDups();
             removeDups.setVisible(false);
+            if(actionLogUsed) {
+        		game.addAction("Player "+(game.getPlayerNum()+1)+" chose to remove duplicate animals.");
+            }
             repaint();
             return;
         }
@@ -405,7 +454,7 @@ public class Panel extends JPanel implements ActionListener {
                 //System.out.println(curVal);
                 numSelectedTile=i;
                 if(!mixMatchUsed) {
-                    System.out.println("no mixMatch");
+                    //System.out.println("no mixMatch");
                 	numSelectedAnimal=i;
                 	curAnimal = game.getAnimalToken4()[i];
                     //drawHighlightAnimal=true;
@@ -415,6 +464,27 @@ public class Panel extends JPanel implements ActionListener {
                 nodeSelected=null;
                 state++;
                 tileChose = true;
+                if(actionLogUsed) {
+                	String habitats = curVal.substring(0,2);
+                	String animals = curVal.substring(3);
+                	int l = animals.length();
+                	if(habitats.contains("D")) habitats += " and Desert";
+                	if(habitats.contains("F")) habitats += " and Forest";
+                	if(habitats.contains("L")) habitats += " and Lake";             	
+                	if(habitats.contains("M")) habitats += " and Mountain";        	
+                	if(habitats.contains("S")) habitats += " and Swamp";
+                	habitats = habitats.substring(7);
+                	if(animals.contains("B")) animals += " and Bear";
+                	if(animals.contains("E")) animals += " and Elk";
+                	if(animals.contains("F")) animals += " and Fox";             	
+                	if(animals.contains("H")) animals += " and Hawk";        	
+                	if(animals.contains("S")) animals += " and Salmon";
+                	animals = animals.substring(l+5);
+                	
+                	game.addAction("Player "+(game.getPlayerNum()+1)+" picked tile: "+habitats+".");
+                	game.addAction("This tile can hold "+animals+".");
+                }
+                
                 repaint();
                 return;
             }
@@ -426,6 +496,9 @@ public class Panel extends JPanel implements ActionListener {
             	curAnimal = "";
             	state = 0;
             	tileChose = false;
+            	if(actionLogUsed) {
+            		game.addAction("Player "+(game.getPlayerNum()+1)+" unselected their tile.");
+                }
             	repaint();
             	return;
             }
@@ -438,6 +511,9 @@ public class Panel extends JPanel implements ActionListener {
         	curAnimal ="";
         	state = 0;
         	tileChose = false;
+        	if(actionLogUsed) {
+        		game.addAction("Player "+(game.getPlayerNum()+1)+" unselected their tile.");
+            }
         	repaint();
         	return;
         	
@@ -445,6 +521,9 @@ public class Panel extends JPanel implements ActionListener {
         //rotate angle
         if (nodeSelected!=null && e.getSource().equals(rotate) && state==2){
             nodeSelected.addRotateAngle();
+            if(actionLogUsed) {
+        		game.addAction("Player "+(game.getPlayerNum()+1)+" rotated their tile.");
+            }
             repaint();
             return;
         }
@@ -455,6 +534,9 @@ public class Panel extends JPanel implements ActionListener {
                 drawHighlightAnimal = true;
 
             state++;
+            if(actionLogUsed) {
+        		game.addAction("Player "+(game.getPlayerNum()+1)+" confirmed their tile placement.");
+            }
             //System.out.println(state);
             repaint();
             //return;
@@ -504,12 +586,56 @@ public class Panel extends JPanel implements ActionListener {
     		}
     	}
 
-
-
-
-            
-        
-
+    	//no place to put animal
+    	else if (state == 3 && !game.getAnimalAllowed(game.getCurrPlayer().getBoard(), curAnimal)) {
+    		cancelB.setVisible(true);
+    		noAnimalPlace = true;
+    		drawHighlightAnimal = false;
+    		state++;
+    		if(actionLogUsed) {
+        		//game.addAction("Player "+(game.getPlayerNum()+1)+" had no place to put a "+ curAnimal+ "token.");
+        		
+        		if(curAnimal.equals("B")) {
+                	game.addAction("Player "+(game.getPlayerNum()+1)+ " had no place to put a bear token.");
+                }
+                if(curAnimal.equals("E")) {
+                	game.addAction("Player "+(game.getPlayerNum()+1)+ " had no place to put an elk token.");
+                }
+                if(curAnimal.equals("F")) {
+                	game.addAction("Player "+(game.getPlayerNum()+1)+ " had no place to put a fox token.");
+                }
+                if(curAnimal.equals("H")) {
+                	game.addAction("Player "+(game.getPlayerNum()+1)+ " had no place to put a hawk token.");
+                }
+                if(curAnimal.equals("S")) {
+                	game.addAction("Player "+(game.getPlayerNum()+1)+ " had no place to put a salmon token.");
+                }
+            }
+    		repaint();
+    		
+    		//System.out.println("no space for animal");
+    	}
+    	
+    	else if(state == 3 && game.getAnimalAllowed(game.getCurrPlayer().getBoard(), curAnimal)) {
+    		cancelB.setVisible(true);
+    		repaint();
+    	}
+    	
+    	if(e.getSource().equals(cancelB)&&state==3 &&!mixMatchUsed) {
+    		if(actionLogUsed) {
+        		game.addAction("Player "+(game.getPlayerNum()+1)+" chose not to place an animal token.");
+            }
+    		nextTurn();
+    		repaint();
+    		return;
+    	}
+    	
+    	
+    	if(e.getSource().equals(cancelB)&&state==4 &&!mixMatchUsed) {
+    		nextTurn();
+    		repaint();
+    		return;
+    	}
 
         //cancel animal chosen wrong in mix and match
         if (e.getSource().equals(cancelB)&&state==4 &&mixMatchUsed){

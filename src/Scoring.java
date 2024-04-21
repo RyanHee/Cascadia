@@ -42,12 +42,12 @@ public class Scoring {
 
         landScore=new HashMap<>();
         for (String l:land){
-            landScore.put(l, 0);
+            landScore.put(l, 1);
         }
         for (int i=0;i<5;i++){
             landVisited =new HashSet<>();
             dfsLand(node, land[i]);
-            // System.out.println(i);
+             System.out.println(land[i]+landScore);
             s+=landScore.get(land[i]);
         }
         return s;
@@ -256,7 +256,7 @@ public class Scoring {
             //System.out.println(lst[i]);
             if (node.getSides()[i]!=null && node.getSides()[i].equals(land)){
                 a++;
-                if (lst[i].getSides()[opp.get(i)]!=null && lst[i].getSides()[opp.get(i)].equals(land)){
+                if (lst[i]!= null && lst[i].getSides()[opp.get(i)]!=null && lst[i].getSides()[opp.get(i)].equals(land)){
                     sum+=scoreLand(lst[i], land, visited, sum);
                 }
             }
