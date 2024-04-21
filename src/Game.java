@@ -3,7 +3,8 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Game {
-    private ArrayList<String> tileNames, animalDeck, actionLog;
+    private ArrayList<String> tileNames, animalDeck;
+    private Queue<String> actionLog;
     private ArrayList<Node> startTile;
     private String[] tileName4, animalToken4;
     private Player[]playerlst;
@@ -17,7 +18,7 @@ public class Game {
         Scanner sc = new Scanner(new File("names.txt"));
         tileNames = new ArrayList<>();
         animalDeck = new ArrayList<>();
-        actionLog = new ArrayList<>();
+        actionLog = new LinkedList<>();
         while (sc.hasNext()){
             tileNames.add(sc.next());
         }
@@ -223,11 +224,11 @@ public class Game {
     
     public void updateActionLog() {
     	if(actionLog.size() > 8) {
-    		actionLog.remove(0);
+    		actionLog.poll();
     	}
     }
     
-    public ArrayList<String> getActionLog(){
+    public Queue<String> getActionLog(){
     	return actionLog;
     }
 }

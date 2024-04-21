@@ -266,10 +266,13 @@ public class Panel extends JPanel implements ActionListener {
         }
         
         if(actionLogUsed) {
-        	ArrayList<String> actions = game.getActionLog();
-        	g.setFont(new Font("Arial", Font.PLAIN, 10));
-        	for(int i =0; i<actions.size(); i++) {
-        		g.drawString(actions.get(i), getWidth()*13/16+10, getHeight()*3/4+(i*20));
+        	Queue<String> actions = game.getActionLog();
+        	g.setFont(new Font("Comic Sans", Font.BOLD, 15));
+            Iterator<String> it = actions.iterator();
+            int i=0;
+        	while (it.hasNext()) {
+        		g.drawString(it.next(), getWidth()*13/16+10, getHeight()*3/4+(i*20));
+                i++;
         	}
         }
     }
