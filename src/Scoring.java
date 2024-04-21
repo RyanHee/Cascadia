@@ -47,7 +47,7 @@ public class Scoring {
         for (int i=0;i<5;i++){
             landVisited =new HashSet<>();
             dfsLand(node, land[i]);
-             System.out.println(land[i]+landScore);
+            //System.out.println(land[i]+landScore);
             s+=landScore.get(land[i]);
         }
         return s;
