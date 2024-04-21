@@ -7,7 +7,8 @@ public class Frame extends JFrame {
         Panel panel = new Panel();
         add(panel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1600, 900);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setSize(1600, 900);
         setVisible(true);
     }
 }
