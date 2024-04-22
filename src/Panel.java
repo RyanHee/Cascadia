@@ -19,12 +19,12 @@ public class Panel extends JPanel implements ActionListener {
     private static BufferedImage natureToken;
     private Node nodeSelected;
     private HexButton rotate;
-
     private BufferedImage[] tiles4;
     private HexButton[] fourButtonTiles;
     private InvisButton[]fourButtonAnimal;
     private boolean tileChose = false, dupAnimalsUsed = false, natureTokenUsed = false, mixMatchUsed = false, clearAnimalsUsed = false, noAnimalPlace = false, actionLogUsed = false;
     private int state;
+    private int prog;
     private boolean drawHighlightAnimal;
     private JButton confirmB, cancelB, nextB;
     private JButton help, scoreCards, actionLog, useNature, removeDups;
@@ -108,6 +108,7 @@ public class Panel extends JPanel implements ActionListener {
 
         curVal="";
         state=0;
+        prog = 0;
         rotate = new HexButton("arrow.png");
         rotate.addActionListener(this);
 
@@ -274,6 +275,39 @@ public class Panel extends JPanel implements ActionListener {
         		g.drawString(it.next(), getWidth()*13/16+10, getHeight()*3/4+(i*20));
                 i++;
         	}
+        }
+        Graphics2D g2 = (Graphics2D) g.create();
+        
+
+        if(prog<=100){
+            g2.setStroke(new BasicStroke(6));
+        g2.setColor(Color.BLACK);
+        g2.drawRect(getWidth()/4, getHeight()/10*9, getWidth()/3, getHeight()/20);
+        g2.setColor(Color.GREEN);
+            g2.fillRect(getWidth()/4, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
+        }
+
+        System.out.printf("--- %s\n",prog);
+
+        if(prog<100){
+            prog++;
+        try{
+            Thread.sleep(5);
+            System.out.println(prog);
+        }
+        catch (Exception E){
+
+        }
+        repaint();
+        }else if (prog==100){
+            try{
+                Thread.sleep(1250);
+                prog++;
+            }
+            catch (Exception E){
+    
+            }
+            repaint();
         }
     }
 

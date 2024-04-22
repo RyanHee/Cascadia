@@ -15,6 +15,7 @@ public class Game {
     private HashSet<Node> visited = new HashSet<>();
     private boolean animalAllowed = false;
     public Game() throws FileNotFoundException {
+
         Scanner sc = new Scanner(new File("names.txt"));
         tileNames = new ArrayList<>();
         animalDeck = new ArrayList<>();
