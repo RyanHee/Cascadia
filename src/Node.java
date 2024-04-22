@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 public class Node extends JButton {
 
-    private HashSet<String>animals;
+    private HashSet<String>animals, land;
     private Polygon hexagon;
     private String val, animal;
     private int rotateAngle;
@@ -30,6 +30,7 @@ public class Node extends JButton {
         setContentAreaFilled(false);
         rotateAngle=0;
         animals=new HashSet<>();
+        land=new HashSet<>();
         hexagon = new Polygon(xPoints, yPoints, 6);
         try{
             img = ImageIO.read(new File("img/blank.png"));
@@ -55,6 +56,7 @@ public class Node extends JButton {
         setContentAreaFilled(false);
         //setBorderPainted(false);
         animals=new HashSet<>();
+        land=new HashSet<>();
         hexagon = new Polygon(xPoints, yPoints, 6);
         try{
             img = ImageIO.read(new File("img/Tile/"+val+".png"));
@@ -66,6 +68,8 @@ public class Node extends JButton {
         String[]lst=val.split("-");
         String left=lst[0].substring(0,1);
         String right=lst[0].substring(1,2);
+        land.add(left);
+        land.add(right);
         for (int i=0;i<3;i++){
             Sides[i]=right;
         }
@@ -109,7 +113,7 @@ public class Node extends JButton {
     }
     
     public boolean animalsAllowed(String a){
-    	if(!animal.equals("")) {
+    	if(!animal.isEmpty()) {
     		return false;
     	}
     	return animals.contains(a);
@@ -126,6 +130,7 @@ public class Node extends JButton {
                 lst[i]=Sides[5];
             }
         }
+        //System.out.println(Arrays.toString(Sides));
         //System.out.println(Arrays.toString(lst));
         Sides=lst;
         return rotateAngle;
@@ -201,6 +206,8 @@ public class Node extends JButton {
             for (int i=3;i<6;i++) {
                 Sides[i]=left;
             }
+            land.add(left);
+            land.add(right);
             //System.out.println(Arrays.toString(Sides));
             char[]animallst=lst[1].toCharArray();
             for (char c:animallst){
@@ -333,19 +340,14 @@ public class Node extends JButton {
         return val+getPlaced();
     }
 
-    public boolean equals(Node n){
-        String v = n.getVal();
-        if (v.equals(val)){
-            Node[]neighbors1=n.getNeighbors();
-            for (int i=0;i<6;i++){
-                if (!neighbors[i].getVal().equals(neighbors1[i].getVal())){
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
+    public HashSet<String> getLand(){
+        return land;
     }
+
+    public boolean hasLand(String s){
+        return land.contains(s);
+    }
+
 
 
 }

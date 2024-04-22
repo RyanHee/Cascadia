@@ -50,6 +50,7 @@ public class Scoring {
             //System.out.println(land[i]+landScore);
             s+=landScore.get(land[i]);
         }
+        System.out.println(landScore);
         return s;
     }
 
@@ -118,17 +119,11 @@ public class Scoring {
         if (landVisited.contains(node)){
             return ;
         }
-        if (node.getVal()==null){
+        if (node.getVal()==null || node.getVal().isEmpty()){
             return ;
         }
         landVisited.add(node);
-        boolean score=false;
-        for (int i=0;i<6;i++){
-            if (node.getSides()[i].equals(land)){
-                score=true;
-            }
-        }
-        if (score){
+        if (node.hasLand(land)){
             // System.out.println("a"+land);
             landScore.replace(land, Math.max(landScore.get(land), scoreLand(node, land, new HashSet<>(), 0)));
         }
@@ -234,27 +229,29 @@ public class Scoring {
 
 
     private int scoreLand(Node node, String land, HashSet<Node> visited, int sum){
-
-        landVisited.add(node);
         if (visited.contains(node)){
             return 0;
         }
+        if (!node.hasLand(land)){
+            return 0;
+        }
         visited.add(node);
+        landVisited.add(node);
         Node[]lst = node.getNeighbors();
-        int a = 0;
-        //System.out.println(node);
+        //System.out.println("curr: "+node+" score: "+sum);
+        int s = sum;
         for (int i=0;i<6;i++){
             //System.out.println(lst[i]);
             if (node.getSides()[i]!=null && node.getSides()[i].equals(land)){
-                a++;
                 if (lst[i]!= null && lst[i].getSides()[opp.get(i)]!=null && lst[i].getSides()[opp.get(i)].equals(land)){
-                    sum+=scoreLand(lst[i], land, visited, sum);
+                    //System.out.println("go to: "+i+" "+lst[i]+" score: "+sum);
+                    sum+=scoreLand(lst[i], land, visited, s);
+                    //System.out.println("after go to: "+i+" "+lst[i]+" score: "+sum);
                 }
             }
         }
-        if (a>0){
-            sum++;
-        }
+        sum++;
+        //System.out.println("before returning curr: "+node+" score: "+sum);
         return sum;
     }
 
