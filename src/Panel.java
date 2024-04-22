@@ -108,7 +108,7 @@ public class Panel extends JPanel implements ActionListener {
 
         curVal="";
         state=0;
-        prog = 0;
+        prog = 101;
         rotate = new HexButton("arrow.png");
         rotate.addActionListener(this);
 
@@ -282,7 +282,7 @@ public class Panel extends JPanel implements ActionListener {
         if(prog<=100){
             g2.setStroke(new BasicStroke(6));
         g2.setColor(Color.BLACK);
-        g2.drawRect(getWidth()/4, getHeight()/10*9, getWidth()/3, getHeight()/20);
+       g2.drawRect(getWidth()/4, getHeight()/10*9, getWidth()/3, getHeight()/20);
         g2.setColor(Color.GREEN);
             g2.fillRect(getWidth()/4, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
         }
@@ -301,8 +301,9 @@ public class Panel extends JPanel implements ActionListener {
         repaint();
         }else if (prog==100){
             try{
-                Thread.sleep(1250);
+                Thread.sleep(250);
                 prog++;
+                nextTurn();
             }
             catch (Exception E){
     
@@ -662,14 +663,14 @@ public class Panel extends JPanel implements ActionListener {
     		if(actionLogUsed) {
         		game.addAction("Player "+(game.getPlayerNum()+1)+" chose not to place an animal token.");
             }
-    		nextTurn();
+            nextTurn();
     		repaint();
     		return;
     	}
     	
     	
     	if(e.getSource().equals(cancelB)&&state==4 &&!mixMatchUsed) {
-    		nextTurn();
+            nextTurn();
     		repaint();
     		return;
     	}
@@ -685,5 +686,8 @@ public class Panel extends JPanel implements ActionListener {
 
             return;
         }
+    }
+    public void resetProg(){
+        prog = 0;
     }
 }

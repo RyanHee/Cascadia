@@ -249,7 +249,7 @@ public class BoardPanel extends JPanel implements ActionListener {
                     	bigPanel.getGame().addAction("It was placed on a " +mp.get(hold[0])+" and "+mp.get(hold[3])+" tile.");
                     }
                     bigPanel.nextA();
-                    bigPanel.nextTurn();
+                    bigPanel.resetProg();
                     repaint();
                 }
             }
