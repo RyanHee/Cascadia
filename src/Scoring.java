@@ -50,7 +50,7 @@ public class Scoring {
             //System.out.println(land[i]+landScore);
             s+=landScore.get(land[i]);
         }
-        System.out.println(landScore);
+        //System.out.println(landScore);
         return s;
     }
 
@@ -255,7 +255,7 @@ public class Scoring {
             }
         }
         sum++;
-        System.out.println("before returning curr: "+node+" score: "+sum);
+        //System.out.println("before returning curr: "+node+" score: "+sum);
         return sum;
     }
 
