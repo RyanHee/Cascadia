@@ -108,7 +108,7 @@ public class Panel extends JPanel implements ActionListener {
 
         curVal="";
         state=0;
-        prog = 101;
+        prog = 102;
         rotate = new HexButton("arrow.png");
         rotate.addActionListener(this);
 
@@ -289,7 +289,7 @@ public class Panel extends JPanel implements ActionListener {
 
         System.out.printf("--- %s\n",prog);
 
-        if(prog<100){
+        if(prog<101){
             prog++;
         try{
             Thread.sleep(5);
@@ -299,7 +299,7 @@ public class Panel extends JPanel implements ActionListener {
 
         }
         repaint();
-        }else if (prog==100){
+        }else if (prog==101){
             try{
                 Thread.sleep(250);
                 prog++;
