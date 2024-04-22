@@ -94,8 +94,9 @@ public class BoardPanel extends JPanel implements ActionListener {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.rotate(Math.toRadians(n.getRotateAngle()), x + 58, y + 58);
         g2.drawImage(n.getImg(), x + 8, y, w * 50 / 58, h, null);
-        g.setColor(Color.BLACK);
-        g.drawPolygon(xlst,ylst,6);
+        g2.setStroke(new BasicStroke(2));
+        g2.setColor(Color.BLACK);
+        g2.drawPolygon(xlst,ylst,6);
 
         if (animalTokenMap.get(n.getAnimal())!=null){
             //System.out.println("animal: "+n.getAnimal());
