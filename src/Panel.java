@@ -267,7 +267,7 @@ public class Panel extends JPanel implements ActionListener {
         
         if(actionLogUsed) {
         	Queue<String> actions = game.getActionLog();
-        	g.setFont(new Font("Comic Sans", Font.BOLD, 15));
+        	g.setFont(new Font("Comic Sans", Font.BOLD, 12));
             Iterator<String> it = actions.iterator();
             int i=0;
         	while (it.hasNext()) {
