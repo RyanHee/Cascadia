@@ -243,15 +243,19 @@ public class Scoring {
         for (int i=0;i<6;i++){
             //System.out.println(lst[i]);
             if (node.getSides()[i]!=null && node.getSides()[i].equals(land)){
+                //System.out.println("over here");
                 if (lst[i]!= null && lst[i].getSides()[opp.get(i)]!=null && lst[i].getSides()[opp.get(i)].equals(land)){
-                    //System.out.println("go to: "+i+" "+lst[i]+" score: "+sum);
-                    sum+=scoreLand(lst[i], land, visited, s);
-                    //System.out.println("after go to: "+i+" "+lst[i]+" score: "+sum);
+                    //System.out.println(land);
+                    //System.out.println("side: "+i+" "+lst[i].getSides()[opp.get(i)]);
+                    //System.out.println("go to: " + i + " " + lst[i] + " score: " + sum);
+                    sum += scoreLand(lst[i], land, visited, s);
+                    //System.out.println("after go to: " + i + " " + lst[i] + " score: " + sum);
+
                 }
             }
         }
         sum++;
-        //System.out.println("before returning curr: "+node+" score: "+sum);
+        System.out.println("before returning curr: "+node+" score: "+sum);
         return sum;
     }
 

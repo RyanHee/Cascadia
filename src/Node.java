@@ -103,7 +103,7 @@ public class Node extends JButton {
     }
 
     public boolean setAnimal(String s){
-        if (animal.equals("")){
+        if (animal.isEmpty()){
             if (animals.contains(s)){
                 animal=s;
                 return true;
@@ -337,7 +337,7 @@ public class Node extends JButton {
     }
 
     public String toString(){
-        return val+getPlaced();
+        return val;
     }
 
     public HashSet<String> getLand(){

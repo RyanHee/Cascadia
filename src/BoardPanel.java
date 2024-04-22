@@ -19,6 +19,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private JButton up,down,right,left;
     private BufferedImage outline, dpad;
     private int moveUD=0, moveLR=0;
+    private HashMap<String, String>mp;
 
     public BoardPanel (Node n, HashMap<String, BufferedImage[]>map, Panel BigPan){
 
@@ -27,6 +28,12 @@ public class BoardPanel extends JPanel implements ActionListener {
         setBackground(new Color(222,184,135));
         //setBackground(new Color(3, 107, 156));
         bigPanel=BigPan;
+        mp=new HashMap<>();
+        mp.put("M", "Mountain");
+        mp.put("D", "Desert");
+        mp.put("S", "Swamp");
+        mp.put("L", "Lake");
+        mp.put("F", "Forest");
 
         up   =new InvisButton("");
         down =new InvisButton("");
@@ -198,6 +205,7 @@ public class BoardPanel extends JPanel implements ActionListener {
                 if (setCurNodeAnimal(bigPanel.getCurAnimal())){
                     //if keystone tile-> add nature token
                     String[] hold = curNode.getSides();
+                    /*
                     for(int i =0; i<6;i++) {
                     	if(hold[i].equals("D")) {
                     		hold[i] = "Desert";
@@ -215,6 +223,8 @@ public class BoardPanel extends JPanel implements ActionListener {
                     		hold[i] = "Swamp";
                     	}
                     }
+
+                     */
                     if(bigPanel.getCurAnimal().equals("B")) {
                     	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getPlayerNum()+1)+ " placed a bear token.");
                     }
@@ -231,12 +241,12 @@ public class BoardPanel extends JPanel implements ActionListener {
                     	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getPlayerNum()+1)+ " placed a salmon token");
                     }
                     if(hold[0].equals(hold[3])) {
-                        bigPanel.getGame().addAction("It was placed on a " +hold[0]+" tile.");
+                        bigPanel.getGame().addAction("It was placed on a " +mp.get(hold[0])+" tile.");
                     	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getPlayerNum()+1)+ " gained a nature token.");
                     	bigPanel.getGame().getCurrPlayer().addNt();
                     }
                     else {
-                    	bigPanel.getGame().addAction("It was placed on a " +hold[0]+" and "+hold[3]+" tile.");
+                    	bigPanel.getGame().addAction("It was placed on a " +mp.get(hold[0])+" and "+mp.get(hold[3])+" tile.");
                     }
                     bigPanel.nextA();
                     bigPanel.nextTurn();
