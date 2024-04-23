@@ -102,7 +102,19 @@ public class Panel extends JPanel implements ActionListener {
         confirmClear.addActionListener(this);
         clearAnimals.addActionListener(this);
         mixMatch.addActionListener(this);
-       
+        
+        add(nextB);
+        add(cancelB);
+        add(confirmB);
+        add(cancelB);
+        add(help);
+        add(scoreCards);
+        add(actionLog);
+        add(useNature);
+        add(removeDups);
+        add(confirmClear);
+        add(clearAnimals);
+        add(mixMatch);
 
         //test=new Node("", "MS-FHB");
 
@@ -111,7 +123,8 @@ public class Panel extends JPanel implements ActionListener {
         prog = 102;
         rotate = new HexButton("arrow.png");
         rotate.addActionListener(this);
-
+        add(rotate);
+        
         bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
         add(bp);
         setBackground(Color.WHITE);
@@ -122,6 +135,13 @@ public class Panel extends JPanel implements ActionListener {
     public void paint(Graphics g){
         super.paint(g);
         game.updateScore();
+        bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
+        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15-10, getHeight()/15);
+        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
+        confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
+        help.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
+        scoreCards.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
+        actionLog.setBounds(getWidth()/3+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
         g.setColor(new Color(0,0,0));
         g.setFont(new Font("Arial", Font.PLAIN, 30));
         g.drawString("Turn "+game.getTurn(), getWidth()/40-20, 40);
@@ -149,9 +169,13 @@ public class Panel extends JPanel implements ActionListener {
         for(int i = 0;i<5;i++) {
             g.drawRect(getWidth()/7-i, getHeight()/8-i, getWidth() - getWidth() / 3+2*i, getHeight()*3/4 +2*i);
         }
-        bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
-        add(cancelB);
-        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
+        
+        removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
+        useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
+        confirmClear.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
+        clearAnimals.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
+        mixMatch.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
+        rotate.setBounds(125, 490, 50, 50);
         //cancelB.setVisible(false);//make buttons appear at right time
         if(tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) {
         	cancelB.setVisible(true);
@@ -178,26 +202,6 @@ public class Panel extends JPanel implements ActionListener {
         	confirmB.setVisible(false);
         	rotate.setVisible(false);
         }
-        add(nextB);
-        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15-10, getHeight()/15);
-        add(confirmB);
-        confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
-        add(help);
-        help.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
-        add(scoreCards);
-        scoreCards.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
-        add(actionLog);
-        actionLog.setBounds(getWidth()/3+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
-        add(useNature);
-        useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
-        add(removeDups);
-        removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
-        add(confirmClear);
-        confirmClear.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
-        add(clearAnimals);
-        clearAnimals.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
-        add(mixMatch);
-        mixMatch.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
         if(!natureTokenUsed) {
         	clearAnimals.setVisible(false);
         	mixMatch.setVisible(false);
@@ -213,10 +217,6 @@ public class Panel extends JPanel implements ActionListener {
         //only show removeDups when 3 animals are same
         
 
-        boolean match12 = (game.getAnimalToken4()[0].equals(game.getAnimalToken4()[1]));
-        boolean match34 = (game.getAnimalToken4()[2].equals(game.getAnimalToken4()[3]));
-        boolean match23 = (game.getAnimalToken4()[1].equals(game.getAnimalToken4()[2]));
-        //4 animals are same
 
 
 
@@ -234,8 +234,7 @@ public class Panel extends JPanel implements ActionListener {
 
 
        
-        add(rotate);
-        rotate.setBounds(125, 490, 50, 50);
+       
         //left.showButton();
         
         for (int i=0;i<4;i++){
@@ -280,10 +279,10 @@ public class Panel extends JPanel implements ActionListener {
         
 
         if(prog<=100){
-            g2.setStroke(new BasicStroke(6));
-        g2.setColor(Color.BLACK);
-       g2.drawRect(getWidth()/4, getHeight()/10*9, getWidth()/3, getHeight()/20);
-        g2.setColor(Color.GREEN);
+        	g2.setStroke(new BasicStroke(6));
+        	g2.setColor(Color.BLACK);
+        	g2.drawRect(getWidth()/4, getHeight()/10*9, getWidth()/3, getHeight()/20);
+        	g2.setColor(Color.GREEN);
             g2.fillRect(getWidth()/4, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
         }
 
@@ -670,6 +669,8 @@ public class Panel extends JPanel implements ActionListener {
     	
     	
     	if(e.getSource().equals(cancelB)&&state==4 &&!mixMatchUsed) {
+    		game.returnAnimalToken(game.getAnimalToken4()[numSelectedAnimal]);
+            game.updateAnimal4(numSelectedAnimal);
             nextTurn();
     		repaint();
     		return;
