@@ -111,7 +111,8 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         if (animalTokenMap.get(n.getAnimal())!=null){
             //System.out.println("animal: "+n.getAnimal());
-            g.drawImage(animalTokenMap.get(n.getAnimal())[0], (x-17+w*50/116), (y-25+h/2), 50, 50, null);
+            g.drawImage(animalTokenMap.get(n.getAnimal())[0], x+8+w/2-(int)(25*scale), y+h/2-(int)(25*scale), (int)(50*scale),(int)(50*scale), null);
+
         }
         g2.dispose();
         n.paintComponent(g);
