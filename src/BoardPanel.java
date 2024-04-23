@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.Buffer;
+import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -20,9 +21,12 @@ public class BoardPanel extends JPanel implements ActionListener {
     private BufferedImage outline, dpad;
     private int moveUD=0, moveLR=0;
     private HashMap<String, String>mp;
-
+    private double scale;
+    
     public BoardPanel (Node n, HashMap<String, BufferedImage[]>map, Panel BigPan){
+        super();
 
+        scale = 1;
         board=n;
         animalTokenMap=map;
         setBackground(new Color(222,184,135));
@@ -53,8 +57,8 @@ public class BoardPanel extends JPanel implements ActionListener {
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        int w=116;
-        int h=116;
+        int w=120;
+        int h=120;
         visited =new HashSet<>();
         
         g.translate(r,u);
@@ -68,7 +72,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         down.setBounds(getWidth()-60, getHeight()-30,30,30);
         g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, 90, 90, null);
         
-        putButtons(g, board,getWidth()/2-50, getHeight()/2-h, w, h);
+        putButtons(g, board,getWidth()/2-50, getHeight()/2-h, (int)(w*scale),  (int)(h*scale));
 //
     }
     private void putButtons(Graphics g, Node n, int x, int y, int w, int h){
@@ -99,11 +103,11 @@ public class BoardPanel extends JPanel implements ActionListener {
             }
         }
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.rotate(Math.toRadians(n.getRotateAngle()), x + 58, y + 58);
-        g2.drawImage(n.getImg(), x + 8, y, w * 50 / 58, h, null);
+        g2.rotate(Math.toRadians(n.getRotateAngle()),x+8+ w*50/116,y+ (h/2));
+        g2.drawImage(n.getImg(), x+8 , y, w * 50 / 58, h, null);
         g2.setStroke(new BasicStroke(2));
         g2.setColor(Color.BLACK);
-        g2.drawPolygon(xlst,ylst,6);
+        // g2.drawPolygon(xlst,ylst,6);
 
         if (animalTokenMap.get(n.getAnimal())!=null){
             //System.out.println("animal: "+n.getAnimal());
@@ -132,7 +136,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         ny[3]=y+h*3/4;
         ny[4]=y;
         ny[5]=y-h*3/4;
-
         for (int i=0;i<6;i++){
             putButtons(g, n.getNeighbors()[i], nx[i], ny[i], w, h);
         }
@@ -283,5 +286,12 @@ public class BoardPanel extends JPanel implements ActionListener {
         board=n;
         this.removeAll();
         repaint();
+    }
+    public void setScale(double x){
+    	scale= x;
+    }
+    public void setShift(int x,int y){
+        r=x;
+       u=y;
     }
 }

@@ -14,6 +14,7 @@ public class Game {
     private int turn = 1;
     private HashSet<Node> visited = new HashSet<>();
     private boolean animalAllowed = false;
+
     public Game() throws FileNotFoundException {
 
         Scanner sc = new Scanner(new File("names.txt"));
@@ -37,9 +38,6 @@ public class Game {
             animalDeck.add("H");
             animalDeck.add("S");
             animalDeck.add("F");
-
-
-
         }
         Collections.shuffle(animalDeck);
         Collections.shuffle(tileNames);
@@ -174,6 +172,9 @@ public class Game {
     public int getPlayerNum() {
     	return cur;
     }
+    public Player[] pList() {
+    	return playerlst;
+    }
 
     public void updateScore() {
     	int hold = cur;
@@ -232,4 +233,5 @@ public class Game {
     public Queue<String> getActionLog(){
     	return actionLog;
     }
+
 }

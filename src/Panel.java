@@ -31,10 +31,10 @@ public class Panel extends JPanel implements ActionListener {
     private JButton confirmClear, clearAnimals, mixMatch;
     private HashSet<Integer> animalsToClear = new HashSet<>();
     private String curVal, curAnimal;
-    private BoardPanel bp;
+    private BoardPanel bp,sp1,sp2,sp3;
     private BufferedImage dpad;
     private Game game;
-
+    private static int aggrrrrhhhhhhh;
     //private HexButton hexButton;
     public Panel() throws FileNotFoundException {
         nodeSelected=null;
@@ -90,7 +90,8 @@ public class Panel extends JPanel implements ActionListener {
         confirmClear = new JButton("Confirm Clearing Animals");
         clearAnimals = new JButton("Clear X Animals");
         mixMatch = new JButton("Mix & Match tile & token");
-        
+        rotate = new HexButton("arrow.png");
+
         confirmB.addActionListener(this);
         cancelB.addActionListener(this);
         nextB.addActionListener(this);
@@ -102,11 +103,9 @@ public class Panel extends JPanel implements ActionListener {
         confirmClear.addActionListener(this);
         clearAnimals.addActionListener(this);
         mixMatch.addActionListener(this);
-        
+        add(cancelB);
         add(nextB);
-        add(cancelB);
         add(confirmB);
-        add(cancelB);
         add(help);
         add(scoreCards);
         add(actionLog);
@@ -115,13 +114,19 @@ public class Panel extends JPanel implements ActionListener {
         add(confirmClear);
         add(clearAnimals);
         add(mixMatch);
+        add(rotate);
+
+        sp1 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
+        sp2 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
+        sp3 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
+        add(sp1); 
+        add(sp2);
+        add(sp3);
 
         //test=new Node("", "MS-FHB");
-
         curVal="";
         state=0;
         prog = 102;
-        rotate = new HexButton("arrow.png");
         rotate.addActionListener(this);
         add(rotate);
         
@@ -129,11 +134,13 @@ public class Panel extends JPanel implements ActionListener {
         add(bp);
         setBackground(Color.WHITE);
         setBackground(new Color(3, 107, 156));
+        aggrrrrhhhhhhh= 0;
     }
-
 
     public void paint(Graphics g){
         super.paint(g);
+        System.out.println(aggrrrrhhhhhhh++);
+
         game.updateScore();
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
         nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15-10, getHeight()/15);
@@ -146,36 +153,55 @@ public class Panel extends JPanel implements ActionListener {
         g.setFont(new Font("Arial", Font.PLAIN, 30));
         g.drawString("Turn "+game.getTurn(), getWidth()/40-20, 40);
         g.setFont(new Font("Arial", Font.PLAIN, 25));
-        g.drawString("Player "+(game.getPlayerNum()+1), getWidth()/15+30, 40);
+        g.drawString("Player "+(game.getPlayerNum()+1), getWidth()/15+40, 40);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
         g.drawImage(natureToken, getWidth()/5, 10, 50, 50, null);
         g.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 40);
         g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()/15+20, 70);
+        g.setColor(new Color(222,184,135));
+        g.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight());
+        g.setColor(Color.BLACK);
+        
         int yPlay = 0;
         for(int pNum = 1; pNum<5; pNum++) {
-        	if(pNum != game.getPlayerNum()+1) {
+        	if(pNum != game.getPlayerNum()+1){
+
+                if(yPlay==0){
+                    sp1.setScale(.2);
+                    sp1.setBoard(game.pList()[pNum-1].getBoard());
+                    sp1.setShift(0,(int)(120*.7));
+                    sp1.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+60,getWidth()*2/10,getHeight()*3/18);
+                    
+                }else if(yPlay==1){
+                    sp2.setScale(.2);
+                    sp2.setBoard(game.pList()[pNum-1].getBoard());
+                    sp2.setShift(0,(int)(120*.7));
+                    sp2.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+60,getWidth()*2/10,getHeight()*3/18);
+                    
+                }else  if(yPlay==2){
+                    sp3.setScale(.2);
+                    sp3.setBoard(game.pList()[pNum-1].getBoard());
+                    sp3.setShift(0,(int)(120*.7));
+                    sp3.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+60,getWidth()*2/10,getHeight()*3/18);
+                    
+                }
         		g.setFont(new Font("Arial", Font.PLAIN, 18));
-        		g.drawString("Player "+pNum, getWidth()*13/16 +10, getHeight()*yPlay/4 +50);
+        		g.drawString("Player "+pNum, getWidth()*13/16, getHeight()*yPlay/4 +50);
         		g.setFont(new Font("Arial", Font.PLAIN, 15));
-        		g.drawImage(natureToken, getWidth()*7/8+10, getHeight()*yPlay/4+30, 30, 30, null);
+        		g.drawImage(natureToken, getWidth()*7/8, getHeight()*yPlay/4+30, 30, 30, null);
         		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+40, getHeight()*yPlay/4+50);
         		g.setFont(new Font("Arial", Font.PLAIN, 10));
         		g.drawString("Current Score: "+String.valueOf(game.getPlayerList()[pNum-1].getScore()), getWidth()*13/14, getHeight()*yPlay/4+50);
-        		yPlay++;
         		//draw other players boards (but not as buttons)
-        		// drawBoard(g, game.getCurrPlayer().getBoard(), getWidth()*13/16 +10, getHeight()*yPlay/4 +70);
+
+                yPlay++;
         	}
         }
         for(int i = 0;i<5;i++) {
             g.drawRect(getWidth()/7-i, getHeight()/8-i, getWidth() - getWidth() / 3+2*i, getHeight()*3/4 +2*i);
         }
-        
-        removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
-        useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
-        confirmClear.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
-        clearAnimals.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
-        mixMatch.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
-        rotate.setBounds(125, 490, 50, 50);
+        bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
+        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
         //cancelB.setVisible(false);//make buttons appear at right time
         if(tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) {
         	cancelB.setVisible(true);
@@ -202,6 +228,7 @@ public class Panel extends JPanel implements ActionListener {
         	confirmB.setVisible(false);
         	rotate.setVisible(false);
         }
+
         if(!natureTokenUsed) {
         	clearAnimals.setVisible(false);
         	mixMatch.setVisible(false);
@@ -234,7 +261,7 @@ public class Panel extends JPanel implements ActionListener {
 
 
        
-       
+        rotate.setBounds(125, 490, 50, 50);
         //left.showButton();
         
         for (int i=0;i<4;i++){
@@ -276,23 +303,17 @@ public class Panel extends JPanel implements ActionListener {
         	}
         }
         Graphics2D g2 = (Graphics2D) g.create();
-        
-
         if(prog<=100){
-        	g2.setStroke(new BasicStroke(6));
-        	g2.setColor(Color.BLACK);
-        	g2.drawRect(getWidth()/4, getHeight()/10*9, getWidth()/3, getHeight()/20);
-        	g2.setColor(Color.GREEN);
-            g2.fillRect(getWidth()/4, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
+        g2.setStroke(new BasicStroke(6));
+        g2.setColor(Color.BLACK);
+        g2.drawRect(getWidth()/4, getHeight()/10*9, getWidth()/3, getHeight()/20);
+        g2.setColor(Color.GREEN);
+        g2.fillRect(getWidth()/4, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
         }
-
-        System.out.printf("--- %s\n",prog);
-
         if(prog<101){
             prog++;
         try{
             Thread.sleep(5);
-            System.out.println(prog);
         }
         catch (Exception E){
 
@@ -309,6 +330,16 @@ public class Panel extends JPanel implements ActionListener {
             }
             repaint();
         }
+        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15-10, getHeight()/15);
+        confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
+        help.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
+        scoreCards.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
+        actionLog.setBounds(getWidth()/3+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
+        useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
+        removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
+        confirmClear.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
+        clearAnimals.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
+        mixMatch.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
     }
 
     public int getState(){
@@ -333,7 +364,7 @@ public class Panel extends JPanel implements ActionListener {
 
         numSelectedAnimal=-1;
         drawHighlightAnimal=false;
-        repaint();
+
     }
     public void next(Node node){
         nodeSelected=node;
@@ -348,7 +379,6 @@ public class Panel extends JPanel implements ActionListener {
             System.out.println("blah");
         }
         numSelectedTile=-1;
-        repaint();
     }
     
     public void openWebPage(String url){
@@ -389,7 +419,7 @@ public class Panel extends JPanel implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-       
+
         //System.out.println(state);
     	
     	if(e.getSource().equals(actionLog)) {
@@ -682,6 +712,7 @@ public class Panel extends JPanel implements ActionListener {
             numSelectedAnimal=-1;
             drawHighlightAnimal=false;
             repaint();
+
             state--;
 
 
