@@ -35,6 +35,7 @@ public class Panel extends JPanel implements ActionListener {
     private BufferedImage dpad;
     private Game game;
     private static int aggrrrrhhhhhhh;
+    private boolean first = true;
     //private HexButton hexButton;
     public Panel() throws FileNotFoundException {
         nodeSelected=null;
@@ -141,7 +142,10 @@ public class Panel extends JPanel implements ActionListener {
         super.paint(g);
         System.out.println(aggrrrrhhhhhhh++);
 
-        game.updateScore();
+        if(first) {
+        	first = !first;
+        	game.updateScore();
+        }
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
         nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15-10, getHeight()/15);
         cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
@@ -206,15 +210,15 @@ public class Panel extends JPanel implements ActionListener {
         if(tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) {
         	cancelB.setVisible(true);
         	if(noAnimalPlace) {
-        		g.setFont(new Font("Arial", Font.PLAIN, 20));
-        		g.drawString("There is no place for this animal. Please click cancel to replace the animal and end your turn.", getWidth()/5, getHeight()*9/10+20);
+        		g.setFont(new Font("Arial", Font.PLAIN, 12));
+        		g.drawString("There is no place for this animal. Please click cancel to replace the animal and end your turn.", getWidth()*4/50, getHeight()*24/25);
         	}
         }
         //allow the user to choose not to keep animal
         else if(!noAnimalPlace && !clearAnimalsUsed && state == 3) {
         	cancelB.setVisible(true);
-        	g.setFont(new Font("Arial", Font.PLAIN, 20));
-    		g.drawString("You may choose to click cancel, not place an animal and end your turn.", getWidth()/5, getHeight()*9/10+20);
+        	g.setFont(new Font("Arial", Font.PLAIN, 12));
+    		g.drawString("You may choose to click cancel, not place an animal and end your turn.", getWidth()*4/50, getHeight()*24/25);
         }
         else {
         	cancelB.setVisible(false);
@@ -228,23 +232,26 @@ public class Panel extends JPanel implements ActionListener {
         	confirmB.setVisible(false);
         	rotate.setVisible(false);
         }
-
-        if(!natureTokenUsed) {
+        
+        if(game.getCurrPlayer().getNumTokens() == 0 || natureTokenUsed) {
+        	useNature.setVisible(false);
+        }
+        else if(!natureTokenUsed){
+        	useNature.setVisible(true);
         	clearAnimals.setVisible(false);
         	mixMatch.setVisible(false);
         	confirmClear.setVisible(false);
         }
-        
-        if(game.getCurrPlayer().getNumTokens() == 0) {
-        	useNature.setVisible(false);
-        }
-        else {
-        	useNature.setVisible(true);
-        }
         //only show removeDups when 3 animals are same
         
-
-
+        g.setFont(new Font("Arial", Font.PLAIN, 15));
+        g.drawImage(selectOutline, getWidth()*58/128, getHeight()*22/25, 45, 50, null);
+        g.drawString(game.getScoring().getLandScore().toString() +" / " /* and add habitat bonus*/, getWidth()*126/256, getHeight()*23/25);
+        String[] animal = new String[]{"B", "E", "F", "H", "S"};
+        for(int i = 0; i<animal.length; i++) {
+        	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*(134+15*i)/256, getHeight()*22/25, 50, 50, null);
+        	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*(145+15*i)/256, getHeight()*23/25);
+        }
 
 
         if(!dupAnimalsUsed) {
@@ -294,11 +301,11 @@ public class Panel extends JPanel implements ActionListener {
         
         if(actionLogUsed) {
         	Queue<String> actions = game.getActionLog();
-        	g.setFont(new Font("Comic Sans", Font.BOLD, 12));
+        	g.setFont(new Font("Comic Sans", Font.BOLD, 10));
             Iterator<String> it = actions.iterator();
             int i=0;
         	while (it.hasNext()) {
-        		g.drawString(it.next(), getWidth()*13/16+10, getHeight()*3/4+(i*20));
+        		g.drawString(it.next(), getWidth()*13/16+10, getHeight()*4/5+(i*20));
                 i++;
         	}
         }
@@ -306,12 +313,18 @@ public class Panel extends JPanel implements ActionListener {
         if(prog<=100){
         g2.setStroke(new BasicStroke(6));
         g2.setColor(Color.BLACK);
-        g2.drawRect(getWidth()/4, getHeight()/10*9, getWidth()/3, getHeight()/20);
+        g2.drawRect(getWidth()/15, getHeight()/10*9, getWidth()/3, getHeight()/20);
         g2.setColor(Color.GREEN);
-        g2.fillRect(getWidth()/4, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
+        g2.fillRect(getWidth()/15, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
         }
         if(prog<101){
             prog++;
+            help.setVisible(false);
+            scoreCards.setVisible(false);
+            actionLog.setVisible(false);
+            useNature.setVisible(false);
+            removeDups.setVisible(false);
+            nextB.setVisible(false);
         try{
             Thread.sleep(5);
         }
@@ -407,6 +420,7 @@ public class Panel extends JPanel implements ActionListener {
         help.setVisible(true);
     	scoreCards.setVisible(true);
         actionLog.setVisible(true);
+        nextB.setVisible(true);
         game.addAction("Next Turn: Player "+(game.getPlayerNum()+1));
         if(game.getTurn() > 20) {
         	//end the game
@@ -421,6 +435,10 @@ public class Panel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         //System.out.println(state);
+    	
+    	if(e.getSource().equals(scoreCards)) {
+    		//show scoring cards
+    	}
     	
     	if(e.getSource().equals(actionLog)) {
     		actionLogUsed = !actionLogUsed;
@@ -479,6 +497,7 @@ public class Panel extends JPanel implements ActionListener {
         	scoreCards.setVisible(false);
             actionLog.setVisible(false);
             useNature.setVisible(false);
+            dupAnimalsUsed = true;//turns off replace duplicate after using nature token
             removeDups.setVisible(false);
             clearAnimals.setVisible(true);
             mixMatch.setVisible(true);
@@ -599,7 +618,8 @@ public class Panel extends JPanel implements ActionListener {
             nodeSelected = null;
             if (!mixMatchUsed)
                 drawHighlightAnimal = true;
-
+            dupAnimalsUsed = true;
+            removeDups.setVisible(false);//turns off replace duplicate after placing tile
             state++;
             if(actionLogUsed) {
         		game.addAction("Player "+(game.getPlayerNum()+1)+" confirmed their tile placement.");

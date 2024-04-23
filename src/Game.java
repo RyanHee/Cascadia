@@ -87,6 +87,10 @@ public class Game {
 
     }
     
+    public Scoring getScoring() {
+    	return scoring;
+    }
+    
     public Player[] getPlayerList() {
     	return playerlst;
     }

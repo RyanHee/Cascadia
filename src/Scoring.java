@@ -31,10 +31,22 @@ public class Scoring {
         score+=foxA(node);
         score+=hawkA(node);
         score+=salmonC(node);
-        //System.out.println("Land: D" + landScore.get("D") + "F" + landScore.get("F") +"S" + landScore.get("S") + "L" + landScore.get("L") + "M" + landScore.get("M"));
-        //System.out.println("Animal: B" + animalScore.get("B") + "E" + animalScore.get("E") +"F" + animalScore.get("F") + "H" + animalScore.get("H") + "S" + animalScore.get("S"));
+        System.out.println("Land: D" + landScore.get("D") + "F" + landScore.get("F") +"S" + landScore.get("S") + "L" + landScore.get("L") + "M" + landScore.get("M"));
+        System.out.println("Animal: B" + animalScore.get("B") + "E" + animalScore.get("E") +"F" + animalScore.get("F") + "H" + animalScore.get("H") + "S" + animalScore.get("S"));
         //add bonus habitat score here
         return score;
+    }
+    
+    public Integer getAnimalScore(String s){
+    	return animalScore.get(s);
+    }
+    
+    public Integer getLandScore(){
+    	int sum =0;
+    	for(int i =0; i<landScore.size();i++) {
+    		sum+=landScore.get(land[i]);
+    	}
+    	return sum;
     }
 
     public int landMass(Node node){
