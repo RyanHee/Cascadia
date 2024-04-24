@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private Node curNode;
     private Panel bigPanel;
     private int r, u;
-    private JButton up,down,right,left;
+    private JButton up,down,right,left,mid;
     private BufferedImage outline, dpad;
     private int moveUD=0, moveLR=0;
     private HashMap<String, String>mp;
@@ -51,10 +51,14 @@ public class BoardPanel extends JPanel implements ActionListener {
         down =new InvisButton("");
         right=new InvisButton("");
         left =new InvisButton("");
+        mid =new InvisButton("");
+
         up.addActionListener(this);
         down.addActionListener(this);
         right.addActionListener(this);
         left.addActionListener(this);
+        mid.addActionListener(this);
+
         try{
             outline= ImageIO.read(new File("img/tileOutline.png"));
             dpad=ImageIO.read(new File("img/DPAD.png"));
@@ -71,16 +75,20 @@ public class BoardPanel extends JPanel implements ActionListener {
         System.out.printf("B%s\n",ahhhh++);
         g.translate(r,u);
         if(!sp){
-        add(up);
-        add(down);
-        add(left);
-        add(right);
-        left.setBounds(getWidth()-90, getHeight()-60 , 30,30);
-        right.setBounds(getWidth()-30 , getHeight()-60, 30, 30);
-        up.setBounds(getWidth()-60, getHeight()-90 ,30,30);
-        down.setBounds(getWidth()-60, getHeight()-30,30,30);
+            add(up);
+            add(down);
+            add(left);
+            add(right);
+            add(mid);
+            left.setBounds(getWidth()-90, getHeight()-60 , 30,30);
+            right.setBounds(getWidth()-30 , getHeight()-60, 30, 30);
+            up.setBounds(getWidth()-60, getHeight()-90 ,30,30);
+            down.setBounds(getWidth()-60, getHeight()-30,30,30);
+            mid.setBounds(getWidth()-60, getHeight()-60,30,30);
+
         g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, 90, 90, null);
         }
+        
         putButtons(g, board,getWidth()/2-50, getHeight()/2-h, (int)(w*scale),  (int)(h*scale));
 
 }
@@ -154,53 +162,36 @@ public class BoardPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(up)){
             System.out.println("UP");
-            if(moveUD < 6) {
-            	down.setVisible(true);
-            	moveUD++;
             	this.shift(0, -116);
-            }
-            else {
-            	up.setVisible(false);
-            }
+
             repaint();
             return;
         }
         if (e.getSource().equals(down)){
             System.out.println("DOWN");
-            if(moveUD > -6) {
-            	up.setVisible(true);
-            	moveUD--;
-            	this.shift(0, 116);
-            }
-            else {
-            	down.setVisible(false);
-            }
+            this.shift(0, 116);
+
+
             repaint();
             return;
         }
         if (e.getSource().equals(right)){
             System.out.println("RIGHT");
-            if(moveLR < 9) {
-            	left.setVisible(true);
-            	moveLR++;
-            	this.shift(100, 0);
-            }
-            else {
-            	right.setVisible(false);
-            }
+            this.shift(100, 0);
+
+
             repaint();
             return;
         }
         if (e.getSource().equals(left)){
             System.out.println("LEFT");
-            if(moveLR > -9) {
-            	right.setVisible(true);
-            	moveLR--;
-            	this.shift(-100, 0);
-            }
-            else {
-            	left.setVisible(false);
-            }
+            this.shift(-100, 0);
+            repaint();
+            return;
+        }
+        if (e.getSource().equals(mid)){
+            System.out.println("MID");
+            setShift(0,0);
             repaint();
             return;
         }
