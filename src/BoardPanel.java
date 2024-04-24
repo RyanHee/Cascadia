@@ -70,7 +70,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         right.setBounds(getWidth()-30 , getHeight()-60, 30, 30);
         up.setBounds(getWidth()-60, getHeight()-90 ,30,30);
         down.setBounds(getWidth()-60, getHeight()-30,30,30);
-        g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, 90, 90, null);
+        g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, (int)(90*scale), (int)(90*scale), null);
         
         putButtons(g, board,getWidth()/2-50, getHeight()/2-h, (int)(w*scale),  (int)(h*scale));
 //

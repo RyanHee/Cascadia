@@ -246,7 +246,7 @@ public class Panel extends JPanel implements ActionListener {
         
         g.setFont(new Font("Arial", Font.PLAIN, 15));
         g.drawImage(selectOutline, getWidth()*58/128, getHeight()*22/25, 45, 50, null);
-        g.drawString(game.getScoring().getLandScore().toString() +" / " /* and add habitat bonus*/, getWidth()*126/256, getHeight()*23/25);
+        g.drawString(game.getScoring().getLandScore().toString() +" / " + game.getScoring().getBonusScore().toString(), getWidth()*126/256, getHeight()*23/25);
         String[] animal = new String[]{"B", "E", "F", "H", "S"};
         for(int i = 0; i<animal.length; i++) {
         	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*(134+15*i)/256, getHeight()*22/25, 50, 50, null);

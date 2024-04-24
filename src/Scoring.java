@@ -22,6 +22,7 @@ public class Scoring {
         for (String s:land){
             landScore.put(s, 0);
         }
+        landScore.put("B", 0);//add bonus
     }
 
     public int score(Node node){
@@ -31,9 +32,9 @@ public class Scoring {
         score+=foxA(node);
         score+=hawkA(node);
         score+=salmonC(node);
-        System.out.println("Land: D" + landScore.get("D") + "F" + landScore.get("F") +"S" + landScore.get("S") + "L" + landScore.get("L") + "M" + landScore.get("M"));
-        System.out.println("Animal: B" + animalScore.get("B") + "E" + animalScore.get("E") +"F" + animalScore.get("F") + "H" + animalScore.get("H") + "S" + animalScore.get("S"));
+        System.out.println("Land: D" + landScore.get("D") + "F" + landScore.get("F") +"S" + landScore.get("S") + "L" + landScore.get("L") + "M" + landScore.get("M")+"Bonus"+landScore.get("B"));
         //add bonus habitat score here
+        System.out.println("Animal: B" + animalScore.get("B") + "E" + animalScore.get("E") +"F" + animalScore.get("F") + "H" + animalScore.get("H") + "S" + animalScore.get("S"));
         return score;
     }
     
@@ -47,6 +48,12 @@ public class Scoring {
     		sum+=landScore.get(land[i]);
     	}
     	return sum;
+    }
+    
+    //need to add bonus
+    public Integer getBonusScore() {
+    	landScore.put("B", 0);
+    	return landScore.get("B");
     }
 
     public int landMass(Node node){
