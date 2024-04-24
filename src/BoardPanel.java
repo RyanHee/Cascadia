@@ -113,7 +113,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         Graphics2D g2 = (Graphics2D) g.create();
         g2.rotate(Math.toRadians(n.getRotateAngle()),x+8+ w*50/116,y+ (h/2));
-        g2.drawImage(n.getImg(), x+8 , y, w * 50 / 58, h, null);
+        if(n.getPlaced()&&sp)g2.drawImage(n.getImg(), x+8 , y, w * 50 / 58, h, null);
+        if(!sp)g2.drawImage(n.getImg(), x+8 , y, w * 50 / 58, h, null);
         g2.setStroke(new BasicStroke(2));
         g2.setColor(Color.BLACK);
         // g2.drawPolygon(xlst,ylst,6);
@@ -295,6 +296,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         board=n;
         this.removeAll();
         repaint();
+
     }
     public void setScale(double x){
     	scale= x;
