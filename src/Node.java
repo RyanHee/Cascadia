@@ -36,7 +36,6 @@ public class Node extends JButton {
             img = ImageIO.read(new File("img/blank.png"));
         }
         catch (Exception e){
-            System.out.println("fuck2");
         }
     }
 
@@ -62,7 +61,6 @@ public class Node extends JButton {
             img = ImageIO.read(new File("img/Tile/"+val+".png"));
         }
         catch (Exception e){
-            System.out.println("fuck");
         }
 
         String[]lst=val.split("-");

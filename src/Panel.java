@@ -124,7 +124,6 @@ public class Panel extends JPanel implements ActionListener {
         add(sp2);
         add(sp3);
 
-        //test=new Node("", "MS-FHB");
         curVal="";
         state=0;
         prog = 102;
@@ -147,13 +146,7 @@ public class Panel extends JPanel implements ActionListener {
         	first = !first;
         	game.updateScore();
         }
-        bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
-        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15-10, getHeight()/15);
-        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
-        confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
-        help.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
-        scoreCards.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
-        actionLog.setBounds(getWidth()/3+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
+
         g.setColor(new Color(0,0,0));
         g.setFont(new Font("Arial", Font.PLAIN, 30));
         g.drawString("Turn "+game.getTurn(), getWidth()/40-20, 40);
@@ -176,7 +169,7 @@ public class Panel extends JPanel implements ActionListener {
         	if(pNum != game.getPlayerNum()+1){
 
                 if(yPlay==0){
-                    sp1.setScale(.2);
+                    sp1.setScale(.15);
                     sp1.sp = true;
                     sp1.setBoard(game.pList()[pNum-1].getBoard());
                     sp1.setShift(0,(int)(120*.7));
@@ -211,8 +204,7 @@ public class Panel extends JPanel implements ActionListener {
         for(int i = 0;i<5;i++) {
             g.drawRect(getWidth()/7-i, getHeight()/8-i, getWidth() - getWidth() / 3+2*i, getHeight()*3/4 +2*i);
         }
-        bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
-        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
+       
         //cancelB.setVisible(false);//make buttons appear at right time
         if(tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) {
         	cancelB.setVisible(true);
@@ -282,7 +274,6 @@ public class Panel extends JPanel implements ActionListener {
 
 
        
-        rotate.setBounds(125, 490, 50, 50);
         //left.showButton();
         
         for (int i=0;i<4;i++){
@@ -355,8 +346,10 @@ public class Panel extends JPanel implements ActionListener {
             catch (Exception E){
     
             }
-            repaint();
         }
+        rotate.setBounds(125, 490, 50, 50);
+        bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
+        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
         nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15-10, getHeight()/15);
         confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
         help.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
@@ -439,7 +432,7 @@ public class Panel extends JPanel implements ActionListener {
         if(game.getTurn() > 20) {
         	//end the game
         }
-        //repaint();
+        repaint();
         //return;
     }
     
@@ -449,7 +442,7 @@ public class Panel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         //System.out.println(state);
-    	
+
     	if(e.getSource().equals(scoreCards)) {
     		//show scoring cards
     	}
