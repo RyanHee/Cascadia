@@ -22,10 +22,11 @@ public class BoardPanel extends JPanel implements ActionListener {
     private int moveUD=0, moveLR=0;
     private HashMap<String, String>mp;
     private double scale;
+    public boolean sp;
     
     public BoardPanel (Node n, HashMap<String, BufferedImage[]>map, Panel BigPan){
         super();
-
+        sp = false;
         scale = 1;
         board=n;
         animalTokenMap=map;
@@ -62,13 +63,14 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         }
     }
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
+    public void paint(Graphics g){
+        super.paint(g);
         int w=120;
         int h=120;
         visited =new HashSet<>();
         
         g.translate(r,u);
+        if(!sp){
         add(up);
         add(down);
         add(left);
@@ -77,8 +79,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         right.setBounds(getWidth()-30 , getHeight()-60, 30, 30);
         up.setBounds(getWidth()-60, getHeight()-90 ,30,30);
         down.setBounds(getWidth()-60, getHeight()-30,30,30);
-        g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, (int)(90*scale), (int)(90*scale), null);
-        
+        g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, 90, 90, null);
+        }
         putButtons(g, board,getWidth()/2-50, getHeight()/2-h, (int)(w*scale),  (int)(h*scale));
 //
     }
