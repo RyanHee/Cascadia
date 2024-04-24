@@ -220,6 +220,9 @@ public class Panel extends JPanel implements ActionListener {
         		g.setFont(new Font("Arial", Font.PLAIN, 12));
         		g.drawString("There is no place for this animal. Please click cancel to replace the animal and end your turn.", getWidth()*4/50, getHeight()*24/25);
         	}
+        	if(tileChose) {
+        		removeDups.setVisible(false);
+        	}
         }
         //allow the user to choose not to keep animal
         else if(!noAnimalPlace && !clearAnimalsUsed && state == 3) {
@@ -231,6 +234,7 @@ public class Panel extends JPanel implements ActionListener {
         	cancelB.setVisible(false);
         }
         if(nodeSelected!=null) {
+        	//removeDups.setVisible(false);
         	confirmB.setVisible(true);
         	g.drawImage(rotateImage, 125, 488, 50, 55, null);
         	rotate.setVisible(true);
@@ -249,6 +253,9 @@ public class Panel extends JPanel implements ActionListener {
         	mixMatch.setVisible(false);
         	confirmClear.setVisible(false);
         }
+       
+        	
+       
         //only show removeDups when 3 animals are same
         
         g.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -261,7 +268,7 @@ public class Panel extends JPanel implements ActionListener {
         }
 
 
-        if(!dupAnimalsUsed) {
+        if(!dupAnimalsUsed && !tileChose) {
         	//3 same animal
             if (game.cntDup()==3){
                 removeDups.setVisible(true);
