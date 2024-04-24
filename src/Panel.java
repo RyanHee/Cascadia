@@ -37,7 +37,7 @@ public class Panel extends JPanel implements ActionListener {
     private static int aggrrrrhhhhhhh;
     private boolean first = true;
     //private HexButton hexButton;
-    public Panel() throws FileNotFoundException {
+    public Panel()  {
         nodeSelected=null;
         numSelectedAnimal=-1;
         game=new Game();
@@ -141,7 +141,7 @@ public class Panel extends JPanel implements ActionListener {
 
     public void paint(Graphics g){
         super.paint(g);
-        System.out.println(aggrrrrhhhhhhh++);
+        System.out.printf("P%s\n",aggrrrrhhhhhhh++);
 
         if(first) {
         	first = !first;
@@ -163,7 +163,11 @@ public class Panel extends JPanel implements ActionListener {
         g.drawImage(natureToken, getWidth()/5, 10, 50, 50, null);
         g.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 40);
         g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()/15+20, 70);
+       
         g.setColor(new Color(222,184,135));
+        g.setColor(new Color(159, 223, 223));
+        g.setColor(new Color(165, 213, 232));
+
         g.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight());
         g.setColor(Color.BLACK);
         
@@ -194,14 +198,13 @@ public class Panel extends JPanel implements ActionListener {
                     
                 }
         		g.setFont(new Font("Arial", Font.PLAIN, 18));
-        		g.drawString("Player "+pNum, getWidth()*13/16, getHeight()*yPlay/4 +50);
+        		g.drawString("Player "+pNum, getWidth()*13/16+10, getHeight()*yPlay/4 +50);
         		g.setFont(new Font("Arial", Font.PLAIN, 15));
         		g.drawImage(natureToken, getWidth()*7/8, getHeight()*yPlay/4+30, 30, 30, null);
         		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+40, getHeight()*yPlay/4+50);
         		g.setFont(new Font("Arial", Font.PLAIN, 10));
         		g.drawString("Current Score: "+String.valueOf(game.getPlayerList()[pNum-1].getScore()), getWidth()*13/14, getHeight()*yPlay/4+50);
         		//draw other players boards (but not as buttons)
-
                 yPlay++;
         	}
         }

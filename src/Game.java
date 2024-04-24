@@ -15,9 +15,13 @@ public class Game {
     private HashSet<Node> visited = new HashSet<>();
     private boolean animalAllowed = false;
 
-    public Game() throws FileNotFoundException {
-
-        Scanner sc = new Scanner(new File("names.txt"));
+    public Game() {
+        Scanner sc = new Scanner(System.in);
+        try{
+         sc = new Scanner(new File("names.txt"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         tileNames = new ArrayList<>();
         animalDeck = new ArrayList<>();
         actionLog = new LinkedList<>();
@@ -55,7 +59,15 @@ public class Game {
             animalToken4[i]= animalDeck.remove(0);
         }
         startTile=new ArrayList<>();
-        sc = new Scanner(new File("start.txt"));
+
+        try{
+            sc = new Scanner(new File("start.txt"));
+        }catch(Exception e){
+               e.printStackTrace();
+           }
+
+
+
         while (sc.hasNext()){
             String v = sc.next();
             if (v.split("-")[1].length()==1){

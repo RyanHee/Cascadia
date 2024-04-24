@@ -23,7 +23,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private HashMap<String, String>mp;
     private double scale;
     public boolean sp;
-    
+    public static int ahhhh;
     public BoardPanel (Node n, HashMap<String, BufferedImage[]>map, Panel BigPan){
         super();
         sp = false;
@@ -31,10 +31,10 @@ public class BoardPanel extends JPanel implements ActionListener {
         board=n;
         animalTokenMap=map;
         
-        setBackground(new Color(159, 223, 223));//bright light sky blue
-        //setBackground(new Color(210, 232, 206));//light mint
-        //setBackground(new Color(200, 207, 208));//light gray-faint blue
-        //setBackground(new Color(165, 213, 232));//light glacier blue
+        // setBackground(new Color(159, 223, 223));//bright light sky blue
+        // setBackground(new Color(210, 232, 206));//light mint
+        // setBackground(new Color(200, 207, 208));//light gray-faint blue
+        setBackground(new Color(165, 213, 232));//light glacier blue
         //setBackground(new Color(100, 139, 37));//medium green
         //setBackground(new Color(216, 191, 216));/*203, 195, 227*/ /*162, 162, 208*/ //all are light purple
         //setBackground(new Color(222,184,135));//tan
@@ -68,7 +68,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         int w=120;
         int h=120;
         visited =new HashSet<>();
-        
+        System.out.printf("B%s\n",ahhhh++);
         g.translate(r,u);
         if(!sp){
         add(up);
@@ -82,8 +82,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, 90, 90, null);
         }
         putButtons(g, board,getWidth()/2-50, getHeight()/2-h, (int)(w*scale),  (int)(h*scale));
-//
-    }
+
+}
     private void putButtons(Graphics g, Node n, int x, int y, int w, int h){
         if (n==null){
             return;
@@ -150,7 +150,6 @@ public class BoardPanel extends JPanel implements ActionListener {
             putButtons(g, n.getNeighbors()[i], nx[i], ny[i], w, h);
         }
     }
-    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(up)){
             System.out.println("UP");
