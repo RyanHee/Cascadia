@@ -86,10 +86,12 @@ public class BoardPanel extends JPanel implements ActionListener {
             down.setBounds(getWidth()-60, getHeight()-30,30,30);
             mid.setBounds(getWidth()-60, getHeight()-60,30,30);
 
-        g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, 90, 90, null);
         }
         
         putButtons(g, board,getWidth()/2-50, getHeight()/2-h, (int)(w*scale),  (int)(h*scale));
+
+        if(!sp)g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, 90, 90, null);
+
 
 }
     private void putButtons(Graphics g, Node n, int x, int y, int w, int h){
