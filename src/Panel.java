@@ -156,7 +156,6 @@ public class Panel extends JPanel implements ActionListener {
         
         HashMap<String, Integer> map = game.getBonuses();
         String h = Integer.toString(game.getPlayerNum());
-        
         game.getScoring().score(game.getCurrPlayer().getBoard());
         g.drawString(game.getScoring().getLandScore().toString() +" / "+map.get(h), getWidth()*126/256, getHeight()*23/25);
         String[] animal = new String[]{"B", "E", "F", "H", "S"};
@@ -209,6 +208,23 @@ public class Panel extends JPanel implements ActionListener {
                     sp3.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+60,getWidth()*2/10,getHeight()*3/18);
                     
                 }
+                
+                g.setFont(new Font("Arial", Font.PLAIN, 15));
+                g.drawImage(selectOutline, getWidth()*58/128, getHeight()*22/25, 45, 50, null);
+                
+                //System.out.println("bruh time"+game.getPlayerList()[0].getScore());
+                
+                
+                
+                game.getScoring().score(game.getPlayerList()[pNum-1].getBoard());
+                g.setFont(new Font("Arial", Font.PLAIN, 8));
+                g.drawImage(selectOutline,  getWidth()*5/6-getWidth()/64, getHeight()*(yPlay+1)/4+getHeight()*3/256, 22, 25, null);
+                g.drawString(game.getScoring().getLandScore().toString() +" / "+map.get(Integer.toString(pNum-1)), getWidth()*5/6+getWidth()/256, getHeight()*(yPlay+1)/4+getHeight()/32);
+                for(int i = 0; i<animal.length; i++) {
+                	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*143/168+getWidth()*i*15/512, getHeight()*(yPlay+1)/4+getHeight()*1/64, 20, 20, null);
+                	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*5/6+getWidth()*(i*15+18)/512, getHeight()*(yPlay+1)/4+getHeight()/32);
+                }
+                
                 game.getPlayerList()[pNum-1].setBonus(map.get(Integer.toString(pNum-1)));
         		g.setFont(new Font("Arial", Font.PLAIN, 18));
         		g.drawString("Player "+pNum, getWidth()*13/16+10, getHeight()*yPlay/4 +50);
@@ -230,8 +246,8 @@ public class Panel extends JPanel implements ActionListener {
         if(tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) {
         	cancelB.setVisible(true);
         	if(noAnimalPlace) {
-        		g.setFont(new Font("Arial", Font.PLAIN, 12));
-        		g.drawString("There is no place for this animal. Please click cancel to replace the animal and end your turn.", getWidth()*4/50, getHeight()*24/25);
+        		g.setFont(new Font("Arial", Font.PLAIN, 15));
+        		g.drawString("There is no place for this animal. Please click cancel to replace the animal and end your turn.", getWidth()*4/50, getHeight()*23/25);
         	}
         	if(tileChose) {
         		removeDups.setVisible(false);
@@ -240,8 +256,8 @@ public class Panel extends JPanel implements ActionListener {
         //allow the user to choose not to keep animal
         else if(!noAnimalPlace && !clearAnimalsUsed && state == 3) {
         	cancelB.setVisible(true);
-        	g.setFont(new Font("Arial", Font.PLAIN, 12));
-    		g.drawString("You may choose to click cancel, not place an animal and end your turn.", getWidth()*4/50, getHeight()*24/25);
+        	g.setFont(new Font("Arial", Font.PLAIN, 15));
+    		g.drawString("You may choose to click cancel, not place an animal and end your turn.", getWidth()*4/50, getHeight()*23/25);
         }
         else {
         	cancelB.setVisible(false);
@@ -266,13 +282,6 @@ public class Panel extends JPanel implements ActionListener {
         	mixMatch.setVisible(false);
         	confirmClear.setVisible(false);
         }
-       
-        	
-       
-       
-        
-       
-
 
         if(!dupAnimalsUsed && !tileChose) {
         	//3 same animal
@@ -344,6 +353,9 @@ public class Panel extends JPanel implements ActionListener {
             useNature.setVisible(false);
             removeDups.setVisible(false);
             nextB.setVisible(false);
+            confirmClear.setVisible(false);
+            clearAnimals.setVisible(false);
+            mixMatch.setVisible(false);
         try{
             Thread.sleep(5);
         }
@@ -442,6 +454,7 @@ public class Panel extends JPanel implements ActionListener {
     	scoreCards.setVisible(true);
         actionLog.setVisible(true);
         nextB.setVisible(true);
+        
         game.addAction("Next Turn: Player "+(game.getPlayerNum()+1));
         if(game.getTurn() > 20) {
         	//end the game
