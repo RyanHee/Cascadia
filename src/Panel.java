@@ -218,21 +218,21 @@ public class Panel extends JPanel implements ActionListener {
                 
                 game.getScoring().score(game.getPlayerList()[pNum-1].getBoard());
                 g.setFont(new Font("Arial", Font.PLAIN, 8));
-                g.drawImage(selectOutline,  getWidth()*5/6-getWidth()/64, getHeight()*(yPlay+1)/4+getHeight()*3/256, 22, 25, null);
-                g.drawString(game.getScoring().getLandScore().toString() +" / "+map.get(Integer.toString(pNum-1)), getWidth()*5/6+getWidth()/256, getHeight()*(yPlay+1)/4+getHeight()/32);
+                g.drawImage(selectOutline,  getWidth()*5/6-getWidth()/64,  getHeight()*yPlay/4+30, 22, 25, null);
+                g.drawString(game.getScoring().getLandScore().toString() +" / "+map.get(Integer.toString(pNum-1)), getWidth()*5/6+getWidth()/256, getHeight()*yPlay/4+getHeight()*1/16);
                 for(int i = 0; i<animal.length; i++) {
-                	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*143/168+getWidth()*i*15/512, getHeight()*(yPlay+1)/4+getHeight()*1/64, 20, 20, null);
-                	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*5/6+getWidth()*(i*15+18)/512, getHeight()*(yPlay+1)/4+getHeight()/32);
+                	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*143/168+getWidth()*i*15/512, getHeight()*(yPlay)/4+getHeight()*3/64, 20, 20, null);
+                	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*5/6+getWidth()*(i*15+18)/512, getHeight()*yPlay/4+getHeight()*1/16);
                 }
                 
                 game.getPlayerList()[pNum-1].setBonus(map.get(Integer.toString(pNum-1)));
         		g.setFont(new Font("Arial", Font.PLAIN, 18));
-        		g.drawString("Player "+pNum, getWidth()*13/16+10, getHeight()*yPlay/4 +50);
+        		g.drawString("Player "+pNum, getWidth()*13/16+10,getHeight()*(yPlay)/4+getHeight()*8/256);
         		g.setFont(new Font("Arial", Font.PLAIN, 15));
-        		g.drawImage(natureToken, getWidth()*7/8, getHeight()*yPlay/4+30, 30, 30, null);
-        		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+40, getHeight()*yPlay/4+50);
+        		g.drawImage(natureToken, getWidth()*7/8+5, getHeight()*yPlay/4+1, 30, 30, null);
+        		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+40, getHeight()*yPlay/4+20);
         		g.setFont(new Font("Arial", Font.PLAIN, 10));
-        		g.drawString("Current Score: "+String.valueOf(game.getPlayerList()[pNum-1].getScore() +game.getPlayerList()[pNum-1].getBonus()), getWidth()*13/14, getHeight()*yPlay/4+50);
+        		g.drawString("Current Score: "+String.valueOf(game.getPlayerList()[pNum-1].getScore() +game.getPlayerList()[pNum-1].getBonus()), getWidth()*13/14, getHeight()*yPlay/4+getHeight()*7/256);
         		//draw other players boards (but not as buttons)
                 yPlay++;
         	}

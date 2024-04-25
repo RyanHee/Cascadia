@@ -93,7 +93,7 @@ public class Game {
         for (int i=0;i<playerlst.length;i++){
             playerlst[i]=new Player(startTile.get(i), i);
         }
-        while(tileNames.size()!= (20*playerlst.length)+3) {
+        while(tileNames.size()> (20*playerlst.length)+3) {
         	tileNames.remove(tileNames.size()-1);
         }
         cur=0;
