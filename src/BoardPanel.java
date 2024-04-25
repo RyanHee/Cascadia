@@ -127,7 +127,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         if(!sp)g2.drawImage(n.getImg(), x+8 , y, w * 50 / 58, h, null);
         g2.setStroke(new BasicStroke(2));
         g2.setColor(Color.BLACK);
-        // g2.drawPolygon(xlst,ylst,6);
+        if(!sp) g2.drawPolygon(xlst,ylst,6);
 
         if (animalTokenMap.get(n.getAnimal())!=null){
             //System.out.println("animal: "+n.getAnimal());
