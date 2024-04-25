@@ -187,7 +187,7 @@ public class Panel extends JPanel implements ActionListener {
         	if(pNum != game.getPlayerNum()+1){
 
                 if(yPlay==0){
-                    sp1.setScale(.15);
+                    sp1.setScale(.2);
                     sp1.sp = true;
                     sp1.setBoard(game.pList()[pNum-1].getBoard());
                     sp1.setShift(0,(int)(120*.7));
@@ -246,8 +246,8 @@ public class Panel extends JPanel implements ActionListener {
         if(tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) {
         	cancelB.setVisible(true);
         	if(noAnimalPlace) {
-        		g.setFont(new Font("Arial", Font.PLAIN, 15));
-        		g.drawString("There is no place for this animal. Please click cancel to replace the animal and end your turn.", getWidth()*4/50, getHeight()*23/25);
+        		g.setFont(new Font("Arial", Font.PLAIN, 13));
+        		g.drawString("There is no place for this animal. Please click cancel to replace the animal and end your turn.", getWidth()*1/50, getHeight()*23/25);
         	}
         	if(tileChose) {
         		removeDups.setVisible(false);
