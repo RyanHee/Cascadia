@@ -141,10 +141,28 @@ public class Panel extends JPanel implements ActionListener {
     public void paint(Graphics g){
         super.paint(g);
         System.out.printf("P%s\n",aggrrrrhhhhhhh++);
-
+        
+        //System.out.println(game.getList());
         if(first) {
         	first = !first;
         	game.updateScore();
+        	
+        }
+        	
+        g.setFont(new Font("Arial", Font.PLAIN, 15));
+        g.drawImage(selectOutline, getWidth()*58/128, getHeight()*22/25, 45, 50, null);
+        
+        //System.out.println("bruh time"+game.getPlayerList()[0].getScore());
+        
+        HashMap<String, Integer> map = game.getBonuses();
+        String h = Integer.toString(game.getPlayerNum());
+        
+        game.getScoring().score(game.getCurrPlayer().getBoard());
+        g.drawString(game.getScoring().getLandScore().toString() +" / "+map.get(h), getWidth()*126/256, getHeight()*23/25);
+        String[] animal = new String[]{"B", "E", "F", "H", "S"};
+        for(int i = 0; i<animal.length; i++) {
+        	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*(134+15*i)/256, getHeight()*22/25, 50, 50, null);
+        	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*(145+15*i)/256, getHeight()*23/25);
         }
 
         g.setColor(new Color(0,0,0));
@@ -157,6 +175,7 @@ public class Panel extends JPanel implements ActionListener {
         g.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 40);
         g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()/15+20, 70);
        
+        //System.out.println("bruh "+game.getPlayerList()[0].getScore());
         g.setColor(new Color(222,184,135));
         g.setColor(new Color(159, 223, 223));
         g.setColor(new Color(165, 213, 232));
@@ -190,17 +209,19 @@ public class Panel extends JPanel implements ActionListener {
                     sp3.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+60,getWidth()*2/10,getHeight()*3/18);
                     
                 }
+                game.getPlayerList()[pNum-1].setBonus(map.get(Integer.toString(pNum-1)));
         		g.setFont(new Font("Arial", Font.PLAIN, 18));
         		g.drawString("Player "+pNum, getWidth()*13/16+10, getHeight()*yPlay/4 +50);
         		g.setFont(new Font("Arial", Font.PLAIN, 15));
         		g.drawImage(natureToken, getWidth()*7/8, getHeight()*yPlay/4+30, 30, 30, null);
         		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+40, getHeight()*yPlay/4+50);
         		g.setFont(new Font("Arial", Font.PLAIN, 10));
-        		g.drawString("Current Score: "+String.valueOf(game.getPlayerList()[pNum-1].getScore()), getWidth()*13/14, getHeight()*yPlay/4+50);
+        		g.drawString("Current Score: "+String.valueOf(game.getPlayerList()[pNum-1].getScore() +game.getPlayerList()[pNum-1].getBonus()), getWidth()*13/14, getHeight()*yPlay/4+50);
         		//draw other players boards (but not as buttons)
                 yPlay++;
         	}
         }
+        
         for(int i = 0;i<5;i++) {
             g.drawRect(getWidth()/7-i, getHeight()/8-i, getWidth() - getWidth() / 3+2*i, getHeight()*3/4 +2*i);
         }
@@ -248,16 +269,9 @@ public class Panel extends JPanel implements ActionListener {
        
         	
        
-        //only show removeDups when 3 animals are same
+       
         
-        g.setFont(new Font("Arial", Font.PLAIN, 15));
-        g.drawImage(selectOutline, getWidth()*58/128, getHeight()*22/25, 45, 50, null);
-        g.drawString(game.getScoring().getLandScore().toString() +" / " + game.getScoring().getBonusScore().toString(), getWidth()*126/256, getHeight()*23/25);
-        String[] animal = new String[]{"B", "E", "F", "H", "S"};
-        for(int i = 0; i<animal.length; i++) {
-        	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*(134+15*i)/256, getHeight()*22/25, 50, 50, null);
-        	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*(145+15*i)/256, getHeight()*23/25);
-        }
+       
 
 
         if(!dupAnimalsUsed && !tileChose) {
@@ -411,7 +425,7 @@ public class Panel extends JPanel implements ActionListener {
 	}
     
     public void nextTurn() {
-    	game.curPlayerScore();//sets score of player
+    	//game.curPlayerScore();//sets score of player
     	game.nextTurn();
         bp.setBoard(game.getCurrPlayer().getBoard());
         state=0;

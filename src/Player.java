@@ -2,6 +2,7 @@ public class Player {
     private int turn;
     private int nt;
     private int score;
+    private int bonus;
     private Node board;
     public Player(Node n, int t){
         turn = t;
@@ -37,8 +38,14 @@ public class Player {
     	score = s;
     }
 
+    public int getBonus() {
+    	return bonus;
+    }
 
-
+    public void setBonus(int b) {
+    	bonus = b;
+    }
 
 
 }
+
