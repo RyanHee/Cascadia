@@ -18,7 +18,7 @@ public class Game {
     private HashMap<String, String> bonuses;
     private HashMap<String, Integer> bonus = new HashMap<>();
     
-    public Game() {
+    public Game(int numOfPlayers) {
         Scanner sc = new Scanner(System.in);
         try{
          sc = new Scanner(new File("names.txt"));
@@ -89,11 +89,11 @@ public class Game {
         Collections.shuffle(startTile);
 
 
-        playerlst=new Player[4];
-        for (int i=0;i<4;i++){
+        playerlst=new Player[numOfPlayers];
+        for (int i=0;i<playerlst.length;i++){
             playerlst[i]=new Player(startTile.get(i), i);
         }
-        while(tileNames.size()!= (4*playerlst.length)+3) {
+        while(tileNames.size()!= (20*playerlst.length)+3) {
         	tileNames.remove(tileNames.size()-1);
         }
         cur=0;

@@ -40,7 +40,7 @@ public class Panel extends JPanel implements ActionListener {
     public Panel()  {
         nodeSelected=null;
         numSelectedAnimal=-1;
-        game=new Game();
+        game=new Game(4);//change to right number of players
         try{
             //img = ImageIO.read(Panel.class.getResource("tile.png"));
             //img1 = ImageIO.read(Panel.class.getResource("tile1.png"));
