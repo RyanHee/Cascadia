@@ -4,27 +4,24 @@ import java.io.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.*;
 
 //tentaive may not use
 public class ScoringPanel extends JPanel{
-	private BufferedImage bCard, eCard, fCard, hCard, sCard;
-	private BufferedImage[] cards = {bCard, eCard, fCard, hCard, sCard};
+	private static BufferedImage scoreCard;
 	public ScoringPanel() {
+		
+	}
+	
+	public static void infoBox() {
 		try {
-			bCard = ImageIO.read(new File("img/scoring-goals/bear-large.jpg"));
-			eCard = ImageIO.read(new File("img/scoring-goals/elk-large.jpg"));
-			fCard = ImageIO.read(new File("img/scoring-goals/fox-large.jpg"));
-			hCard = ImageIO.read(new File("img/scoring-goals/hawk-large.jpg"));
-			sCard = ImageIO.read(new File("img/scoring-goals/salmon-large.jpg"));
+			scoreCard = ImageIO.read(new File("img/CascadiaCards.jpg"));
 		}
 		catch(Exception e) {
 			
 		}
-	}
-	public void paint(Graphics g) {
-		for(int i =0; i<cards.length; i++) {
-			g.drawImage(cards[i], 50+i*70, 50, 50, 50, null);
-		}
-		repaint();
+	
+		ImageIcon card = new ImageIcon(scoreCard);
+		JOptionPane.showMessageDialog(null, "", "Scoring Cards", JOptionPane.INFORMATION_MESSAGE, card);
 	}
 }

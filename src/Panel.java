@@ -218,7 +218,7 @@ public class Panel extends JPanel implements ActionListener {
                 
                 game.getScoring().score(game.getPlayerList()[pNum-1].getBoard());
                 g.setFont(new Font("Arial", Font.PLAIN, 8));
-                g.drawImage(selectOutline,  getWidth()*5/6-getWidth()/64,  getHeight()*yPlay/4+30, 22, 25, null);
+                g.drawImage(selectOutline,  getWidth()*5/6-getWidth()/64,  getHeight()*yPlay/4+getHeight()/24, 22, 25, null);
                 g.drawString(game.getScoring().getLandScore().toString() +" / "+map.get(Integer.toString(pNum-1)), getWidth()*5/6+getWidth()/256, getHeight()*yPlay/4+getHeight()*1/16);
                 for(int i = 0; i<animal.length; i++) {
                 	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*143/168+getWidth()*i*15/512, getHeight()*(yPlay)/4+getHeight()*3/64, 20, 20, null);
@@ -473,6 +473,7 @@ public class Panel extends JPanel implements ActionListener {
 
     	if(e.getSource().equals(scoreCards)) {
     		//show scoring cards
+    		ScoringPanel.infoBox();
     	}
     	
     	if(e.getSource().equals(actionLog)) {
