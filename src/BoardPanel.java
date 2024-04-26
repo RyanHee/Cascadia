@@ -130,7 +130,14 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         if (animalTokenMap.get(n.getAnimal())!=null){
             //System.out.println("animal: "+n.getAnimal());
-            g.drawImage(animalTokenMap.get(n.getAnimal())[0], x+8+w/2-(int)(25*scale), y+h/2-(int)(25*scale), (int)(50*scale),(int)(50*scale), null);
+            if (sp){
+                g.drawImage(animalTokenMap.get(n.getAnimal())[0], x-2+w/2, y+h/2-(int)(25*scale), (int)(50*scale),(int)(50*scale), null);
+            }
+            else{
+                //System.out.println(w);
+                g.drawImage(animalTokenMap.get(n.getAnimal())[0], x-(int)(25*scale)+w/2, y+h/2-(int)(25*scale), (int)(50*scale),(int)(50*scale), null);
+            }
+
 
         }
         g2.dispose();
@@ -295,6 +302,6 @@ public class BoardPanel extends JPanel implements ActionListener {
     }
     public void setShift(int x,int y){
         r=x;
-       u=y;
+        u=y;
     }
 }
