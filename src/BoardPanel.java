@@ -72,7 +72,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         int w=120;
         int h=120;
         visited =new HashSet<>();
-        System.out.printf("B%s\n",ahhhh++);
         g.translate(r,u);
         if(!sp){
             add(up);

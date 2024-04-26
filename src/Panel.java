@@ -140,7 +140,6 @@ public class Panel extends JPanel implements ActionListener {
 
     public void paint(Graphics g){
         super.paint(g);
-        System.out.printf("P%s\n",aggrrrrhhhhhhh++);
         
         //System.out.println(game.getList());
         if(first) {
