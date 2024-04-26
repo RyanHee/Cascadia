@@ -482,6 +482,10 @@ public class Panel extends JPanel implements ActionListener {
     	}
     		
     }
+    
+    public static void useInfoBox(String message) {
+    	infoBox(message);
+    }
 
     
     @Override
