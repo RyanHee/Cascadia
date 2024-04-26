@@ -17,7 +17,7 @@ public class Panel extends JPanel implements ActionListener {
     //private int[]ylst;
 
     private HashMap<String, BufferedImage[]>animalTokenMap;
-    private BufferedImage scoreCard;
+    private static BufferedImage scoreCard;
     private int angle, numSelectedTile, numSelectedAnimal;
     private static BufferedImage selectOutline, outline, rotateImage;
     private static BufferedImage natureToken;
@@ -40,6 +40,7 @@ public class Panel extends JPanel implements ActionListener {
     private Game game;
     private static int aggrrrrhhhhhhh;
     private boolean first = true;
+    private int mini = 0;
     //private HexButton hexButton;
     public Panel()  {
         nodeSelected=null;
@@ -259,7 +260,7 @@ public class Panel extends JPanel implements ActionListener {
         else if(!noAnimalPlace && !clearAnimalsUsed && state == 3) {
         	cancelB.setVisible(true);
         	g.setFont(new Font("Arial", Font.PLAIN, 15));
-    		g.drawString("You may choose to click cancel, not place an animal and end your turn.", getWidth()*4/50, getHeight()*23/25);
+    		g.drawString("You may choose to click cancel, not place an animal and end your turn.", getWidth()*1/50, getHeight()*23/25);
         }
         else {
         	cancelB.setVisible(false);
@@ -456,7 +457,7 @@ public class Panel extends JPanel implements ActionListener {
     	scoreCards.setVisible(true);
         actionLog.setVisible(true);
         nextB.setVisible(true);
-        
+        mini =0;
         game.addAction("Next Turn: Player "+(game.getPlayerNum()+1));
         if(game.getTurn() > 20) {
         	//end the game
@@ -465,26 +466,33 @@ public class Panel extends JPanel implements ActionListener {
         //return;
     }
     
-    public void infoBox() {
-		try {
-			scoreCard = ImageIO.read(new File("img/CascadiaCards.jpg"));
-		}
-		catch(Exception e) {
-			
-		}
-		ImageIcon card = new ImageIcon(scoreCard);
-		JOptionPane.showMessageDialog(null, "Hawk: Individual\nBear: Group of 3\nElk: Group\nSalmon: Run (2 or Less Neighbors)\nFox: Adjacent Unique Animals", "Cascadia Scoring Cards", JOptionPane.INFORMATION_MESSAGE, card);
-	}
+    public static void infoBox(String message) {
+    	if(message.equals("score")) {
+			try {
+				scoreCard = ImageIO.read(new File("img/CascadiaCards.jpg"));
+			}
+			catch(Exception e) {
+				
+			}
+			ImageIcon card = new ImageIcon(scoreCard);
+			JOptionPane.showMessageDialog(null, "Hawk: Individual\nBear: Group of 3\nElk: Group\nSalmon: Run (2 or Less Neighbors)\nFox: Adjacent Unique Animals", "Cascadia Scoring Cards", JOptionPane.INFORMATION_MESSAGE, card);
+    	}
+    	else {
+    		JOptionPane.showMessageDialog(null, message, "Cascadia", JOptionPane.INFORMATION_MESSAGE);
+    	}
+    		
+    }
 
     
     @Override
     public void actionPerformed(ActionEvent e) {
 
         //System.out.println(state);
+    	
 
     	if(e.getSource().equals(scoreCards)) {
     		//show scoring cards
-    		infoBox();
+    		infoBox("score");
     	}
     	
     	if(e.getSource().equals(actionLog)) {
@@ -505,12 +513,20 @@ public class Panel extends JPanel implements ActionListener {
         	clearAnimalsUsed = false;
         	drawHighlightAnimal = false;
         	confirmClear.setVisible(false);
+        	help.setVisible(true);
+        	scoreCards.setVisible(true);
+        	actionLog.setVisible(true);
+        	if(mini == 0) {
+        		dupAnimalsUsed = false;
+        	}
         	animalsToClear.clear();
         	state = 0;
         	if(actionLogUsed) {
         		game.addAction("Player "+(game.getPlayerNum()+1)+" confirmed clearing animals.");
             }
+        	natureTokenUsed = false;
         	repaint();
+        	infoBox("You may now choose a tile and its adjacent token.");
     		return;
         }
         
@@ -523,6 +539,7 @@ public class Panel extends JPanel implements ActionListener {
             if(actionLogUsed) {
         		game.addAction("Player "+(game.getPlayerNum()+1)+" chose to clear animals.");
             }
+            
             repaint();
         }
         if(e.getSource().equals(mixMatch)) {
@@ -534,6 +551,12 @@ public class Panel extends JPanel implements ActionListener {
             if(actionLogUsed) {
         		game.addAction("Player "+(game.getPlayerNum()+1)+" chose to mix and match tile & token.");
             }
+            infoBox("You may now choose a tile and any token you like afterwards.");
+            help.setVisible(true);
+        	scoreCards.setVisible(true);
+            actionLog.setVisible(true);
+            //dupAnimalsUsed = false;
+            //natureTokenUsed = false;
             repaint();
         }
         
@@ -563,6 +586,7 @@ public class Panel extends JPanel implements ActionListener {
         //remove duplicate animals
         if(e.getSource().equals(removeDups) && !dupAnimalsUsed) {
         	dupAnimalsUsed = true;
+        	mini = 1;
             game.removeDups();
             removeDups.setVisible(false);
             if(actionLogUsed) {
@@ -665,6 +689,8 @@ public class Panel extends JPanel implements ActionListener {
             nodeSelected = null;
             if (!mixMatchUsed)
                 drawHighlightAnimal = true;
+            else
+            	infoBox("You may now choose any animal you would like.");
             dupAnimalsUsed = true;
             removeDups.setVisible(false);//turns off replace duplicate after placing tile
             state++;

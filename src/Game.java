@@ -267,6 +267,7 @@ public class Game {
 
     public String[] getAnimalToken4() {
         if (cntDup()==4){
+        	//Panel.infoBox("The 4 animals were the same and were cleared.");
             for (int i=0;i<4;i++){
                 returnAnimalToken(animalToken4[i]);
                 updateAnimal4(i);
