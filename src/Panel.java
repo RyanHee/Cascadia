@@ -1,19 +1,23 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class Panel extends JPanel implements ActionListener {
     //private int[]xlst;
     //private int[]ylst;
 
     private HashMap<String, BufferedImage[]>animalTokenMap;
-
+    private BufferedImage scoreCard;
     private int angle, numSelectedTile, numSelectedAnimal;
     private static BufferedImage selectOutline, outline, rotateImage;
     private static BufferedImage natureToken;
@@ -149,7 +153,7 @@ public class Panel extends JPanel implements ActionListener {
         }
         	
         g.setFont(new Font("Arial", Font.PLAIN, 15));
-        g.drawImage(selectOutline, getWidth()*58/128, getHeight()*22/25, 45, 50, null);
+        g.drawImage(selectOutline, getWidth()*57/128, getHeight()*22/25, 50, 58, null);
         
         //System.out.println("bruh time"+game.getPlayerList()[0].getScore());
         
@@ -207,9 +211,6 @@ public class Panel extends JPanel implements ActionListener {
                     sp3.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+60,getWidth()*2/10,getHeight()*3/18);
                     
                 }
-                
-                g.setFont(new Font("Arial", Font.PLAIN, 15));
-                g.drawImage(selectOutline, getWidth()*58/128, getHeight()*22/25, 45, 50, null);
                 
                 //System.out.println("bruh time"+game.getPlayerList()[0].getScore());
                 
@@ -463,6 +464,16 @@ public class Panel extends JPanel implements ActionListener {
         //return;
     }
     
+    public void infoBox() {
+		try {
+			scoreCard = ImageIO.read(new File("img/CascadiaCards.jpg"));
+		}
+		catch(Exception e) {
+			
+		}
+		ImageIcon card = new ImageIcon(scoreCard);
+		JOptionPane.showMessageDialog(null, "Hawk: Individual\nBear: Group of 3\nElk: Group\nSalmon: Run (2 or Less Neighbors)\nFox: Adjacent Unique Animals", "Cascadia Scoring Cards", JOptionPane.INFORMATION_MESSAGE, card);
+	}
 
     
     @Override
@@ -472,7 +483,7 @@ public class Panel extends JPanel implements ActionListener {
 
     	if(e.getSource().equals(scoreCards)) {
     		//show scoring cards
-    		ScoringPanel.infoBox();
+    		infoBox();
     	}
     	
     	if(e.getSource().equals(actionLog)) {
