@@ -174,6 +174,7 @@ public class Game {
     	int twoLarge = 1;
     	boolean tie = false;
     	boolean tieMult = false;
+    	boolean tie2nd = false;
     	//2 players
     	if(bonusPlayerScores.size() == 2) {
     		for(int q = 0; q<5; q++) {
@@ -227,15 +228,19 @@ public class Game {
 		    		}
 		    		//2nd place bonus
 		    		else {
-		    			if(playerScore.get(hold[q]) > twoLarge && !tie) {
-		    				twoLarge = playerScore.get(hold[q]);
-		    				String holdBonus = bonuses.get(hold[q]);
-		    				bonuses.remove(hold[q]);
-		    				bonuses.put(hold[q], holdBonus+","+i+"-1");
-		    			}
-		    			else if(playerScore.get(hold[q]) == twoLarge && playerScore.get(hold[q]) !=1) {
-		    				String recount = bonuses.get(hold[q]);
-		    				bonuses.put(hold[q], recount.substring(0,recount.indexOf(",")));
+		    			if(!tie) {
+			    			if(playerScore.get(hold[q]) > twoLarge) {
+			    				twoLarge = playerScore.get(hold[q]);
+			    				String holdBonus = bonuses.get(hold[q]);
+			    				bonuses.remove(hold[q]);
+			    				bonuses.put(hold[q], holdBonus+","+i+"-1");
+			    			}
+			    			else if(playerScore.get(hold[q]) == twoLarge && playerScore.get(hold[q])>1 &&!tie2nd) {
+			    				tie2nd = true;//already checked for 2 players tied for 2nd
+			    				String recount = bonuses.get(hold[q]);
+			    				bonuses.remove(hold[q]);
+			    				bonuses.put(hold[q], recount.substring(0,recount.indexOf(",")));
+			    			}
 		    			}
 		    		}
 	    		}
@@ -243,6 +248,7 @@ public class Game {
 	    		twoLarge = 1;
 	    		tie = false;
 	    		tieMult = false;
+	    		tie2nd = false;
 	    	}
     	}
     }
