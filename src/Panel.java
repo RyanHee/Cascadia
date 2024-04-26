@@ -286,7 +286,7 @@ public class Panel extends JPanel implements ActionListener {
 
         if(!dupAnimalsUsed && !tileChose) {
         	//3 same animal
-            if (game.cntDup()==3){
+            if (game.cntDup()>=3){
                 removeDups.setVisible(true);
             }
 	        else{ // less than 3
