@@ -358,7 +358,7 @@ public class Panel extends JPanel implements ActionListener {
             clearAnimals.setVisible(false);
             mixMatch.setVisible(false);
         try{
-            Thread.sleep(5);
+            wait(5);
         }
         catch (Exception E){
 
@@ -366,7 +366,7 @@ public class Panel extends JPanel implements ActionListener {
         repaint();
         }else if (prog==101){
             try{
-                Thread.sleep(250);
+                wait(250);
                 prog++;
                 nextTurn();
             }
@@ -787,5 +787,13 @@ public class Panel extends JPanel implements ActionListener {
     }
     public void resetProg(){
         prog = 0;
+    }
+    public void wait(int x){
+        try{
+            Thread.sleep(x);
+        }  
+        catch (Exception E){
+
+        }
     }
 }
