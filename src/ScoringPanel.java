@@ -22,6 +22,6 @@ public class ScoringPanel extends JPanel{
 		}
 	
 		ImageIcon card = new ImageIcon(scoreCard);
-		JOptionPane.showMessageDialog(null, "", "Scoring Cards", JOptionPane.INFORMATION_MESSAGE, card);
+		JOptionPane.showMessageDialog(null, "Hawk: Individual\nBear: Group of 3\nElk: Group\nSalmon: Run (2 or Less Neighbors)\nFox: Adjacent Unique Animals", "Cascadia Scoring Cards", JOptionPane.INFORMATION_MESSAGE, card);
 	}
 }
