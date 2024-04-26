@@ -252,6 +252,7 @@ public class Panel extends JPanel implements ActionListener {
         	}
         	if(tileChose) {
         		removeDups.setVisible(false);
+        		useNature.setVisible(false);
         	}
         }
         //allow the user to choose not to keep animal
@@ -277,7 +278,7 @@ public class Panel extends JPanel implements ActionListener {
         if(game.getCurrPlayer().getNumTokens() == 0 || natureTokenUsed) {
         	useNature.setVisible(false);
         }
-        else if(!natureTokenUsed){
+        else if(!natureTokenUsed &&!tileChose && state <2){
         	useNature.setVisible(true);
         	clearAnimals.setVisible(false);
         	mixMatch.setVisible(false);
@@ -286,7 +287,7 @@ public class Panel extends JPanel implements ActionListener {
 
         if(!dupAnimalsUsed && !tileChose) {
         	//3 same animal
-            if (game.cntDup()>=3){
+            if (game.cntDup()>=3 && state <2){
                 removeDups.setVisible(true);
             }
 	        else{ // less than 3
@@ -758,6 +759,7 @@ public class Panel extends JPanel implements ActionListener {
     		if(actionLogUsed) {
         		game.addAction("Player "+(game.getPlayerNum()+1)+" chose not to place an animal token.");
             }
+    		drawHighlightAnimal = false;
             nextTurn();
     		repaint();
     		return;
