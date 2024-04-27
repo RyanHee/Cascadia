@@ -32,9 +32,9 @@ public class BoardPanel extends JPanel implements ActionListener {
         animalTokenMap=map;
         
         // setBackground(new Color(159, 223, 223));//bright light sky blue
-        setBackground(new Color(210, 232, 206));//light mint
+        //setBackground(new Color(210, 232, 206));//light mint
         // setBackground(new Color(200, 207, 208));//light gray-faint blue
-        //setBackground(new Color(165, 213, 232));//light glacier blue
+        setBackground(new Color(165, 213, 232));//light glacier blue
         //setBackground(new Color(100, 139, 37));//medium green
         //setBackground(new Color(216, 191, 216));/*203, 195, 227*/ /*162, 162, 208*/ //all are light purple
         //setBackground(new Color(222,184,135));//tan
