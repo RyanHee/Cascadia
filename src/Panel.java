@@ -195,21 +195,21 @@ public class Panel extends JPanel implements ActionListener {
                     sp1.sp = true;
                     sp1.setBoard(game.pList()[pNum-1].getBoard());
                     sp1.setShift(0,(int)(120*.7));
-                    sp1.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+60,getWidth()*2/10,getHeight()*3/18);
+                    sp1.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
                     
                 }else if(yPlay==1){
                     sp2.setScale(.3);
                     sp2.sp = true;
                     sp2.setBoard(game.pList()[pNum-1].getBoard());
                     sp2.setShift(0,(int)(120*.7));
-                    sp2.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+60,getWidth()*2/10,getHeight()*3/18);
+                    sp2.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
                     
                 }else  if(yPlay==2){
                     sp3.setScale(.3);
                     sp3.sp = true;
                     sp3.setBoard(game.pList()[pNum-1].getBoard());
                     sp3.setShift(0,(int)(120*.7));
-                    sp3.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+60,getWidth()*2/10,getHeight()*3/18);
+                    sp3.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
                     
                 }
                 
