@@ -230,8 +230,8 @@ public class Panel extends JPanel implements ActionListener {
         		g.setFont(new Font("Arial", Font.PLAIN, 18));
         		g.drawString("Player "+pNum, getWidth()*13/16+10,getHeight()*(yPlay)/4+getHeight()*8/256);
         		g.setFont(new Font("Arial", Font.PLAIN, 15));
-        		g.drawImage(natureToken, getWidth()*7/8+5, getHeight()*yPlay/4+1, 30, 30, null);
-        		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+40, getHeight()*yPlay/4+20);
+        		g.drawImage(natureToken, getWidth()*7/8+getWidth()/128, getHeight()*yPlay/4+getHeight()/128, 25, 25, null);
+        		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+getWidth()/32, getHeight()*yPlay/4+getHeight()/32);
         		g.setFont(new Font("Arial", Font.PLAIN, 10));
         		g.drawString("Current Score: "+String.valueOf(game.getPlayerList()[pNum-1].getScore() +game.getPlayerList()[pNum-1].getBonus()), getWidth()*13/14, getHeight()*yPlay/4+getHeight()*7/256);
         		g.drawRect(getWidth()*13/16, getHeight()*(yPlay+1)/4, getWidth()*24/128, 2);
