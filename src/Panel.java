@@ -41,8 +41,10 @@ public class Panel extends JPanel implements ActionListener {
     private static int aggrrrrhhhhhhh;
     private boolean first = true;
     private int mini = 0;
+    
     //private HexButton hexButton;
-    public Panel()  {
+    public Panel(JPanel panel)  {
+    	
         nodeSelected=null;
         numSelectedAnimal=-1;
         game=new Game(4);//change to right number of players
