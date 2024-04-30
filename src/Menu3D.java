@@ -132,7 +132,7 @@ public class Menu3D extends JPanel implements MouseListener {
 
         init();
         initAnimator();
-        System.out.println(System.getProperty("java.class.path"));
+        //System.out.println(System.getProperty("java.class.path"));
 		try {
 			i1=ImageIO.read(getClass().getResource("CASCADIA-4-23-2024 (1).png"));
 
@@ -155,7 +155,7 @@ public class Menu3D extends JPanel implements MouseListener {
         		b="img/img/StartFramz/ezgif-frame-0"+i+".png";
 
         	}
-        		System.out.println(b);
+        		//System.out.println(b);
             Startframes[i-1]=ImageIO.read(getClass().getResource(b));
 
         }
@@ -271,7 +271,7 @@ public class Menu3D extends JPanel implements MouseListener {
     	if(pressedIndex==-1) {
         h.drawImage(Startframes[fram], 0, 0, getWidth(), getHeight(), null);
         h.drawImage(i1,0, getHeight()/16,900,300, null);
-		System.out.println("wfjioiewjie"+pressedIndex);
+		//System.out.println("wfjioiewjie"+pressedIndex);
 	    g2 = (Graphics2D) h;
 
 
@@ -288,7 +288,7 @@ public class Menu3D extends JPanel implements MouseListener {
 
             BufferedImage image = null;
 		    double b= getWidth()/1.92;
-		    System.out.println(getWidth()+"ehgoojegjioijopwgjio");
+		    //System.out.println(getWidth()+"ehgoojegjioijopwgjio");
             h.drawImage(buttonPlayer,getWidth()*0, getHeight()*6/8,getWidth()/7,getHeight()/7, null);
             h.drawImage(buttonPlayer,(int)((b-(b/7))/2), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
             h.drawImage(buttonPlayer,(int)(b-(b/7)), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
@@ -323,22 +323,22 @@ public class Menu3D extends JPanel implements MouseListener {
 
         for (int i = items.size() - 1; i >= 0; i--) {
             items.get(i).render(g2, 360 - angle, 121, this);
-            System.out.println(3);
+            //System.out.println(3);
         }
         g2.dispose();
     	if(runAnim) {
 
 		if(Flipfram<66) {
-            System.out.println("rhaeiowhgioi3oawhgrpehqgrheawghreawghr+"+Flipfram);
+            //System.out.println("rhaeiowhgioi3oawhgrpehqgrheawghreawghr+"+Flipfram);
             h.drawImage(frames[Flipfram], 0, 0, getWidth(), getHeight(), null);
             Flipfram++;
-            System.out.println("rhaeiowhgioi3oawhgrpehqgrheawghreawghr+");
+            //System.out.println("rhaeiowhgioi3oawhgrpehqgrheawghreawghr+");
     	}
 		
 		}
 
     	wait(10);    	
-    	System.out.println(pressedIndex);
+    	//System.out.println(pressedIndex);
     	v=pressedIndex;
     	revalidate();
     	if(runAnim==false||Flipfram<66) {
