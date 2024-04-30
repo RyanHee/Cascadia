@@ -19,7 +19,6 @@ public class Node extends JButton {
     private String[] Sides;
     public Node(String label){
         super(label);
-        //id=0;
         animal="";
         xPoints = new int[6];
         yPoints = new int[6];
@@ -62,7 +61,7 @@ public class Node extends JButton {
         }
         catch (Exception e){
         }
-
+        
         String[]lst=val.split("-");
         String left=lst[0].substring(0,1);
         String right=lst[0].substring(1,2);
