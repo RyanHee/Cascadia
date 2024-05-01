@@ -1,5 +1,3 @@
-
-
 import java.awt.Component;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
