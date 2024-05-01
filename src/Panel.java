@@ -41,13 +41,14 @@ public class Panel extends JPanel implements ActionListener {
     private static int aggrrrrhhhhhhh;
     private boolean first = true;
     private int mini = 0;
+    private JPanel p;//added
     
     //private HexButton hexButton;
-    public Panel(JPanel panel)  {
-    	
+    public Panel(JPanel panel, int numOfPlayers)  {
+    	p = panel;//added
         nodeSelected=null;
         numSelectedAnimal=-1;
-        game=new Game(4);//change to right number of players
+        game=new Game(numOfPlayers);//change to right number of players
         try{
             //img = ImageIO.read(Panel.class.getResource("tile.png"));
             //img1 = ImageIO.read(Panel.class.getResource("tile1.png"));
@@ -140,15 +141,18 @@ public class Panel extends JPanel implements ActionListener {
         bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
         add(bp);
         //setBackground(Color.WHITE);
-        setBackground(new Color(3, 107, 156));
+        //setBackground(new Color(3, 107, 156)) // blue;
+        setBackground(new Color(251, 206, 177));//servicable orange
+        //setBackground(new Color(216, 191, 216));
         //setBackground(new Color(82, 120, 134)); //grayish blue
         aggrrrrhhhhhhh= 0;
     }
 
     public void paint(Graphics g){
+    	System.out.println("sdohfihsod" +Menu3D.playerCount);
         super.paint(g);
         
-        //System.out.println(game.getList());
+        //System.out.println("boo"+game.getPlayerList().length);
         if(first) {
         	first = !first;
         	game.updateScore();
@@ -189,7 +193,7 @@ public class Panel extends JPanel implements ActionListener {
         g.setColor(Color.BLACK);
         
         int yPlay = 0;
-        for(int pNum = 1; pNum<5; pNum++) {
+        for(int pNum = 1; pNum<game.getPlayerList().length+1; pNum++) {
         	if(pNum != game.getPlayerNum()+1){
 
                 if(yPlay==0){
@@ -463,6 +467,8 @@ public class Panel extends JPanel implements ActionListener {
         game.addAction("Next Turn: Player "+(game.getPlayerNum()+1));
         if(game.getTurn() > 20) {
         	//end the game
+        	CardLayout cardLayout = (CardLayout) p.getLayout();
+            cardLayout.next(p);
         }
         repaint();
         //return;
