@@ -113,7 +113,7 @@ public class Menu3D extends JPanel implements MouseListener {
 
     boolean paint;
     public static int mrect;
-    BufferedImage i1,buttonPlayer;
+    BufferedImage buttonPlayer;
     private JPanel contentPane;
     boolean runAnim= false;
 
@@ -133,19 +133,15 @@ public class Menu3D extends JPanel implements MouseListener {
         init();
         initAnimator();
         //System.out.println(System.getProperty("java.class.path"));
-		try {
-			i1=ImageIO.read(getClass().getResource("CASCADIA-4-23-2024 (1).png"));
 
 			
 			
 
 
-			addMouseListener(this);
+		addMouseListener(this);
 
-		}
-		catch(Exception e){
-			System.out.println("errr");
-		}
+		
+
         try {
         for (int i=1;i<13;i++){
         	if(i<10) {
@@ -159,7 +155,7 @@ public class Menu3D extends JPanel implements MouseListener {
             Startframes[i-1]=ImageIO.read(getClass().getResource(b));
 
         }
-        for (int i=1;i<67;i++){
+        for (int i=1;i<45;i++){
         	if (i<10) {
         		b="img/copy/000"+i+".jpg";
         	}
@@ -270,8 +266,6 @@ public class Menu3D extends JPanel implements MouseListener {
     	}
     	if(pressedIndex==-1) {
         h.drawImage(Startframes[fram], 0, 0, getWidth(), getHeight(), null);
-        h.drawImage(i1,0, getHeight()/16,900,300, null);
-		//System.out.println("wfjioiewjie"+pressedIndex);
 	    g2 = (Graphics2D) h;
 
 
@@ -282,17 +276,16 @@ public class Menu3D extends JPanel implements MouseListener {
         
 
     	if(pressedIndex==0) {
-
+    		if(runAnim==false){
 
 	        h.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
 
             BufferedImage image = null;
 		    double b= getWidth()/1.92;
-		    //System.out.println(getWidth()+"ehgoojegjioijopwgjio");
             h.drawImage(buttonPlayer,getWidth()*0, getHeight()*6/8,getWidth()/7,getHeight()/7, null);
             h.drawImage(buttonPlayer,(int)((b-(b/7))/2), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
             h.drawImage(buttonPlayer,(int)(b-(b/7)), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
-
+    		}
 
 		    /*if(once==0) {
 		        addMenuItem("2 PLAYERS");
@@ -328,7 +321,7 @@ public class Menu3D extends JPanel implements MouseListener {
         g2.dispose();
     	if(runAnim) {
 
-		if(Flipfram<66) {
+		if(Flipfram<45) {
             //System.out.println("rhaeiowhgioi3oawhgrpehqgrheawghreawghr+"+Flipfram);
             h.drawImage(frames[Flipfram], 0, 0, getWidth(), getHeight(), null);
             Flipfram++;
@@ -341,7 +334,7 @@ public class Menu3D extends JPanel implements MouseListener {
     	//System.out.println(pressedIndex);
     	v=pressedIndex;
     	revalidate();
-    	if(runAnim==false||Flipfram<66) {
+    	if(runAnim==false||Flipfram<33) {
     	repaint();
     	}
     	else {
