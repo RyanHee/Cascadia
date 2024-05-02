@@ -96,7 +96,7 @@ public class Menu3D extends JPanel implements MouseListener {
     private int pressedIndex = -1;
     private BufferedImage title;
     private BufferedImage imgShade;
-    public static int playerCount;
+    public static int playerCount = 4;
     int v= -1;
     String b;
     int fram =0;
@@ -319,27 +319,25 @@ public class Menu3D extends JPanel implements MouseListener {
             //System.out.println(3);
         }
         g2.dispose();
-    	if(runAnim) {
-
-		if(Flipfram<45) {
-            //System.out.println("rhaeiowhgioi3oawhgrpehqgrheawghreawghr+"+Flipfram);
-            h.drawImage(frames[Flipfram], 0, 0, getWidth(), getHeight(), null);
-            Flipfram++;
-            //System.out.println("rhaeiowhgioi3oawhgrpehqgrheawghreawghr+");
-    	}
-		
+    	if(runAnim && Flipfram<45) {
+	        //System.out.println("rhaeiowhgioi3oawhgrpehqgrheawghreawghr+"+Flipfram);
+	        h.drawImage(frames[Flipfram], 0, 0, getWidth(), getHeight(), null);
+	        Flipfram++;
+	        //System.out.println("rhaeiowhgioi3oawhgrpehqgrheawghreawghr+");
 		}
 
     	wait(10);    	
     	//System.out.println(pressedIndex);
     	v=pressedIndex;
     	revalidate();
-    	if(runAnim==false||Flipfram<33) {
-    	repaint();
+    	if(runAnim==false||Flipfram<40) {
+    		repaint();
     	}
     	else {
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
             cardLayout.next(contentPane);
+            //Frame.update();
+            runAnim = false;
     	}
     	
 

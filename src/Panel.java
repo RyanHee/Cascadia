@@ -125,12 +125,7 @@ public class Panel extends JPanel implements ActionListener {
         add(mixMatch);
         add(rotate);
 
-        sp1 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
-        sp2 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
-        sp3 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
-        add(sp1); 
-        add(sp2);
-        add(sp3);
+        
 
         curVal="";
         state=0;
@@ -138,8 +133,16 @@ public class Panel extends JPanel implements ActionListener {
         rotate.addActionListener(this);
         add(rotate);
         
+        
+    	sp1 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
+        sp2 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
+        sp3 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
+        add(sp1); 
+        add(sp2);
+        add(sp3);
         bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
         add(bp);
+       
         //setBackground(Color.WHITE);
         //setBackground(new Color(3, 107, 156)) // blue;
         setBackground(new Color(251, 206, 177));//servicable orange
@@ -148,6 +151,18 @@ public class Panel extends JPanel implements ActionListener {
         aggrrrrhhhhhhh= 0;
     }
 
+    /*public void updateGame(int numOfPlayers) {
+    	game=new Game(numOfPlayers);//change to right number of players
+    	sp1 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
+        sp2 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
+        sp3 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
+        add(sp1); 
+        add(sp2);
+        add(sp3);
+        bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
+        add(bp);
+    }*/
+    
     public void paint(Graphics g){
     	System.out.println("sdohfihsod" +Menu3D.playerCount);
         super.paint(g);
@@ -382,19 +397,20 @@ public class Panel extends JPanel implements ActionListener {
     
             }
         }
+        //91 width = getWidth()/15; 51 height = getHeight()/15 
         rotate.setBounds(125, 490, 50, 50);
-        bp.setBounds(getWidth()/7, getHeight()/8, getWidth() - getWidth() / 3, getHeight()*3/4);
-        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
-        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, getWidth()/15-10, getHeight()/15);
-        confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, getWidth()/15-10, getHeight()/15);
-        help.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
-        scoreCards.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
-        actionLog.setBounds(getWidth()/3+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
-        useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
-        removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, getWidth()/15, getHeight()/15);
-        confirmClear.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
-        clearAnimals.setBounds(getWidth()/3, getHeight()/25, getWidth()/15, getHeight()/15);
-        mixMatch.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, getWidth()/15, getHeight()/15);
+        bp.setBounds(getWidth()/7, getHeight()/8, 853, 522);
+        cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, 91, 51);
+        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, 91, 51);
+        confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, 91, 51);
+        help.setBounds(getWidth()/3, getHeight()/25, 91, 51);
+        scoreCards.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, 91, 51);
+        actionLog.setBounds(getWidth()/3+getWidth()/5, getHeight()/25, 91, 51);
+        useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, 91, 51);
+        removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, 91, 51);
+        confirmClear.setBounds(getWidth()/3, getHeight()/25, 91, 51);
+        clearAnimals.setBounds(getWidth()/3, getHeight()/25, 91, 51);
+        mixMatch.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, 91, 51);
     }
 
     public int getState(){
