@@ -361,7 +361,7 @@ public class Menu3D extends JPanel implements MouseListener {
 
 	    Point clicked = e.getPoint();
 
-	    Rectangle b1 = new Rectangle(getWidth()*0, getHeight()*6/8, getWidth()/7, getHeight()/7);
+	    Rectangle b1 = new Rectangle(0, getHeight()*6/8, getWidth()/7, getHeight()/7);
 	    Rectangle b2 = new Rectangle((int)((b-(b/7))/2), getHeight()*6/8, getWidth()/7, getHeight()/7);
 	    Rectangle b3 = new Rectangle((int)(b-(b/7)), getHeight()*6/8, getWidth()/7, getHeight()/7);
 

@@ -399,7 +399,7 @@ public class Panel extends JPanel implements ActionListener {
         }
         //91 width = getWidth()/15; 51 height = getHeight()/15 
         rotate.setBounds(125, 490, 50, 50);
-        bp.setBounds(getWidth()/7, getHeight()/8, 853, 522);
+        bp.setBounds(getWidth()/7, getHeight()/8, getWidth()*2/3, getHeight()*3/4);
         cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, 91, 51);
         nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, 91, 51);
         confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, 91, 51);

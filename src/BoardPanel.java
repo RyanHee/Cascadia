@@ -128,7 +128,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         g2.setColor(Color.BLACK);
         if(!sp) g2.drawPolygon(xlst,ylst,6);
 
-        /*if (animalTokenMap.get(n.getAnimal())!=null){
+        if (animalTokenMap.get(n.getAnimal())!=null){
             //System.out.println("animal: "+n.getAnimal());
             if (sp){
                 g.drawImage(animalTokenMap.get(n.getAnimal())[0], x-2+w/2, y+h/2-(int)(25*scale), (int)(50*scale),(int)(50*scale), null);
@@ -139,7 +139,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             }
 
 
-        }*/
+        }
         g2.dispose();
         n.paintComponent(g);
         n.addActionListener(this);

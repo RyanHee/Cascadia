@@ -20,6 +20,7 @@ public class Frame {
         panel3 = new ScoringPanel(contentPane);//added end panel
         contentPane.setLayout(new CardLayout());
         frame.setVisible(true);
+
         contentPane.add(panel1, "Panel 1"); 
         contentPane.add(panel2, "Panel 2");
         contentPane.add(panel3, "Panel 3");//added end panel
