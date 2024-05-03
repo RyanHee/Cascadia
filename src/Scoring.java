@@ -37,26 +37,26 @@ public class Scoring {
         //System.out.println("Animal: B" + animalScore.get("B") + "E" + animalScore.get("E") +"F" + animalScore.get("F") + "H" + animalScore.get("H") + "S" + animalScore.get("S"));
         return score;
     }
-    
+
     public Integer getAnimalScore(String s){
-    	return animalScore.get(s);
+        return animalScore.get(s);
     }
-    
+
     public Integer getLandScore(){
-    	int sum =0;
-    	for(int i =0; i<landScore.size();i++) {
-    		sum+=landScore.get(land[i]);
-    	}
-    	//System.out.println("total land"+sum);
-    	return sum;
+        int sum =0;
+        for(int i =0; i<landScore.size();i++) {
+            sum+=landScore.get(land[i]);
+        }
+        //System.out.println("total land"+sum);
+        return sum;
     }
-    
+
     public HashMap<String, Integer> getLandScoreList() {
-    	return landScore;
+        return landScore;
     }
-    
+
     public void setBonusScore(int b) {
-    	landScore.put("B", b);
+        landScore.put("B", b);
     }
 
     public int landMass(Node node){
@@ -105,24 +105,24 @@ public class Scoring {
         hawkAcnt=0;
         dfsHawk(node);
         if (hawkAcnt<1) {
-        	animalScore.put("H", 0);
+            animalScore.put("H", 0);
             return 0;
         }
         if (hawkAcnt==1) {
-        	animalScore.put("H", 2);
+            animalScore.put("H", 2);
             return 2;
         }
         if (hawkAcnt<6) {
-        	animalScore.put("H", hawkAcnt*3-1);
+            animalScore.put("H", hawkAcnt*3-1);
             return hawkAcnt*3-1;
         }
         if (hawkAcnt==6) {
-        	animalScore.put("H", 18);
+            animalScore.put("H", 18);
             return 18;
         }
         if (hawkAcnt==7) {
-        	animalScore.put("H", 22);
-        	return 22;
+            animalScore.put("H", 22);
+            return 22;
         }
         animalScore.put("H", 28);
         return 28;
