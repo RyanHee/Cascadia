@@ -352,7 +352,7 @@ public class Panel extends JPanel implements ActionListener {
             fourButtonAnimal[i].setBounds(115, getHeight()/8+i*95, 60, 60);
         }
         
-        game.getAllPlayerBonuses();//this is a test
+        //game.getAllPlayerBonuses();//this is a test
         
         if(actionLogUsed) {
         	Queue<String> actions = game.getActionLog();
