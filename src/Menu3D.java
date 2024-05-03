@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -285,6 +286,13 @@ public class Menu3D extends JPanel implements MouseListener {
             h.drawImage(buttonPlayer,getWidth()*0, getHeight()*6/8,getWidth()/7,getHeight()/7, null);
             h.drawImage(buttonPlayer,(int)((b-(b/7))/2), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
             h.drawImage(buttonPlayer,(int)(b-(b/7)), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
+            h.setColor(new Color(255, 255, 255));
+            h.setFont(new Font("Arial", Font.PLAIN, 60));
+            h.drawString("Select the Number of Players", getWidth()*2/32-10, getHeight()*7/16);
+            h.setFont(new Font("Arial", Font.PLAIN, 20));
+            h.drawString("2 Players", getWidth()*2/32-30, getHeight()*13/16);
+            h.drawString("3 Players", getWidth()*9/32-20, getHeight()*13/16);
+            h.drawString("4 Players", getWidth()*16/32-10, getHeight()*13/16);
     		}
 
 		    /*if(once==0) {
