@@ -146,25 +146,25 @@ public class Menu3D extends JPanel implements MouseListener {
         try {
         for (int i=1;i<13;i++){
         	if(i<10) {
-        		b="img/img/StartFramz/ezgif-frame-00"+i+".png";
+        		b="img/StartFramz/ezgif-frame-00"+i+".png";
         	}
         	else {
-        		b="img/img/StartFramz/ezgif-frame-0"+i+".png";
+        		b="img/StartFramz/ezgif-frame-0"+i+".png";
 
         	}
         		//System.out.println(b);
-            Startframes[i-1]=ImageIO.read(getClass().getResource(b));
+            Startframes[i-1]=ImageIO.read(new File(b));
 
         }
         for (int i=1;i<45;i++){
         	if (i<10) {
-        		b="img/copy/000"+i+".jpg";
+        		b="img/framez/000"+i+".jpg";
         	}
         	else {
-        		b="img/copy/00"+i+".jpg";
+        		b="img/framez/00"+i+".jpg";
         	}
         	
-            frames[i-1]=ImageIO.read(getClass().getResource(b));
+            frames[i-1]=ImageIO.read(new File(b));
 
         }
 
@@ -175,8 +175,8 @@ public class Menu3D extends JPanel implements MouseListener {
         }
 
     	try {
-    		buttonPlayer = ImageIO.read(getClass().getResource("img/img/Generalimgs/Blue-Button-PNG-File.png"));
-			imgShade = ImageIO.read(getClass().getResource("img/img/Generalimgs/ezgif-frame-003ddd.png"));
+    		buttonPlayer = ImageIO.read(new File("img/Generalimgs/Blue-Button-PNG-File.png"));
+			imgShade = ImageIO.read(new File("img/Generalimgs/ezgif-frame-003ddd.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
