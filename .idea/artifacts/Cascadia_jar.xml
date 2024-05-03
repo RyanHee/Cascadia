@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Cascadia_jar</output-path>
     <root id="archive" name="Cascadia.jar">
       <element id="module-output" name="Cascadia" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/TimingFramework-0.55.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
