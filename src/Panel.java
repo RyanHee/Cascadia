@@ -199,6 +199,7 @@ public class Panel extends JPanel implements ActionListener {
         g.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 40);
         g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()/15+20, 70);
        
+        
         //System.out.println("bruh "+game.getPlayerList()[0].getScore());
         g.setColor(new Color(222,184,135));
         g.setColor(new Color(159, 223, 223));
@@ -266,7 +267,7 @@ public class Panel extends JPanel implements ActionListener {
         }
        
         //cancelB.setVisible(false);//make buttons appear at right time
-        if(tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) {
+        if((tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) && prog == 102) {
         	cancelB.setVisible(true);
         	if(noAnimalPlace) {
         		g.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -278,7 +279,7 @@ public class Panel extends JPanel implements ActionListener {
         	}
         }
         //allow the user to choose not to keep animal
-        else if(!noAnimalPlace && !clearAnimalsUsed && state == 3) {
+        else if(!noAnimalPlace && !clearAnimalsUsed && state == 3 && prog == 102) {
         	cancelB.setVisible(true);
         	g.setFont(new Font("Arial", Font.PLAIN, 15));
     		g.drawString("You may choose to click cancel, not place an animal and end your turn.", getWidth()*1/50, getHeight()*23/25);
@@ -351,6 +352,8 @@ public class Panel extends JPanel implements ActionListener {
             fourButtonAnimal[i].setBounds(115, getHeight()/8+i*95, 60, 60);
         }
         
+        game.getAllPlayerBonuses();//this is a test
+        
         if(actionLogUsed) {
         	Queue<String> actions = game.getActionLog();
         	g.setFont(new Font("Comic Sans", Font.BOLD, 10));
@@ -401,7 +404,7 @@ public class Panel extends JPanel implements ActionListener {
         rotate.setBounds(125, 490, 50, 50);
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth()*2/3, getHeight()*3/4);
         cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, 91, 51);
-        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, 91, 51);
+        nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, 91, 51); //only turn on for testing
         confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, 91, 51);
         help.setBounds(getWidth()/3, getHeight()/25, 91, 51);
         scoreCards.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, 91, 51);
@@ -478,13 +481,14 @@ public class Panel extends JPanel implements ActionListener {
         help.setVisible(true);
     	scoreCards.setVisible(true);
         actionLog.setVisible(true);
-        nextB.setVisible(true);
+        nextB.setVisible(true); //only for testing
         mini =0;
         game.addAction("Next Turn: Player "+(game.getPlayerNum()+1));
         if(game.getTurn() > 20) {
         	//end the game
         	CardLayout cardLayout = (CardLayout) p.getLayout();
             cardLayout.next(p);
+            //send end panel the game
         }
         repaint();
         //return;
@@ -814,7 +818,8 @@ public class Panel extends JPanel implements ActionListener {
         		game.addAction("Player "+(game.getPlayerNum()+1)+" chose not to place an animal token.");
             }
     		drawHighlightAnimal = false;
-            nextTurn();
+    		resetProg();
+    		//nextTurn();
     		repaint();
     		return;
     	}
@@ -823,7 +828,8 @@ public class Panel extends JPanel implements ActionListener {
     	if(e.getSource().equals(cancelB)&&state==4 &&!mixMatchUsed) {
     		game.returnAnimalToken(game.getAnimalToken4()[numSelectedAnimal]);
             game.updateAnimal4(numSelectedAnimal);
-            nextTurn();
+            resetProg();
+            //nextTurn();
     		repaint();
     		return;
     	}

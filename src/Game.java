@@ -14,9 +14,10 @@ public class Game {
     private int turn = 1;
     private HashSet<Node> visited = new HashSet<>();
     private boolean animalAllowed = false;
-    private HashMap<Integer, HashMap<String, Integer>> bonusPlayerScores;
-    private HashMap<String, String> bonuses;
-    private HashMap<String, Integer> bonus = new HashMap<>();
+    private HashMap<Integer, HashMap<String, Integer>> bonusPlayerScores; // holds all player scores
+    private HashMap<String, String> bonuses; // holds which habitats have different bonus
+    private HashMap<String, Integer> bonus; // holds the actual bonus amount for each player (each player = 1 string)
+    private HashMap<Integer, HashMap<String, Integer>> playerHabitatBonuses; // holds list of players & their bonuses per habitat
     
     public Game(int numOfPlayers) {
         Scanner sc = new Scanner(System.in);
@@ -99,7 +100,9 @@ public class Game {
         cur=0;
         scoring=new Scoring();
         bonuses = new HashMap<>();
+        bonus = new HashMap<>();
         bonusPlayerScores = new HashMap<>();
+        playerHabitatBonuses = new HashMap<>();
         getBonuses();
         //System.out.println(bonusPlayerScores);
     }
@@ -111,10 +114,10 @@ public class Game {
         }
     }
     
-    /*public HashMap<Integer, HashMap<String, Integer>> getList(){
-    	updateBonus();
-    	return bonusPlayerScores;
-    }*/
+    public HashMap<Integer, HashMap<String, Integer>> getAllPlayerBonuses(){
+    	System.out.println(playerHabitatBonuses);
+    	return playerHabitatBonuses;
+    }
     
     public HashMap<String, Integer> getBonuses(){
     	String[] hold = {"D", "F", "L", "M", "S"};
@@ -122,6 +125,11 @@ public class Game {
     	
     	for(int i =0; i<playerlst.length; i++) {
     		bonus.put(Integer.toString(i),0);
+    		HashMap<String, Integer> yeet = new HashMap<>();
+    		for(int q = 0; q < 5; q++) {
+    			yeet.put(hold[q], 0);
+    		}
+    		playerHabitatBonuses.put(i, yeet);
     	}
     	updateBonus();
     	for(int i=0; i<5; i++) {
@@ -144,9 +152,15 @@ public class Game {
     		for(int m = 0; m<play.length; m++) {
     			if(bonus.get(play[m])==null) {
     				bonus.put(play[m], num);
+    				HashMap<String, Integer> yeet = new HashMap<>();
+    				yeet.put(hold[i], num);
+    				playerHabitatBonuses.put(Integer.parseInt(play[m]), yeet);
     			}
     			else {
     				bonus.put(play[m], bonus.get(play[m])+num);
+    				HashMap<String, Integer> yeet = playerHabitatBonuses.get(Integer.parseInt(play[m]));
+    				yeet.put(hold[i], num);
+    				playerHabitatBonuses.put(Integer.parseInt(play[m]), yeet);
     			}
     		}
     		//2nd place bonus
@@ -154,9 +168,15 @@ public class Game {
     			String e = pBonus.substring(pBonus.indexOf(",")+1, pBonus.indexOf(",")+2);
     			if(bonus.get(e)==null) {
     				bonus.put(e, 1);
+    				HashMap<String, Integer> yeet = new HashMap<>();
+    				yeet.put(hold[i], 1);
+    				playerHabitatBonuses.put(Integer.parseInt(e), yeet);
     			}
     			else {
     				bonus.put(e, bonus.get(e)+1);
+    				HashMap<String, Integer> yeet = playerHabitatBonuses.get(Integer.parseInt(e));
+    				yeet.put(hold[i], 1);
+    				playerHabitatBonuses.put(Integer.parseInt(e), yeet);
     			}
     		}
     	}

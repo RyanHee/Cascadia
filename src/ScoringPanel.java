@@ -11,10 +11,11 @@ public class ScoringPanel extends JPanel{
 	private BufferedImage testPanel;
 	private JPanel p;//added end panel
 	private int prog;
-	//private Game game;
-	public ScoringPanel(JPanel panel/*Game game*/) {
+	private static Game game;
+	public ScoringPanel(JPanel panel) {
 		p = panel;//added end panel
 		prog = 0;
+		game = null;
 		try {
 			testPanel = ImageIO.read(new File("img/test cascadia.png"));
 		}
@@ -26,6 +27,7 @@ public class ScoringPanel extends JPanel{
 		super.paint(g);
 		g.drawImage(testPanel, 0, 0, getWidth(), getHeight(), null);
 		g.setFont(new Font("Arial", Font.PLAIN, 13));
+		//add logic to get everyone's scores
 		int cnt = 0;
 		int i = 0;
 		while(prog>=(cnt*4+i)) {
@@ -48,23 +50,23 @@ public class ScoringPanel extends JPanel{
 			else if(cnt >= 17 && cnt < 18) {//nature token
 				g.drawString("Final", getWidth()*(195+12*i)/256, getHeight()*(8+4*(cnt-17))/30);
 			}
-			else {//final score
-				g.drawString("Final", getWidth()*(195+12*i)/256, getHeight()*(8+4*(cnt-18))/30);
+			else if (cnt == 18){//final score
+				g.drawString("Final", getWidth()*(195+12*i)/256, getHeight()*(8+4*(cnt-17))/30);
 			}
 			i++;
-			if(i == 4) {
+			if(i == 4 /*number of players in game*/) {
 				i = 0;
 				cnt++;
 			}
 		}
 		prog++;
-		if(prog<73) {
+		if(prog<77 /*19*number of players in game +1*/) { // 19 rows*4players = 76
 			wait(200);
 			repaint();
 		}
 	}
 	
-	public static void wait(int x){
+	public void wait(int x){
         try{
             Thread.sleep(x);
         }  
@@ -72,4 +74,8 @@ public class ScoringPanel extends JPanel{
 
         }
     }
+	
+	public static void updateGame(Game g) {
+		game = g;
+	}
 }
