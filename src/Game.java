@@ -115,7 +115,7 @@ public class Game {
     }
     
     public HashMap<Integer, HashMap<String, Integer>> getAllPlayerBonuses(){
-    	//System.out.println(playerHabitatBonuses);
+    	System.out.println(playerHabitatBonuses);
     	return playerHabitatBonuses;
     }
     
@@ -219,17 +219,27 @@ public class Game {
 	    			HashMap<String, Integer> playerScore = bonusPlayerScores.get(i);
 	    			//largest = 3 pts 
 		    		if(playerScore.get(hold[q]) > max) {
-		    			String banana = bonuses.get(hold[q]);
-		    			if(banana.contains("&")) {//prev tie for 1st -> now tie for 2nd = no points
+		    			if(bonuses.get(hold[q]) == null) {
+		    				bonuses.put(hold[q], i +"-3");
+		    			}
+		    			else if(bonuses.get(hold[q]).contains("&") && tieMult) {//prev tie for 1st -> now tie for 2nd = no points
 		    				twoLarge = 1000; // really high amount so that no other players can reach it
 		    				bonuses.put(hold[q], i +"-3");
 		    				tie = false;
 		    				tieMult = false;
-		    				tie2nd = false;
+		    				tie2nd = true;
+		    			}
+		    			else if(bonuses.get(hold[q]).contains("&") && !tieMult){
+		    				twoLarge = max;
+		    				int prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(0,1));
+		    				if(prevTop == i) {
+		    					prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(2,3));
+		    				}
+		    				bonuses.put(hold[q], i + "-3,"+prevTop+"-1");
 		    			}
 		    			else {
 		    				twoLarge = max;
-		    				String prevTop = banana.substring(0,1);
+		    				int prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(0,1));
 		    				bonuses.put(hold[q], i + "-3,"+prevTop+"-1");
 		    			}
 		    			max = playerScore.get(hold[q]);
