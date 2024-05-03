@@ -127,6 +127,7 @@ public class Menu3dItem {
     public void render(Graphics2D g2, float angle, int left, Component com) {
     	left=0;
         width = com.getWidth() - left;
+        //width=500;
         AffineTransform tran = g2.getTransform();
         float textAngle = getAngleOfLocation(new Point(0, 0), new Point((int) width, (int) (-height))) + 180;
         double tx = x + Math.cos(Math.toRadians(textAngle)) * space+800;
@@ -134,8 +135,10 @@ public class Menu3dItem {
         g2.translate(tx, ty);
         Path2D p = new Path2D.Double();
         p.moveTo(0, 0);
+        //p.moveTo(400, 0);
         p.lineTo(width, -height);
         p.lineTo(width, 0);
+        //p.lineTo(400, height);
         p.lineTo(0, height);
         double cosX = Math.cos(Math.toRadians(angle));
         double sinY = Math.sin(Math.toRadians(angle));
