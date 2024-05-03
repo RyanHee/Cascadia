@@ -291,9 +291,10 @@ public class Scoring {
         }
         visited.add(n);
         bVisited.add(n);
+        int s = cnt;
         for (Node c:n.getNeighbors()){
             if (c.getAnimal().equals("B"))
-                cnt+=cntBear(c, cnt, visited);
+                cnt+=cntBear(c, s, visited);
         }
         cnt++;
         return cnt;
@@ -306,9 +307,10 @@ public class Scoring {
             return 0;
         visited.add(n);
         eVisited.add(n);
+        int s = cnt;
         for (Node c:n.getNeighbors()){
             if (c.getAnimal().equals("E")){
-                cnt+=cntElk(c, cnt, visited);
+                cnt+=cntElk(c, s, visited);
             }
         }
         cnt++;
@@ -324,6 +326,7 @@ public class Scoring {
         visited.add(n);
         sVisited.add(n);
         int a=0;
+        int s = cnt;
         for (Node c:n.getNeighbors()){
             if (c.getAnimal().equals("S"))
                 a++;
@@ -334,7 +337,7 @@ public class Scoring {
         }
         for (Node c:n.getNeighbors()){
             if (c.getAnimal().equals("S"))
-                cnt+=cntSalmon(c, cnt, visited);
+                cnt+=cntSalmon(c, s, visited);
         }
         cnt++;
         return cnt;
