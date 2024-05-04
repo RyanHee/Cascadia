@@ -119,17 +119,22 @@ public class Menu3dItem {
     private Color background = getDefaultBackground();
     private Color colorShadowTop = getDefaultColorShadowTop();
     private Color colorShadowLeft = getDefaultColorShadowLeft();
+    private int bw, bh;
 
-    public void render(Graphics2D g2, float angle, int left, int plus, Component com) {
+    public void render(Graphics2D g2, float angle, int left, int bigWidth, int bigHeight, Component com) {
     	//left=0;
         width = left;
         //width=500;
         AffineTransform tran = g2.getTransform();
+        bw=bigWidth;
+        bh=bigHeight;
         float textAngle = getAngleOfLocation(new Point(0, 0), new Point((int) width, (int) (-height))) + 180;
-        double tx = x + Math.cos(Math.toRadians(textAngle)) * space+plus;
-        double ty = y + Math.sin(Math.toRadians(textAngle)) * space-25;
+        double tx = x + Math.cos(Math.toRadians(textAngle)) * space+800f*bigWidth/1441;
+        double ty = y + Math.sin(Math.toRadians(textAngle)) * space-25f*bigHeight/900;
         g2.translate(tx, ty);
         Path2D p = new Path2D.Double();
+        //double h=height*bigHeight/900;
+        //height=(int) h;
         p.moveTo(0, 0);
         //p.moveTo(400, 0);
         //System.out.println(width+""+height);
@@ -197,8 +202,8 @@ public class Menu3dItem {
 
     public boolean isMouseOver(Point mouse) {
         float textAngle = getAngleOfLocation(new Point(0, 0), new Point((int) width, (int) (-height))) + 180;
-        double tx = x + Math.cos(Math.toRadians(textAngle)) * space+800;
-        double ty = y + Math.sin(Math.toRadians(textAngle)) * space-25;
+        double tx = x + Math.cos(Math.toRadians(textAngle)) * space+800f*bw/1441;
+        double ty = y + Math.sin(Math.toRadians(textAngle)) * space-25f*bh/900;
         Path2D p = new Path2D.Double();
         p.moveTo(tx, ty);
         p.lineTo(tx + width, ty - height);
