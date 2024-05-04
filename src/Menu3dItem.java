@@ -1,10 +1,6 @@
 
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
@@ -174,6 +170,7 @@ public class Menu3dItem {
         tran.shear(0, Math.toRadians(angle));
         g2.setTransform(tran);
         float yy = getLocationFont(text, g2);
+        g2.setFont(new Font("Arial", Font.PLAIN, 20));
         g2.drawString(text, 10f, yy);
     }
 

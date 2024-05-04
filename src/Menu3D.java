@@ -30,60 +30,7 @@ import test.EventMenu;
 import java.lang.ClassLoader;
 
 public class Menu3D extends JPanel implements MouseListener {
-    public static boolean color= false;
 
-
-    public List<Menu3dItem> getItems() {
-        return items;
-    }
-
-    public int getMenuHeight() {
-        return menuHeight;
-    }
-
-    public void setMenuHeight(int menuHeight) {
-        this.menuHeight = menuHeight;
-    }
-
-    public int getShadowSize() {
-        return shadowSize;
-    }
-
-    public void setShadowSize(int shadowSize) {
-        this.shadowSize = shadowSize;
-    }
-
-    public int getLeft() {
-        return left;
-    }
-
-    public void setLeft(int left) {
-        this.left = left;
-    }
-
-    public float getAngle() {
-        return angle;
-    }
-
-    public void setAngle(float angle) {
-        this.angle = angle;
-    }
-
-    public int getOverIndex() {
-        return overIndex;
-    }
-
-    public void setOverIndex(int overIndex) {
-        this.overIndex = overIndex;
-    }
-
-    public int getPressedIndex() {
-        return pressedIndex;
-    }
-
-    public void setPressedIndex(int pressedIndex) {
-        this.pressedIndex = pressedIndex;
-    }
 
     private final List<EventMenu> events = new ArrayList<>();
     private final List<Menu3dItem> items = new ArrayList<>();
@@ -91,7 +38,6 @@ public class Menu3D extends JPanel implements MouseListener {
     private int shadowSize = 15;
     private int left = 60;//height
     private float angle = 150f;
-    private int overIndex = -1;
     private int pressedIndex = -1;
     private BufferedImage title;
     private BufferedImage imgShade;
@@ -100,15 +46,11 @@ public class Menu3D extends JPanel implements MouseListener {
     String b;
     int fram =0;
     int Flipfram =0;
-    JButton tr= new JButton();
     Graphics2D g2;
 
     private BufferedImage[] Startframes;
     private BufferedImage[] frames;
-    int once,onn =0;
-    JButton butto;
     Rectangle2D rect;
-    Rectangle2D dwwd;
 
     boolean paint;
     public static int mrect;
@@ -188,15 +130,15 @@ public class Menu3D extends JPanel implements MouseListener {
                 int index = getOverIndex(e.getPoint());
                 if (index != pressedIndex) {
                     pressedIndex = index;
+                    System.out.println("pressedIndex: "+pressedIndex);
                     if (pressedIndex != -1) {
                         items.get(pressedIndex).getAnimator().show();
                         hideMenu(pressedIndex);
                         runEvent();
                     }
+
                 }
-                if(e.getX()>50) {
-                	
-                }
+
             }
         };
         addMouseListener(mouse);
@@ -260,16 +202,19 @@ public class Menu3D extends JPanel implements MouseListener {
     	mrect+=50;
     	super.paint(h);
     	h.setColor(Color.BLUE);
-    	if(pressedIndex==-1&&v!=-1) {
-    		pressedIndex=v;
-    	}
+
     	if(pressedIndex==-1) {
-        h.drawImage(Startframes[fram], 0, 0, getWidth(), getHeight(), null);
-	    g2 = (Graphics2D) h;
+            for (int i = 0; i < items.size(); i++) {
+                items.get(i).getAnimator().hide();
+
+            }
+            h.drawImage(Startframes[fram], 0, 0, getWidth(), getHeight(), null);
+
+	        g2 = (Graphics2D) h;
 
 
         
-        fram++;
+            fram++;
     	}
         if(fram>12)fram=5;
         
@@ -310,7 +255,6 @@ public class Menu3D extends JPanel implements MouseListener {
 
     	}
     	if(pressedIndex==2) {
-
             h.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
 	        
     	}
@@ -334,9 +278,9 @@ public class Menu3D extends JPanel implements MouseListener {
 
     	wait(10);    	
     	//System.out.println(pressedIndex);
-    	v=pressedIndex;
+
     	revalidate();
-    	if(runAnim==false||Flipfram<40) {
+    	if(!runAnim ||Flipfram<40) {
     		repaint();
     	}
     	else {
@@ -388,12 +332,13 @@ public class Menu3D extends JPanel implements MouseListener {
 	    }
 
 
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
