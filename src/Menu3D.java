@@ -37,7 +37,7 @@ public class Menu3D extends JPanel implements MouseListener {
     private int menuHeight = 120;//thickness y
     private int shadowSize = 15;
     private int left = 60;//height
-    private float angle = 150f;
+    private float angle = 180f;
     private int pressedIndex = -1;
     private BufferedImage title;
     private BufferedImage imgShade;
@@ -130,7 +130,7 @@ public class Menu3D extends JPanel implements MouseListener {
                 int index = getOverIndex(e.getPoint());
                 if (index != pressedIndex) {
                     pressedIndex = index;
-                    System.out.println("pressedIndex: "+pressedIndex);
+                    //System.out.println("pressedIndex: "+pressedIndex);
                     if (pressedIndex != -1) {
                         items.get(pressedIndex).getAnimator().show();
                         hideMenu(pressedIndex);
@@ -222,20 +222,20 @@ public class Menu3D extends JPanel implements MouseListener {
     	if(pressedIndex==0) {
     		if(runAnim==false){
 
-	        h.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
+                h.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
 
-            BufferedImage image = null;
-		    double b= getWidth()/1.92;
-            h.drawImage(buttonPlayer,getWidth()*0, getHeight()*6/8,getWidth()/7,getHeight()/7, null);
-            h.drawImage(buttonPlayer,(int)((b-(b/7))/2), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
-            h.drawImage(buttonPlayer,(int)(b-(b/7)), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
-            h.setColor(new Color(255, 255, 255));
-            h.setFont(new Font("Arial", Font.PLAIN, 60));
-            h.drawString("Select the Number of Players", getWidth()*2/32-10, getHeight()*7/16);
-            h.setFont(new Font("Arial", Font.PLAIN, 20));
-            h.drawString("2 Players", getWidth()*2/32-30, getHeight()*13/16);
-            h.drawString("3 Players", getWidth()*9/32-20, getHeight()*13/16);
-            h.drawString("4 Players", getWidth()*16/32-10, getHeight()*13/16);
+                BufferedImage image = null;
+                double b= getWidth()/1.92;
+                h.drawImage(buttonPlayer,getWidth()*0, getHeight()*6/8,getWidth()/7,getHeight()/7, null);
+                h.drawImage(buttonPlayer,(int)((b-(b/7))/2), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
+                h.drawImage(buttonPlayer,(int)(b-(b/7)), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
+                h.setColor(new Color(255, 255, 255));
+                h.setFont(new Font("Arial", Font.PLAIN, 60));
+                h.drawString("Select the Number of Players", getWidth()*2/32-10, getHeight()*7/16);
+                h.setFont(new Font("Arial", Font.PLAIN, 20));
+                h.drawString("2 Players", getWidth()*2/32-30, getHeight()*13/16+getHeight()/128);
+                h.drawString("3 Players", getWidth()*9/32-20, getHeight()*13/16+getHeight()/128);
+                h.drawString("4 Players", getWidth()*16/32-10, getHeight()*13/16+getHeight()/128);
     		}
 
 		    /*if(once==0) {
