@@ -47,7 +47,7 @@ public class Menu3D extends JPanel implements MouseListener {
     int fram =0;
     int Flipfram =0;
     Graphics2D g2;
-
+    boolean pressedBut=false;
     private BufferedImage[] Startframes;
     private BufferedImage[] frames;
     Rectangle2D rect;
@@ -221,9 +221,9 @@ public class Menu3D extends JPanel implements MouseListener {
 
     	if(pressedIndex==0) {
     		if(runAnim==false){
-
+    			pressedBut=true;
                 h.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
-
+                
                 BufferedImage image = null;
                 double b= getWidth()/1.92;
                 h.drawImage(buttonPlayer,getWidth()*0, getHeight()*6/8,getWidth()/7,getHeight()/7, null);
@@ -251,10 +251,12 @@ public class Menu3D extends JPanel implements MouseListener {
 		    
     	}
     	if(pressedIndex==1) {
+    		pressedBut=false;
             h.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
 
     	}
     	if(pressedIndex==2) {
+    		pressedBut=false;
             h.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
 	        
     	}
@@ -315,17 +317,17 @@ public class Menu3D extends JPanel implements MouseListener {
 	    Rectangle b2 = new Rectangle((int)((b-(b/7))/2), getHeight()*6/8, getWidth()/7, getHeight()/7);
 	    Rectangle b3 = new Rectangle((int)(b-(b/7)), getHeight()*6/8, getWidth()/7, getHeight()/7);
 
-	    if(b1.contains(clicked)){
+	    if(b1.contains(clicked)&&pressedBut){
 	    	runAnim= true;
             playerCount=2;
             contentPane.add(new Panel(contentPane, 2), "gamePanel");
 	    }
-	    else if(b2.contains(clicked)){
+	    else if(b2.contains(clicked)&&pressedBut){
 	    	runAnim= true;
             playerCount=3;
             contentPane.add(new Panel(contentPane, 3), "gamePanel");
 	    }
-	    else if(b3.contains(clicked)){
+	    else if(b3.contains(clicked)&&pressedBut){
 	    	runAnim= true;
             playerCount=4;
             contentPane.add(new Panel(contentPane, 4), "gamePanel");
