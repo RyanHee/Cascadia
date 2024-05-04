@@ -1,5 +1,3 @@
-
-
 import java.awt.AlphaComposite;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -313,7 +311,7 @@ public class Menu3D extends JPanel implements MouseListener {
     	}
     	if(pressedIndex==2) {
 
-
+            h.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
 	        
     	}
 
@@ -323,7 +321,7 @@ public class Menu3D extends JPanel implements MouseListener {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         for (int i = items.size() - 1; i >= 0; i--) {
-            items.get(i).render(g2, 360 - angle, 121, this);
+            items.get(i).render(g2, 360 - angle, 470, this);
             //System.out.println(3);
         }
         g2.dispose();

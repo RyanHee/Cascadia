@@ -125,8 +125,8 @@ public class Menu3dItem {
     private Color colorShadowLeft = getDefaultColorShadowLeft();
 
     public void render(Graphics2D g2, float angle, int left, Component com) {
-    	left=0;
-        width = com.getWidth() - left;
+    	//left=0;
+        width = left;
         //width=500;
         AffineTransform tran = g2.getTransform();
         float textAngle = getAngleOfLocation(new Point(0, 0), new Point((int) width, (int) (-height))) + 180;
@@ -136,6 +136,7 @@ public class Menu3dItem {
         Path2D p = new Path2D.Double();
         p.moveTo(0, 0);
         //p.moveTo(400, 0);
+        //System.out.println(width+""+height);
         p.lineTo(width, -height);
         p.lineTo(width, 0);
         //p.lineTo(400, height);
@@ -198,11 +199,21 @@ public class Menu3dItem {
     }
 
     public boolean isMouseOver(Point mouse) {
+        float textAngle = getAngleOfLocation(new Point(0, 0), new Point((int) width, (int) (-height))) + 180;
+        double tx = x + Math.cos(Math.toRadians(textAngle)) * space+800;
+        double ty = y + Math.sin(Math.toRadians(textAngle)) * space-25;
         Path2D p = new Path2D.Double();
-        p.moveTo(x, y);
-        p.lineTo(x + width, y - height);
-        p.lineTo(x + width, y);
-        p.lineTo(x, y + height);
+        p.moveTo(tx, ty);
+        p.lineTo(tx + width, ty - height);
+        p.lineTo(tx + width, ty);
+        p.lineTo(tx, ty + height);
+        /*
+        System.out.println(tx);
+        System.out.println(ty);
+        System.out.println(width);
+        System.out.println(height);
+        System.out.println(p.contains(mouse));
+         */
         return p.contains(mouse);
     }
 
