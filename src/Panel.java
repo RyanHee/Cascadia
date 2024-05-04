@@ -149,7 +149,7 @@ public class Panel extends JPanel implements ActionListener {
         rotate.addActionListener(this);
         add(rotate);
         
-        bplst=new BoardPanel[numOfPlayers];
+        bplst=new BoardPanel[numOfPlayers-1];
         for (int i=0;i<bplst.length;i++){
             bplst[i]=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
             add(bplst[i]);
@@ -161,7 +161,7 @@ public class Panel extends JPanel implements ActionListener {
         */
         bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
 
-        //add(bp);
+        add(bp);
        
         //setBackground(Color.WHITE);
         //setBackground(new Color(3, 107, 156)) // blue;
@@ -194,9 +194,11 @@ public class Panel extends JPanel implements ActionListener {
         	
         }
         	
-        g.setFont(new Font("Arial", Font.PLAIN, 15));
+        g.setFont(new Font("Arial", Font.BOLD, 30));
         g.drawImage(selectOutline, getWidth()*57/128, getHeight()*22/25, 50, 58, null);
-        
+        FontMetrics f = g.getFontMetrics();
+        g.drawString("L", getWidth()*57/128+25 - f.stringWidth("L")/2, getHeight()*22/25+25+f.getAscent()/2);
+        g.setFont(new Font("Arial", Font.BOLD, 15));
         //System.out.println("bruh time"+game.getPlayerList()[0].getScore());
         
         HashMap<String, Integer> map = game.getBonuses();
@@ -205,8 +207,8 @@ public class Panel extends JPanel implements ActionListener {
         g.drawString(game.getScoring().getLandScore().toString() +" / "+map.get(h), getWidth()*126/256, getHeight()*23/25);
         String[] animal = new String[]{"B", "E", "F", "H", "S"};
         for(int i = 0; i<animal.length; i++) {
-        	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*(134+15*i)/256, getHeight()*22/25, 50, 50, null);
-        	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*(145+15*i)/256, getHeight()*23/25);
+        	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*(134+15*i)/256, getHeight()*22/25+getHeight()/128, 50, 50, null);
+        	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*(142+15*i)/256, getHeight()*23/25);
         }
 
         g.setColor(new Color(0,0,0));
@@ -217,7 +219,7 @@ public class Panel extends JPanel implements ActionListener {
         g.setFont(new Font("Arial", Font.PLAIN, 20));
         g.drawImage(natureToken, getWidth()/5, 10, 50, 50, null);
         g.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 40);
-        g.drawString("Current Score: "+String.valueOf(game.curPlayerScore()), getWidth()/15+20, 70);
+        g.drawString("Current Score: "+ game.curPlayerScore(), getWidth()/15+20, 70);
        
         
         //System.out.println("bruh "+game.getPlayerList()[0].getScore());
@@ -228,7 +230,7 @@ public class Panel extends JPanel implements ActionListener {
 
         if (actionLogUsed){
             g.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight()*3/4);
-            g.setColor(new Color(20, 2, 86));
+            g.setColor(new Color(0, 40, 86));
             g.fillRect(getWidth()*6/8+getWidth()/16,getHeight()*3/4,getWidth()*2/10,getHeight()/4);
             g.setColor(Color.WHITE);
             Queue<String> actions = game.getActionLog();
@@ -351,7 +353,7 @@ public class Panel extends JPanel implements ActionListener {
         if(game.getCurrPlayer().getNumTokens() == 0 || natureTokenUsed) {
         	useNature.setVisible(false);
         }
-        else if(!natureTokenUsed &&!tileChose && state <2){
+        else if(!tileChose && state < 2){
         	useNature.setVisible(true);
         	clearAnimals.setVisible(false);
         	mixMatch.setVisible(false);
@@ -443,32 +445,21 @@ public class Panel extends JPanel implements ActionListener {
         }
         //91 width = getWidth()/15; 51 height = getHeight()/15 
         rotate.setBounds(125, 490, 50, 50);
-        add(bp);
+        //add(bp);
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth()*2/3, getHeight()*3/4);
 
         //image and buttons
         cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, 91, 51);
-        //g.drawImage(cancelImage, getWidth()/30-30, getHeight()*3/5+getHeight()/10, 91, 51, null);
         nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, 91, 51); //only turn on for testing
-        //g.drawImage(nextImage, getWidth()/30-30, getHeight()*3/5+getHeight()/5, 91, 51, null);
         confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, 91, 51);
-        //g.drawImage(confirmImage, getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, 91, 51, null);
         help.setBounds(getWidth()/3, getHeight()/25, 91, 51);
-        //g.drawImage(helpImage ,getWidth()/3, getHeight()/25, 91, 51, null);
         scoreCards.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, 91, 51);
-        //g.drawImage(scoreCardImage, getWidth()/3+getWidth()/10, getHeight()/25, 91, 51, null);
         actionLog.setBounds(getWidth()/3+getWidth()/5, getHeight()/25, 91, 51);
-        //g.drawImage(actionLogImage, getWidth()/3+getWidth()/5, getHeight()/25, 91, 51, null);
         useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, 91, 51);
-        //g.drawImage(useNTImage, getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, 91, 51, null);
         removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, 91, 51);
-        //g.drawImage(removeDupImage, getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, 91, 51, null);
         confirmClear.setBounds(getWidth()/3, getHeight()/25, 91, 51);
-        //g.drawImage(confirmClearImage, getWidth()/3, getHeight()/25, 91, 51, null);
         clearAnimals.setBounds(getWidth()/3, getHeight()/25, 91, 51);
-        //g.drawImage(clearAnimalImage, getWidth()/3, getHeight()/25, 91, 51, null);
         mixMatch.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, 91, 51);
-        //g.drawImage(mixMatchImage,getWidth()/3+getWidth()/10, getHeight()/25, 91, 51, null);
     }
 
     public int getState(){
