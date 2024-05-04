@@ -140,6 +140,9 @@ public class Game {
     		//1st place bonus
     		String pBonus = bonuses.get(hold[i]);
     		int num = 0;
+    		if(i == bonuses.size()-1) {
+    			return bonus;
+    		}
     		String holdP = pBonus.substring(0,pBonus.indexOf("-"));
     		String[] play = holdP.split("&");
     		if(!pBonus.contains(",")) {
@@ -150,13 +153,13 @@ public class Game {
     			extra = true;
     		}
     		for(int m = 0; m<play.length; m++) {
-    			if(bonus.get(play[m])==null) {
+    			if(bonus.get(play[m])==null && !play[m].equals("9")) {
     				bonus.put(play[m], num);
     				HashMap<String, Integer> yeet = new HashMap<>();
     				yeet.put(hold[i], num);
     				playerHabitatBonuses.put(Integer.parseInt(play[m]), yeet);
     			}
-    			else {
+    			else if (!play[m].equals("9")) {
     				bonus.put(play[m], bonus.get(play[m])+num);
     				HashMap<String, Integer> yeet = playerHabitatBonuses.get(Integer.parseInt(play[m]));
     				yeet.put(hold[i], num);
@@ -166,13 +169,13 @@ public class Game {
     		//2nd place bonus
     		if(extra) {
     			String e = pBonus.substring(pBonus.indexOf(",")+1, pBonus.indexOf(",")+2);
-    			if(bonus.get(e)==null) {
+    			if(bonus.get(e)==null && !e.equals("9")) {
     				bonus.put(e, 1);
     				HashMap<String, Integer> yeet = new HashMap<>();
     				yeet.put(hold[i], 1);
     				playerHabitatBonuses.put(Integer.parseInt(e), yeet);
     			}
-    			else {
+    			else if (!e.equals("9")){
     				bonus.put(e, bonus.get(e)+1);
     				HashMap<String, Integer> yeet = playerHabitatBonuses.get(Integer.parseInt(e));
     				yeet.put(hold[i], 1);
@@ -219,28 +222,45 @@ public class Game {
 	    			HashMap<String, Integer> playerScore = bonusPlayerScores.get(i);
 	    			//largest = 3 pts 
 		    		if(playerScore.get(hold[q]) > max) {
-		    			if(bonuses.get(hold[q]) == null) {
+		    			if(bonuses.get(hold[q]) == null) {//first bonus max 
 		    				bonuses.put(hold[q], i +"-3");
+		    				System.out.println("first max: player "+i);
 		    			}
-		    			else if(bonuses.get(hold[q]).contains("&") && tieMult) {//prev tie for 1st -> now tie for 2nd = no points
+		    			
+		    			else if(!bonuses.get(hold[q]).contains("&")) {//another player was bonus
+		    				twoLarge = max;
+		    				int prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(0,1));
+		    				bonuses.put(hold[q], i + "-3,"+prevTop+"-1");
+		    			}
+		    			else if(bonuses.get(hold[q]).contains("&") && tie && !tieMult){
+		    				int prevTop = 0;
+		    				if(Integer.parseInt(bonuses.get(hold[q]).substring(0,1)) == i) {
+		    					prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(2,3));
+		    					twoLarge = max;
+			    				bonuses.put(hold[q], i + "-3,"+prevTop+"-1");
+			    				System.out.println("prev 2 player tie for 1st; now 1st & 2nd ");
+		    				}
+		    				else if(Integer.parseInt(bonuses.get(hold[q]).substring(2,3)) == i) {
+		    					prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(0,1));
+		    					twoLarge = max;
+			    				bonuses.put(hold[q], i + "-3,"+prevTop+"-1");
+			    				System.out.println("prev 2 player tie for 1st; now 1st 2nd");
+		    				}
+		    				else {
+		    					tie2nd = true;
+		    					twoLarge = 1000;
+		    					tie = false;
+		    					bonuses.put(hold[q], i + "-3");
+		    					System.out.println("1st place, mult 2nds now");
+		    				}
+		    			}
+		    			else if(bonuses.get(hold[q]).contains("&") && tieMult) {//multiple prev tie for 1st -> now tie for 2nd = no points
 		    				twoLarge = 1000; // really high amount so that no other players can reach it
 		    				bonuses.put(hold[q], i +"-3");
 		    				tie = false;
 		    				tieMult = false;
 		    				tie2nd = true;
-		    			}
-		    			else if(bonuses.get(hold[q]).contains("&") && !tieMult){
-		    				twoLarge = max;
-		    				int prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(0,1));
-		    				if(prevTop == i) {
-		    					prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(2,3));
-		    				}
-		    				bonuses.put(hold[q], i + "-3,"+prevTop+"-1");
-		    			}
-		    			else {
-		    				twoLarge = max;
-		    				int prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(0,1));
-		    				bonuses.put(hold[q], i + "-3,"+prevTop+"-1");
+		    				System.out.println("prev 3-4 player tie for 1st; now just player "+i);
 		    			}
 		    			max = playerScore.get(hold[q]);
 		    		}
