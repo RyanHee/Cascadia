@@ -21,6 +21,9 @@ public class Panel extends JPanel implements ActionListener {
     private int angle, numSelectedTile, numSelectedAnimal;
     private static BufferedImage selectOutline, outline, rotateImage;
     private static BufferedImage natureToken;
+    private BufferedImage actionLogImage, cancelImage, clearAnimalImage, confirmImage, confirmClearImage;
+    private BufferedImage helpImage, mixMatchImage, nextImage, removeDupImage, scoreCardImage, useNTImage;
+    private BufferedImage frameImg;
     private Node nodeSelected;
     private HexButton rotate;
     private BufferedImage[] tiles4;
@@ -56,6 +59,18 @@ public class Panel extends JPanel implements ActionListener {
             outline=ImageIO.read(new File("img/tileOutline.png"));
             selectOutline=ImageIO.read(new File("img/selectedTile.png"));
             natureToken=ImageIO.read(new File("img/tokens/nature-token.png"));
+            actionLogImage=ImageIO.read(new File("img/buttonimages/action log.png"));
+            cancelImage= (BufferedImage) ImageIO.read(new File("img/buttonimages/cancel.png"));
+            clearAnimalImage=ImageIO.read(new File("img/buttonimages/clear animals.png"));
+            confirmImage=ImageIO.read(new File("img/buttonimages/confirm.png"));
+            confirmClearImage=ImageIO.read(new File("img/buttonimages/confirm clear animals.png"));
+            helpImage=ImageIO.read(new File("img/buttonimages/help.png"));
+            mixMatchImage=ImageIO.read(new File("img/buttonimages/mix match.png"));
+            nextImage=ImageIO.read(new File("img/buttonimages/next.png"));
+            removeDupImage=ImageIO.read(new File("img/buttonimages/Remove Triplets.png"));
+            scoreCardImage= (BufferedImage) ImageIO.read(new File("img/buttonimages/score cards.png"));
+            useNTImage=ImageIO.read(new File("img/buttonimages/use nature token.png"));
+            frameImg=ImageIO.read(new File("img/goldframe.png"));
 
 
             tiles4=new BufferedImage[4];
@@ -88,17 +103,17 @@ public class Panel extends JPanel implements ActionListener {
         }
         angle=0;
         numSelectedTile =-1;
-        confirmB=new JButton("confirm");
-        cancelB=new JButton("cancel");
-        nextB=new JButton("next turn");
-        help=new JButton("Help");
-        scoreCards=new JButton("Scoring Cards");
-        actionLog=new JButton("Action Log");
-        useNature=new JButton("Use Nature Token");
-        removeDups=new JButton("Remove Duplicate Tokens");
-        confirmClear = new JButton("Confirm Clearing Animals");
-        clearAnimals = new JButton("Clear X Animals");
-        mixMatch = new JButton("Mix & Match tile & token");
+        confirmB=new JButton(new ImageIcon(confirmImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
+        cancelB=new JButton(new ImageIcon(cancelImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
+        nextB=new JButton(new ImageIcon(nextImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
+        help=new JButton(new ImageIcon(helpImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
+        scoreCards=new JButton(new ImageIcon(scoreCardImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
+        actionLog=new JButton(new ImageIcon(actionLogImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
+        useNature=new JButton(new ImageIcon(useNTImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
+        removeDups=new JButton(new ImageIcon(removeDupImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
+        confirmClear = new JButton(new ImageIcon(confirmClearImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
+        clearAnimals = new JButton(new ImageIcon(clearAnimalImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
+        mixMatch = new JButton(new ImageIcon(mixMatchImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
         rotate = new HexButton("arrow.png");
 
         confirmB.addActionListener(this);
@@ -205,7 +220,26 @@ public class Panel extends JPanel implements ActionListener {
         g.setColor(new Color(159, 223, 223));
         g.setColor(new Color(165, 213, 232));
 
-        g.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight());
+
+        if (actionLogUsed){
+            g.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight()*3/4);
+            g.setColor(new Color(20, 2, 86));
+            g.fillRect(getWidth()*6/8+getWidth()/16,getHeight()*3/4,getWidth()*2/10,getHeight()/4);
+            g.setColor(Color.WHITE);
+            Queue<String> actions = game.getActionLog();
+            g.setFont(new Font("Comic Sans", Font.BOLD, 12));
+            Iterator<String> it = actions.iterator();
+            int i=0;
+            while (it.hasNext()) {
+                g.drawString(it.next(), getWidth()*135/160, getHeight()*81/100+(i*20));
+                i++;
+            }
+            g.drawImage(frameImg, getWidth()*13/16, getHeight()*3/4+2, getWidth()*24/128, getHeight()/4-2, null);
+        }
+        else{
+            g.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight());
+        }
+
         g.setColor(Color.BLACK);
         
         int yPlay = 0;
@@ -256,12 +290,14 @@ public class Panel extends JPanel implements ActionListener {
         		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+getWidth()/32, getHeight()*yPlay/4+getHeight()/32);
         		g.setFont(new Font("Arial", Font.PLAIN, 10));
         		g.drawString("Current Score: "+String.valueOf(game.getPlayerList()[pNum-1].getScore() +game.getPlayerList()[pNum-1].getBonus()), getWidth()*13/14, getHeight()*yPlay/4+getHeight()*7/256);
-        		g.drawRect(getWidth()*13/16, getHeight()*(yPlay+1)/4, getWidth()*24/128, 2);
+        		g.fillRect(getWidth()*13/16, getHeight()*(yPlay+1)/4, getWidth()*24/128, 2);
         		//draw other players boards (but not as buttons)
                 yPlay++;
         	}
         }
-        
+
+
+
         for(int i = 0;i<5;i++) {
             g.drawRect(getWidth()/7-i, getHeight()/8-i, getWidth() - getWidth() / 3+2*i, getHeight()*3/4 +2*i);
         }
@@ -354,23 +390,14 @@ public class Panel extends JPanel implements ActionListener {
         
         game.getAllPlayerBonuses();//this is a test
         
-        if(actionLogUsed) {
-        	Queue<String> actions = game.getActionLog();
-        	g.setFont(new Font("Comic Sans", Font.BOLD, 10));
-            Iterator<String> it = actions.iterator();
-            int i=0;
-        	while (it.hasNext()) {
-        		g.drawString(it.next(), getWidth()*13/16+10, getHeight()*4/5+(i*20));
-                i++;
-        	}
-        }
+
         Graphics2D g2 = (Graphics2D) g.create();
         if(prog<=100){
-        g2.setStroke(new BasicStroke(6));
-        g2.setColor(Color.BLACK);
-        g2.drawRect(getWidth()/15, getHeight()/10*9, getWidth()/3, getHeight()/20);
-        g2.setColor(Color.GREEN);
-        g2.fillRect(getWidth()/15, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
+            g2.setStroke(new BasicStroke(6));
+            g2.setColor(Color.BLACK);
+            g2.drawRect(getWidth()/15, getHeight()/10*9, getWidth()/3, getHeight()/20);
+            g2.setColor(Color.GREEN);
+            g2.fillRect(getWidth()/15, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
         }
         if(prog<101){
             prog++;
@@ -403,17 +430,30 @@ public class Panel extends JPanel implements ActionListener {
         //91 width = getWidth()/15; 51 height = getHeight()/15 
         rotate.setBounds(125, 490, 50, 50);
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth()*2/3, getHeight()*3/4);
+
+        //image and buttons
         cancelB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/10, 91, 51);
+        //g.drawImage(cancelImage, getWidth()/30-30, getHeight()*3/5+getHeight()/10, 91, 51, null);
         nextB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5, 91, 51); //only turn on for testing
+        //g.drawImage(nextImage, getWidth()/30-30, getHeight()*3/5+getHeight()/5, 91, 51, null);
         confirmB.setBounds(getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, 91, 51);
+        //g.drawImage(confirmImage, getWidth()/30-30, getHeight()*3/5+getHeight()/5+getHeight()/10, 91, 51, null);
         help.setBounds(getWidth()/3, getHeight()/25, 91, 51);
+        //g.drawImage(helpImage ,getWidth()/3, getHeight()/25, 91, 51, null);
         scoreCards.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, 91, 51);
+        //g.drawImage(scoreCardImage, getWidth()/3+getWidth()/10, getHeight()/25, 91, 51, null);
         actionLog.setBounds(getWidth()/3+getWidth()/5, getHeight()/25, 91, 51);
+        //g.drawImage(actionLogImage, getWidth()/3+getWidth()/5, getHeight()/25, 91, 51, null);
         useNature.setBounds(getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, 91, 51);
+        //g.drawImage(useNTImage, getWidth()/3+getWidth()/5+getWidth()/10, getHeight()/25, 91, 51, null);
         removeDups.setBounds(getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, 91, 51);
+        //g.drawImage(removeDupImage, getWidth()/3+getWidth()/5+getWidth()/5, getHeight()/25, 91, 51, null);
         confirmClear.setBounds(getWidth()/3, getHeight()/25, 91, 51);
+        //g.drawImage(confirmClearImage, getWidth()/3, getHeight()/25, 91, 51, null);
         clearAnimals.setBounds(getWidth()/3, getHeight()/25, 91, 51);
+        //g.drawImage(clearAnimalImage, getWidth()/3, getHeight()/25, 91, 51, null);
         mixMatch.setBounds(getWidth()/3+getWidth()/10, getHeight()/25, 91, 51);
+        //g.drawImage(mixMatchImage,getWidth()/3+getWidth()/10, getHeight()/25, 91, 51, null);
     }
 
     public int getState(){
