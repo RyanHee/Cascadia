@@ -208,7 +208,7 @@ public class Panel extends JPanel implements ActionListener {
         String[] animal = new String[]{"B", "E", "F", "H", "S"};
         for(int i = 0; i<animal.length; i++) {
         	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*(134+15*i)/256, getHeight()*22/25+getHeight()/128, 50, 50, null);
-        	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*(142+15*i)/256, getHeight()*23/25);
+        	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*(144+15*i)/256, getHeight()*23/25);
         }
 
         g.setColor(new Color(0,0,0));
