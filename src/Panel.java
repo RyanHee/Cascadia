@@ -161,7 +161,7 @@ public class Panel extends JPanel implements ActionListener {
         */
         bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
 
-        add(bp);
+        //add(bp);
        
         //setBackground(Color.WHITE);
         //setBackground(new Color(3, 107, 156)) // blue;
@@ -443,6 +443,7 @@ public class Panel extends JPanel implements ActionListener {
         }
         //91 width = getWidth()/15; 51 height = getHeight()/15 
         rotate.setBounds(125, 490, 50, 50);
+        add(bp);
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth()*2/3, getHeight()*3/4);
 
         //image and buttons

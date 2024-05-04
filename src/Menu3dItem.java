@@ -120,13 +120,13 @@ public class Menu3dItem {
     private Color colorShadowTop = getDefaultColorShadowTop();
     private Color colorShadowLeft = getDefaultColorShadowLeft();
 
-    public void render(Graphics2D g2, float angle, int left, Component com) {
+    public void render(Graphics2D g2, float angle, int left, int plus, Component com) {
     	//left=0;
         width = left;
         //width=500;
         AffineTransform tran = g2.getTransform();
         float textAngle = getAngleOfLocation(new Point(0, 0), new Point((int) width, (int) (-height))) + 180;
-        double tx = x + Math.cos(Math.toRadians(textAngle)) * space+800;
+        double tx = x + Math.cos(Math.toRadians(textAngle)) * space+plus;
         double ty = y + Math.sin(Math.toRadians(textAngle)) * space-25;
         g2.translate(tx, ty);
         Path2D p = new Path2D.Double();
