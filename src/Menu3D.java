@@ -41,7 +41,7 @@ public class Menu3D extends JPanel implements MouseListener {
     private int pressedIndex = -1;
     private BufferedImage title;
     private BufferedImage imgShade;
-    public static int playerCount = 4;
+    public static int playerCount=4;
     int v= -1;
     String b;
     int fram =0;
@@ -285,7 +285,7 @@ public class Menu3D extends JPanel implements MouseListener {
     	}
     	else {
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-            cardLayout.next(contentPane);
+            cardLayout.show(contentPane, "gamePanel");
             //Frame.update();
             runAnim = false;
     	}
@@ -317,18 +317,18 @@ public class Menu3D extends JPanel implements MouseListener {
 
 	    if(b1.contains(clicked)){
 	    	runAnim= true;
-
             playerCount=2;
+            contentPane.add(new Panel(contentPane, 2), "gamePanel");
 	    }
 	    else if(b2.contains(clicked)){
 	    	runAnim= true;
-
             playerCount=3;
+            contentPane.add(new Panel(contentPane, 3), "gamePanel");
 	    }
 	    else if(b3.contains(clicked)){
 	    	runAnim= true;
-
             playerCount=4;
+            contentPane.add(new Panel(contentPane, 4), "gamePanel");
 	    }
 
 

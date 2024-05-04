@@ -39,6 +39,7 @@ public class Panel extends JPanel implements ActionListener {
     private HashSet<Integer> animalsToClear = new HashSet<>();
     private String curVal, curAnimal;
     private BoardPanel bp,sp1,sp2,sp3;
+    private BoardPanel[]bplst;
     private BufferedImage dpad;
     private Game game;
     private static int aggrrrrhhhhhhh;
@@ -148,14 +149,18 @@ public class Panel extends JPanel implements ActionListener {
         rotate.addActionListener(this);
         add(rotate);
         
-        
-    	sp1 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
-        sp2 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
-        sp3 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
-        add(sp1); 
+        bplst=new BoardPanel[numOfPlayers];
+        for (int i=0;i<bplst.length;i++){
+            bplst[i]=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
+            add(bplst[i]);
+        }
+    	/*
+        add(sp1);
         add(sp2);
         add(sp3);
+        */
         bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
+
         add(bp);
        
         //setBackground(Color.WHITE);
@@ -246,13 +251,20 @@ public class Panel extends JPanel implements ActionListener {
         for(int pNum = 1; pNum<game.getPlayerList().length+1; pNum++) {
         	if(pNum != game.getPlayerNum()+1){
 
+                bplst[yPlay].setScale(.3);
+                bplst[yPlay].sp = true;
+                bplst[yPlay].setBoard(game.pList()[pNum-1].getBoard());
+                bplst[yPlay].setShift(0,(int)(120*.7));
+                bplst[yPlay].setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
+
+                /*
                 if(yPlay==0){
-                    sp1.setScale(.3);
+                    sp.setScale(.3);
                     sp1.sp = true;
                     sp1.setBoard(game.pList()[pNum-1].getBoard());
                     sp1.setShift(0,(int)(120*.7));
                     sp1.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
-                    
+
                 }else if(yPlay==1){
                     sp2.setScale(.3);
                     sp2.sp = true;
@@ -268,7 +280,9 @@ public class Panel extends JPanel implements ActionListener {
                     sp3.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
                     
                 }
-                
+
+
+                 */
                 //System.out.println("bruh time"+game.getPlayerList()[0].getScore());
                 
                 
