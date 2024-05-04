@@ -263,9 +263,9 @@ public class Menu3D extends JPanel implements MouseListener {
         Graphics2D g2 = (Graphics2D) h.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
+        //System.out.println(getWidth());
         for (int i = items.size() - 1; i >= 0; i--) {
-            items.get(i).render(g2, 360 - angle, 470, this);
+            items.get(i).render(g2, 360 - angle, getWidth()*470/1441, this);
             //System.out.println(3);
         }
         g2.dispose();
