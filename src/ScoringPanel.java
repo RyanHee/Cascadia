@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.*;
 import java.util.HashMap;
 
@@ -9,15 +11,18 @@ import javax.swing.*;
 
 //fix animation part of code
 public class ScoringPanel extends JPanel implements ActionListener {
-	private BufferedImage testPanel;
+	private BufferedImage testPanel, backimg, skipimg;
 	private JPanel p;//added end panel
-	private int prog;
+	private int prog, waitnum;
+	private boolean hover=false;
 	private static Game game;
 	private HashMap<Integer, String> inttostring;
-	private JButton back;
+	private JButton back, skip;
+	Rectangle r;
 	public ScoringPanel(JPanel panel, Game g) {
 		p = panel;//added end panel
 		prog = 0;
+		waitnum=50;
 		game = g;
 		inttostring =new HashMap<>();
 		inttostring.put(0, "B");
@@ -36,15 +41,19 @@ public class ScoringPanel extends JPanel implements ActionListener {
 		inttostring.put(14, "S");
 		inttostring.put(15, "L");
 
-		back = new JButton("BACK");
-		back.addActionListener(this);
+		//back = new InvisButton("BACK");
+		//back.addActionListener(this);
 
 		try {
+			skipimg = ImageIO.read(getClass().getResource("img/skip.png"));
+			backimg = ImageIO.read(getClass().getResource("img/GO BACK.png"));
 			testPanel = ImageIO.read(getClass().getResource("img/EndPanelUI.png"));
 		}
 		catch(Exception e) {
 			
 		}
+
+
 	}
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -71,6 +80,9 @@ public class ScoringPanel extends JPanel implements ActionListener {
 			HashMap<String, Integer>animalmp=p.getAnimalmp();
 			HashMap<String, Integer>landmp=p.getLandmp();
 			HashMap<String, Integer>bonusmp=p.getBonusmp();
+
+
+
 			if(cnt >= 0 && cnt < 5) {//each player, each animal score
 				g2.drawString(String.valueOf(animalmp.get(inttostring.get(cnt))), getWidth()*40/256+getWidth()*149*i/1257, getHeight()*14/104+getHeight()*45*(cnt)/688);
 			}
@@ -99,11 +111,14 @@ public class ScoringPanel extends JPanel implements ActionListener {
 			}
 		}
 		prog++;
-		if(prog<77 /*19*number of players in game +1*/) { // 19 rows*4players = 76
-			wait(200);
+		if(prog<19*game.getPlayerNum()+1 /*19*number of players in game +1*/) { // 19 rows*4players = 76
+			wait(waitnum);
 			repaint();
 		}
 		else{
+			g2.drawImage(backimg, getWidth()*894/1257, getHeight()/2, getWidth()*363/1257, getHeight()/4, null);
+			back = new JButton(new ImageIcon(backimg.getScaledInstance(getWidth()*363/1257, getHeight()/4, Image.SCALE_SMOOTH)));
+			back.addActionListener(this);
 			add(back);
 			back.setBounds(getWidth()*894/1257, getHeight()/2, getWidth()*363/1257, getHeight()/4);
 		}
@@ -129,5 +144,12 @@ public class ScoringPanel extends JPanel implements ActionListener {
 			Constants.stop=true;
 			cl.show(p, "gamePanel");
 		}
+
+
 	}
+
+
+
+
+
 }

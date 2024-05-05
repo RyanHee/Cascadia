@@ -220,8 +220,8 @@ public class Game {
 
     public void nextTurn(){
         cur++;
-        if(cur>=4) {
-        	cur=cur%4;
+        if(cur>=playerlst.length) {
+        	cur=cur%playerlst.length;
         	turn++;
         	//System.out.println("turn"+ turn);
         }

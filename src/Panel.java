@@ -35,7 +35,7 @@ public class Panel extends JPanel implements ActionListener {
     private String curVal, curAnimal;
     private BoardPanel bp,sp1,sp2,sp3;
     private BoardPanel[]bplst;
-    private BufferedImage dpad;
+    private BufferedImage dpad, nextimg;
     private Game game;
     private static int aggrrrrhhhhhhh;
     private boolean first = true;
@@ -51,6 +51,7 @@ public class Panel extends JPanel implements ActionListener {
         try{
             //img = ImageIO.read(Panel.class.getResource("tile.png"));
             //img1 = ImageIO.read(Panel.class.getResource("tile1.png"));
+            nextimg=ImageIO.read(getClass().getResource("img/Next.png"));
             pfpFrameImg=ImageIO.read(getClass().getResource("img/Frame.png"));
             dpad=ImageIO.read(getClass().getResource("img/DPAD.jpg"));
             outline=ImageIO.read(getClass().getResource("img/tileOutline.png"));
@@ -111,7 +112,7 @@ public class Panel extends JPanel implements ActionListener {
         confirmClear = new JButton(new ImageIcon(confirmClearImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
         clearAnimals = new JButton(new ImageIcon(clearAnimalImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
         mixMatch = new JButton(new ImageIcon(mixMatchImage.getScaledInstance(91, 51, Image.SCALE_SMOOTH)));
-        scorePB = new JButton("next");
+        scorePB = new JButton(new ImageIcon(nextImage.getScaledInstance(100, 50, Image.SCALE_SMOOTH)));
         rotate = new HexButton("arrow.png");
 
         confirmB.addActionListener(this);
@@ -138,7 +139,8 @@ public class Panel extends JPanel implements ActionListener {
         add(clearAnimals);
         add(mixMatch);
         add(rotate);
-
+        add(scorePB);
+        scorePB.setVisible(false);
         
 
         curVal="";
@@ -205,6 +207,7 @@ public class Panel extends JPanel implements ActionListener {
         game.scoreAllPlayer();
         g2.setFont(new Font("Arial", Font.BOLD, 30));
         g2.drawImage(selectOutline, getWidth()*57/128, getHeight()*22/25+4, 50, 58, null);
+        g2.setFont(new Font("Comic Sans", Font.BOLD, 45));
         FontMetrics f = g2.getFontMetrics();
         g2.drawString("H", getWidth()*57/128+25 - f.stringWidth("H")/2, getHeight()*22/25+29+f.getAscent()/2);
         g2.setFont(new Font("Arial", Font.BOLD, 15));
@@ -370,7 +373,7 @@ public class Panel extends JPanel implements ActionListener {
         if(nodeSelected!=null) {
         	//removeDups.setVisible(false);
         	confirmB.setVisible(true);
-        	g2.drawImage(rotateImage, 125, 488, 50, 55, null);
+        	g2.drawImage(rotateImage, 125, getHeight()*2/3-2, 50, 55, null);
         	rotate.setVisible(true);
         }
         else {
@@ -469,13 +472,15 @@ public class Panel extends JPanel implements ActionListener {
             }
         }
         //91 width = getWidth()/15; 51 height = getHeight()/15 
-        rotate.setBounds(125, 490, 50, 50);
+        rotate.setBounds(125, getHeight()*2/3, 50, 50);
         //add(bp);
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth()*2/3, getHeight()*3/4);
-
+        scorePB.setBounds(getWidth()-100, getHeight()-50, 100, 50);
         if (Constants.stop){
-            add(scorePB);
-            scorePB.setBounds(getWidth()-100, getHeight()-50, 100, 50);
+            //add(scorePB);
+            g2.drawImage(nextImage, getWidth()-100, getHeight()-50, 100, 50, null);
+            scorePB.setVisible(true);
+
         }
 
         //image and buttons
@@ -560,7 +565,7 @@ public class Panel extends JPanel implements ActionListener {
         nextB.setVisible(true); //only for testing
         mini =0;
         game.addAction("Next Turn: Player "+(game.getCurPlayerNum()+1));
-        if(game.getTurn() > 20) {
+        if(game.getTurn() > 2) {
         	//end the game
 
             if (!Constants.stop){
@@ -602,7 +607,13 @@ public class Panel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         //System.out.println(state);
-    	
+        //will need to remove later on
+        if (e.getSource().equals(nextB)){
+            nextTurn();
+            repaint();
+            return;
+        }
+
         if (e.getSource().equals(scorePB)){
             CardLayout cardLayout = (CardLayout) p.getLayout();
 
@@ -623,7 +634,16 @@ public class Panel extends JPanel implements ActionListener {
     		repaint();
     		return;
     	}
-        
+
+        //help button -> open link
+        if(e.getSource().equals(help)) {
+            openWebPage("https://www.alderac.com/wp-content/uploads/2021/08/Cascadia-Rules.pdf");
+        }
+
+        if (Constants.stop){
+            return;
+        }
+
         if(e.getSource().equals(confirmClear)) {
             for (int i:animalsToClear){
                 game.returnAnimalToken(game.getAnimalToken4()[i]);
@@ -698,10 +718,7 @@ public class Panel extends JPanel implements ActionListener {
             //remove token (token >0 -> nature token buttons appears)
         }
         
-        //help button -> open link
-        if(e.getSource().equals(help)) {
-        	openWebPage("https://www.alderac.com/wp-content/uploads/2021/08/Cascadia-Rules.pdf");
-        }
+
         //remove duplicate animals
         if(e.getSource().equals(removeDups) && !dupAnimalsUsed) {
         	dupAnimalsUsed = true;
@@ -715,12 +732,7 @@ public class Panel extends JPanel implements ActionListener {
             return;
         }
         
-        //will need to remove later on
-        if (e.getSource().equals(nextB)){
-            nextTurn();
-            repaint();
-            return;
-        }
+
         //select tile
         for (int i=0;i<4;i++){
             HexButton b = fourButtonTiles[i];
