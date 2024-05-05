@@ -262,6 +262,7 @@ public class BoardPanel extends JPanel implements ActionListener {
                     }
                     bigPanel.nextA();
                     bigPanel.resetProg();
+                    bigPanel.getGame().scoreAllPlayer();
                     repaint();
                 }
             }

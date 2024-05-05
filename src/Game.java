@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Game {
@@ -14,10 +13,7 @@ public class Game {
     private int turn = 1;
     private HashSet<Node> visited = new HashSet<>();
     private boolean animalAllowed = false;
-    private HashMap<Integer, HashMap<String, Integer>> bonusPlayerScores; // holds all player scores
-    private HashMap<String, String> bonuses; // holds which habitats have different bonus
-    private HashMap<String, Integer> bonus; // holds the actual bonus amount for each player (each player = 1 string)
-    private HashMap<Integer, HashMap<String, Integer>> playerHabitatBonuses; // holds list of players & their bonuses per habitat
+
     
     public Game(int numOfPlayers) {
         Scanner sc = new Scanner(System.in);
@@ -99,23 +95,26 @@ public class Game {
         }
         cur=0;
         scoring=new Scoring();
+		/*
         bonuses = new HashMap<>();
         bonus = new HashMap<>();
         bonusPlayerScores = new HashMap<>();
         playerHabitatBonuses = new HashMap<>();
         getBonuses();
+
+		 */
         //System.out.println(bonusPlayerScores);
     }
-    
+    /*
     public void updateBonus() {
     	for(int i=0; i<playerlst.length; i++) {
         	getScoring().score(playerlst[i].getBoard());
-        	bonusPlayerScores.put(i, getScoring().getLandScoreList());
+        	bonusPlayerScores.put(i, getScoring().getLandScoreMap());
         }
     }
-    
+
     public HashMap<Integer, HashMap<String, Integer>> getAllPlayerBonuses(){
-    	System.out.println(playerHabitatBonuses);
+    	//System.out.println(playerHabitatBonuses);
     	return playerHabitatBonuses;
     }
     
@@ -186,11 +185,11 @@ public class Game {
     	//System.out.println(bonus);
     	/*for(int i=0; i<playerlst.length; i++) {
     		playerlst[i].setScore(playerlst[i].getScore()+bonus.get(Integer.toString(i)));
-    	}*/
+    	}
     	//find how much each player gets in points & move from bonuses to bonus
     	return bonus;
     }
-    
+
     private void calculateBonus() {
     	String[] hold = {"D", "F", "L", "M", "S"};
     	int max = 1;
@@ -314,7 +313,7 @@ public class Game {
 	    	}
     	}
     }
-    
+    */
     public Scoring getScoring() {
     	return scoring;
     }
@@ -409,23 +408,119 @@ public class Game {
     	return playerlst;
     }
 
-    public void updateScore() {
-    	int hold = cur;
-    	for(int i=0; i<playerlst.length;i++) {
-    		cur = i;
-    		playerlst[i].setScore(curPlayerScore());
-    	}
-    	cur = hold;
+    public int getcur(){
+        return cur;
     }
+
+	public void scoreAllPlayer(){
+		HashMap[]hmplst=new HashMap[playerlst.length];
+		for (int i=0;i<playerlst.length;i++){
+			int a = scoring.score(playerlst[i].getBoard());
+            playerlst[i].setLandmp(scoring.getLandScoreMap());
+            playerlst[i].setAnimalmp(scoring.getAnimalmp());
+            System.out.println("mp: "+i+" "+playerlst[i].getAnimalmp());
+			playerlst[i].setLandScore(scoring.getLandScore());
+            playerlst[i].setAnimalScore(scoring.getAnimalScore());
+			hmplst[i]=scoring.getLandScoreMap();
+		}
+
+		String[] land=new String[]{"D", "F", "S", "L", "M"};
+		if (playerlst.length==2){
+			for (String s:land){
+				int score0=(int)hmplst[0].get(s);
+				int score1=(int)hmplst[1].get(s);
+				if (score0==score1 && score0>1){
+					playerlst[0].setBonus(s, 1);
+					playerlst[1].setBonus(s, 1);
+				}
+				else if (score0>score1){
+					playerlst[0].setBonus(s, 2);
+					playerlst[1].setBonus(s, 0);
+				}
+				else{
+					playerlst[0].setBonus(s, 0);
+					playerlst[1].setBonus(s, 2);
+				}
+			}
+		}
+
+		else{
+			for (String s:land){
+				int most=1;
+				for (int i=0;i<playerlst.length;i++){
+					int a = (int) hmplst[i].get(s);
+					if (a>most){
+						most=a;
+					}
+				}
+				List<Integer> list = new ArrayList<>();
+				if (most>1){
+					for (int i=0;i<playerlst.length;i++){
+						int a = (int) hmplst[i].get(s);
+						if (a==most){
+							list.add(i);
+						}
+					}
+
+					if (list.size()>=3){
+						for (int i=0;i<playerlst.length;i++){
+							if (list.contains(i)){
+								playerlst[i].setBonus(s, 1);
+							}
+						}
+					}
+					else if (list.size()==2){
+						for (int i=0;i<playerlst.length;i++){
+							if (list.contains(i)){
+								playerlst[i].setBonus(s, 2);
+							}
+						}
+					}
+					else if (!list.isEmpty()){
+						int second=0;
+						int secondcnt=0;
+						int secondplayer=-1;
+
+						for (int i=0;i<playerlst.length;i++){
+							int a = (int) hmplst[i].get(s);
+							if (a==most){
+								playerlst[i].setBonus(s, 3);
+							}
+							else if (a>second){
+								second=a;
+								secondplayer=i;
+							}
+						}
+						for (int i=0;i<playerlst.length;i++){
+							int a = (int) hmplst[i].get(s);
+							if (a==second){
+								secondcnt++;
+							}
+						}
+						if (secondcnt==1){
+							playerlst[secondplayer].setBonus(s, 1);
+						}
+					}
+				}
+
+			}
+		}
+
+
+		//return mplst;
+	}
     
     public int curPlayerScore(){
-        int num = 0;
-        num+=scoring.score(playerlst[cur].getBoard());
+        /*
+        scoreAllPlayer();
+        int num = scoring.score(playerlst[cur].getBoard());
+
         String h = Integer.toString(cur);
-        playerlst[cur].setBonus(bonus.get(h));
-        playerlst[cur].setScore(num+playerlst[cur].getNumTokens());
-        //System.out.println("cur player"+h+"money" +bonus.get(h) +":"+playerlst[cur].getScore());
-        return playerlst[cur].getScore()+playerlst[cur].getBonus();
+        playerlst[cur].setLandScore(num);
+
+         */
+        //scoreAllPlayer();
+        return playerlst[cur].getScore();
     }
     
     public void getAllowedSpace(Node n, String animal) {

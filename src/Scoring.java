@@ -26,20 +26,35 @@ public class Scoring {
     }
 
     public int score(Node node){
+
+        animalScore=new HashMap<>();
         int score=landMass(node);
         score+=bearB(node);
         score+=elkC(node);
         score+=foxA(node);
         score+=hawkA(node);
         score+=salmonC(node);
+
+
         //System.out.println("Land: D" + landScore.get("D") + "F" + landScore.get("F") +"S" + landScore.get("S") + "L" + landScore.get("L") + "M" + landScore.get("M")+"Bonus"+landScore.get("B"));
         //add bonus habitat score here
         //System.out.println("Animal: B" + animalScore.get("B") + "E" + animalScore.get("E") +"F" + animalScore.get("F") + "H" + animalScore.get("H") + "S" + animalScore.get("S"));
         return score;
     }
 
-    public Integer getAnimalScore(String s){
-        return animalScore.get(s);
+
+    public HashMap<String, Integer> getAnimalmp(){
+        //System.out.println(animalScore);
+        return animalScore;
+    }
+
+
+    public Integer getAnimalScore(){
+        int sum=0;
+        for (String s:animalScore.keySet()){
+            sum+=animalScore.get(s);
+        }
+        return sum;
     }
 
     public Integer getLandScore(){
@@ -51,12 +66,8 @@ public class Scoring {
         return sum;
     }
 
-    public HashMap<String, Integer> getLandScoreList() {
+    public HashMap<String, Integer> getLandScoreMap() {
         return landScore;
-    }
-
-    public void setBonusScore(int b) {
-        landScore.put("B", b);
     }
 
     public int landMass(Node node){
@@ -104,12 +115,14 @@ public class Scoring {
         hVisited=new HashSet<>();
         hawkAcnt=0;
         dfsHawk(node);
+        //System.out.println(hawkAcnt);
         if (hawkAcnt<1) {
             animalScore.put("H", 0);
             return 0;
         }
         if (hawkAcnt==1) {
             animalScore.put("H", 2);
+            //System.out.println("here");
             return 2;
         }
         if (hawkAcnt<6) {

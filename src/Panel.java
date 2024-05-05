@@ -184,31 +184,42 @@ public class Panel extends JPanel implements ActionListener {
     }*/
     
     public void paint(Graphics g){
-    	System.out.println("sdohfihsod" +Menu3D.playerCount);
+    	//System.out.println("sdohfihsod" +Menu3D.playerCount);
         super.paint(g);
         
         //System.out.println("boo"+game.getPlayerList().length);
+        /*
         if(first) {
-        	first = !first;
-        	game.updateScore();
+        	first = false;
+        	game.scoreAllPlayer();
         	
+
         }
-        	
+         */
+        game.scoreAllPlayer();
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawImage(selectOutline, getWidth()*57/128, getHeight()*22/25, 50, 58, null);
+        g.drawImage(selectOutline, getWidth()*57/128, getHeight()*22/25+4, 50, 58, null);
         FontMetrics f = g.getFontMetrics();
-        g.drawString("L", getWidth()*57/128+25 - f.stringWidth("L")/2, getHeight()*22/25+25+f.getAscent()/2);
+        g.drawString("H", getWidth()*57/128+25 - f.stringWidth("H")/2, getHeight()*22/25+29+f.getAscent()/2);
         g.setFont(new Font("Arial", Font.BOLD, 15));
-        //System.out.println("bruh time"+game.getPlayerList()[0].getScore());
-        
-        HashMap<String, Integer> map = game.getBonuses();
+
         String h = Integer.toString(game.getPlayerNum());
-        game.getScoring().score(game.getCurrPlayer().getBoard());
-        g.drawString(game.getScoring().getLandScore().toString() +" / "+map.get(h), getWidth()*126/256, getHeight()*23/25);
+        /*
+        System.out.println(game.getcur());
+        for (Player player:game.getPlayerList()){
+            System.out.println(player.getTurn()+": "+ player.getAnimalmp());
+            System.out.println(player.getLandmp());
+        }
+
+         */
+
+        int n = game.getCurrPlayer().getLandScore();
+
+        g.drawString(n +" / "+game.getCurrPlayer().bonusScore(), getWidth()*126/256, getHeight()*23/25);
         String[] animal = new String[]{"B", "E", "F", "H", "S"};
         for(int i = 0; i<animal.length; i++) {
         	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*(134+15*i)/256, getHeight()*22/25+getHeight()/128, 50, 50, null);
-        	g.drawString(": "+game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*(134+15*i)/256+55, getHeight()*23/25);
+        	g.drawString(": "+game.getCurrPlayer().getAnimalmp().get(animal[i]), getWidth()*(134+15*i)/256+55, getHeight()*23/25);
         }
 
         g.setColor(new Color(0,0,0));
@@ -217,6 +228,7 @@ public class Panel extends JPanel implements ActionListener {
         g.setFont(new Font("Arial", Font.PLAIN, 25));
         g.drawString("Player "+(game.getPlayerNum()+1), getWidth()/15+40, 40);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
+
         g.drawImage(natureToken, getWidth()/5, 10, 50, 50, null);
         g.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 40);
         g.drawString("Current Score: "+ game.curPlayerScore(), getWidth()/15+20, 70);
@@ -238,7 +250,7 @@ public class Panel extends JPanel implements ActionListener {
             Iterator<String> it = actions.iterator();
             int i=0;
             while (it.hasNext()) {
-                g.drawString(it.next(), getWidth()*135/160, getHeight()*81/100+(i*20));
+                g.drawString(it.next(), getWidth()*269/320, getHeight()*81/100+(i*20));
                 i++;
             }
             g.drawImage(frameImg, getWidth()*13/16, getHeight()*3/4+2, getWidth()*24/128, getHeight()/4-2, null);
@@ -286,26 +298,33 @@ public class Panel extends JPanel implements ActionListener {
 
                  */
                 //System.out.println("bruh time"+game.getPlayerList()[0].getScore());
-                
-                
-                
-                game.getScoring().score(game.getPlayerList()[pNum-1].getBoard());
-                g.setFont(new Font("Arial", Font.PLAIN, 8));
-                g.drawImage(selectOutline,  getWidth()*5/6-getWidth()/64,  getHeight()*yPlay/4+getHeight()/24, 22, 25, null);
-                g.drawString(game.getScoring().getLandScore().toString() +" / "+map.get(Integer.toString(pNum-1)), getWidth()*5/6+getWidth()/256, getHeight()*yPlay/4+getHeight()*1/16);
+
+
+
+
+                g.setFont(new Font("Arial", Font.BOLD, 14));
+                g.drawImage(selectOutline,  getWidth()*5/6-getWidth()/64,  getHeight()*yPlay/4+getHeight()/24+1, 22, 25, null);
+
+                FontMetrics f1 = g.getFontMetrics();
+                g.drawString("H", getWidth()*5/6-getWidth()/64+11-f1.stringWidth("H")/2, getHeight()*yPlay/4+12+getHeight()/24+f1.getAscent()/2);
+                g.setFont(new Font("Arial", Font.BOLD, 12));
+                int sjs = game.getPlayerList()[pNum-1].getLandScore();
+                g.drawString(sjs +" / "+ game.getPlayerList()[pNum-1].bonusScore(), getWidth()*5/6+getWidth()/512, getHeight()*yPlay/4+getHeight()/16);
+
+
                 for(int i = 0; i<animal.length; i++) {
-                	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*143/168+getWidth()*i*15/512, getHeight()*(yPlay)/4+getHeight()*3/64, 20, 20, null);
-                	g.drawString(game.getScoring().getAnimalScore(animal[i]).toString(), getWidth()*5/6+getWidth()*(i*15+18)/512, getHeight()*yPlay/4+getHeight()*1/16);
+                	g.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*144/168+getWidth()*i*15/512, getHeight()*(yPlay)/4+getHeight()*3/64, 20, 20, null);
+                	g.drawString(game.getPlayerList()[pNum-1].getAnimalmp().get(animal[i]).toString(), getWidth()*144/168+getWidth()*i*15/512+27, getHeight()*yPlay/4+getHeight()/16);
                 }
                 
-                game.getPlayerList()[pNum-1].setBonus(map.get(Integer.toString(pNum-1)));
+                //game.getPlayerList()[pNum-1].setBonus(map.get(Integer.toString(pNum-1)));
         		g.setFont(new Font("Arial", Font.PLAIN, 18));
         		g.drawString("Player "+pNum, getWidth()*13/16+10,getHeight()*(yPlay)/4+getHeight()*8/256);
-        		g.setFont(new Font("Arial", Font.PLAIN, 15));
-        		g.drawImage(natureToken, getWidth()*7/8+getWidth()/128, getHeight()*yPlay/4+getHeight()/128, 25, 25, null);
-        		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+getWidth()/32, getHeight()*yPlay/4+getHeight()/32);
-        		g.setFont(new Font("Arial", Font.PLAIN, 10));
-        		g.drawString("Current Score: "+String.valueOf(game.getPlayerList()[pNum-1].getScore() +game.getPlayerList()[pNum-1].getBonus()), getWidth()*13/14, getHeight()*yPlay/4+getHeight()*7/256);
+        		g.setFont(new Font("Arial", Font.BOLD, 15));
+        		g.drawImage(natureToken, getWidth()*7/8+getWidth()/128, getHeight()*yPlay/4+getHeight()/128+getHeight()/512, 25, 25, null);
+        		g.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+getWidth()/32-getWidth()/128, getHeight()*yPlay/4+getHeight()/32-getHeight()/256);
+        		g.setFont(new Font("Arial", Font.BOLD, 15));
+        		g.drawString("Current Score: "+ game.getPlayerList()[pNum - 1].getScore(), getWidth()*13/14, getHeight()*yPlay/4+getHeight()*7/256);
         		g.fillRect(getWidth()*13/16, getHeight()*(yPlay+1)/4, getWidth()*24/128, 2);
         		//draw other players boards (but not as buttons)
                 yPlay++;
@@ -370,11 +389,7 @@ public class Panel extends JPanel implements ActionListener {
             }
 
         }
-        //g.drawImage(dpad, 800, 600, 240, 240, null);
 
-
-       
-        //left.showButton();
         
         for (int i=0;i<4;i++){
             add(fourButtonTiles[i]);
@@ -404,7 +419,7 @@ public class Panel extends JPanel implements ActionListener {
             fourButtonAnimal[i].setBounds(115, getHeight()/8+i*95, 60, 60);
         }
         
-        game.getAllPlayerBonuses();//this is a test
+
         
 
         Graphics2D g2 = (Graphics2D) g.create();
@@ -533,7 +548,7 @@ public class Panel extends JPanel implements ActionListener {
         if(game.getTurn() > 20) {
         	//end the game
         	CardLayout cardLayout = (CardLayout) p.getLayout();
-            cardLayout.next(p);
+            cardLayout.show(p, "Panel 3");
             //send end panel the game
         }
         repaint();
