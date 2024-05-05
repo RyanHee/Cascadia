@@ -160,7 +160,7 @@ public class Panel extends JPanel implements ActionListener {
         bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
 
         add(bp);
-       setBackground(game.getCurrPlayer().getColor());
+
         //setBackground(Color.WHITE);
         //setBackground(new Color(3, 107, 156)) // blue;
         //setBackground(new Color(251, 206, 177));//servicable orange
@@ -198,6 +198,8 @@ public class Panel extends JPanel implements ActionListener {
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+
+        setBackground(game.getCurrPlayer().getColor());
 
 
         game.scoreAllPlayer();

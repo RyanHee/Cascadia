@@ -119,13 +119,13 @@ public class Game {
             String s = list.remove(0);
             playerlst[i].setPfp(pfpmp.get(s));
             if (s.equals("blue")){
-                playerlst[i].setColor(Color.BLUE);
+                playerlst[i].setColor(new Color(98, 188, 240));
             }
             if (s.equals("red")){
-                playerlst[i].setColor(Color.RED);
+                playerlst[i].setColor(new Color(235, 56, 56));
             }
             if (s.equals("green")){
-                playerlst[i].setColor(Color.GREEN);
+                playerlst[i].setColor(new Color(79, 189, 99));
             }
             if (s.equals("pink")){
                 playerlst[i].setColor(Color.PINK);
