@@ -160,10 +160,10 @@ public class Panel extends JPanel implements ActionListener {
         bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
 
         add(bp);
-       
+       setBackground(game.getCurrPlayer().getColor());
         //setBackground(Color.WHITE);
         //setBackground(new Color(3, 107, 156)) // blue;
-        setBackground(new Color(251, 206, 177));//servicable orange
+        //setBackground(new Color(251, 206, 177));//servicable orange
         //setBackground(new Color(216, 191, 216));
         //setBackground(new Color(82, 120, 134)); //grayish blue
         aggrrrrhhhhhhh= 0;
