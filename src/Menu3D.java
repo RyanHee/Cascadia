@@ -93,7 +93,7 @@ public class Menu3D extends JPanel implements MouseListener {
 
         	}
         		//System.out.println(b);
-            Startframes[i-1]=ImageIO.read(new File(b));
+            Startframes[i-1]=ImageIO.read(getClass().getResource(b));
 
         }
         for (int i=1;i<45;i++){
