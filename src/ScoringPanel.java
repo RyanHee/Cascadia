@@ -1,22 +1,24 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.*;
-import java.io.*;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 //fix animation part of code
-public class ScoringPanel extends JPanel{
+public class ScoringPanel extends JPanel implements ActionListener {
 	private BufferedImage testPanel;
 	private JPanel p;//added end panel
 	private int prog;
 	private static Game game;
 	private HashMap<Integer, String> inttostring;
-	public ScoringPanel(JPanel panel) {
+	private JButton back;
+	public ScoringPanel(JPanel panel, Game g) {
 		p = panel;//added end panel
 		prog = 0;
-		game = null;
+		game = g;
 		inttostring =new HashMap<>();
 		inttostring.put(0, "B");
 		inttostring.put(1, "E");
@@ -34,8 +36,11 @@ public class ScoringPanel extends JPanel{
 		inttostring.put(14, "S");
 		inttostring.put(15, "L");
 
+		back = new JButton("BACK");
+		back.addActionListener(this);
+
 		try {
-			testPanel = ImageIO.read(new File("img/test cascadia.png"));
+			testPanel = ImageIO.read(getClass().getResource("img/EndPanelUI.png"));
 		}
 		catch(Exception e) {
 			
@@ -43,40 +48,53 @@ public class ScoringPanel extends JPanel{
 	}
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawImage(testPanel, 0, 0, getWidth(), getHeight(), null);
-		g.setFont(new Font("Arial", Font.PLAIN, 13));
+		Graphics2D g2 = (Graphics2D) g.create();
+		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		g2.drawImage(testPanel, 0, 0, getWidth(), getHeight(), null);
+		g2.setFont(new Font("Arial", Font.BOLD, 30));
 		//add logic to get everyone's scores
+
 		int cnt = 0;
+
+		for (int i=0;i<game.getPlayerNum();i++){
+			g2.drawImage(game.getPlayerList()[i].getPfp(), getWidth()*40/256-25+getWidth()*149*i/1257, getHeight()*3/104, 50, 50, null);
+			g2.drawString("("+(i+1)+")", getWidth()*40/256-25+getWidth()*149*i/1257+58, getHeight()*3/104+35);
+			g2.drawImage(game.getPlayerList()[i].getPfp(), getWidth()*(198+12*i)/256-25, getHeight()*5/104, 50, 50, null);
+		}
+
 		int i = 0;
 		while(prog>=(cnt*game.getPlayerNum()+i)) {
+			//System.out.println(i);
 			Player p = game.getPlayerList()[i];
 			HashMap<String, Integer>animalmp=p.getAnimalmp();
 			HashMap<String, Integer>landmp=p.getLandmp();
 			HashMap<String, Integer>bonusmp=p.getBonusmp();
 			if(cnt >= 0 && cnt < 5) {//each player, each animal score
-				g.drawString(String.valueOf(animalmp.get(inttostring.get(cnt))), getWidth()*(33+32*i)/256, getHeight()*(2+cnt)/15);
+				g2.drawString(String.valueOf(animalmp.get(inttostring.get(cnt))), getWidth()*40/256+getWidth()*149*i/1257, getHeight()*14/104+getHeight()*45*(cnt)/688);
 			}
 			else if(cnt == 5) {//each player, total animal score
-				g.drawString(String.valueOf(p.getAnimalScore()), getWidth()*(33+32*i)/256, getHeight()*(2+cnt)/15);
+				g2.drawString(String.valueOf(p.getAnimalScore()), getWidth()*40/256+getWidth()*149*i/1257, getHeight()*14/104+getHeight()*45*(cnt)/688);
 			}
 			else if(cnt >= 6 && cnt < 11) {//each player, each habitat score
-				g.drawString(landmp.get(inttostring.get(cnt)).toString(), getWidth()*(27+32*i)/256, getHeight()*(57+8*(cnt-6))/104);
+				g2.drawString(landmp.get(inttostring.get(cnt)).toString(), getWidth()*33/256+getWidth()*149*i/1257, getHeight()*57/104+getHeight()*55*(cnt-6)/688);
 			}
 			else if(cnt >= 11 && cnt < 16) {//each player, habitat bonus score
-				g.drawString(bonusmp.get(inttostring.get(cnt)).toString(), getWidth()*(43+32*i)/256, getHeight()*(57+8*(cnt-11))/104);
+				g2.drawString(bonusmp.get(inttostring.get(cnt)).toString(), getWidth()*47/256+getWidth()*149*i/1257, getHeight()*57/104+getHeight()*55*(cnt-11)/688);
 			}
 			else if(cnt == 16){//each player, total habitat score
-				g.drawString(String.valueOf(p.getLandScore()),  getWidth()*(27+32*i)/256, getHeight()*(58+8*(cnt-11))/104);
+				g2.drawString(String.valueOf(p.getLandScore()),  getWidth()*40/256+getWidth()*149*i/1257, getHeight()*57/104+getHeight()*55*(cnt-11)/688);
 			}
 			else if(cnt == 17) {//nature token
-				g.drawString(String.valueOf(p.getNumTokens()), getWidth()*(195+12*i)/256, getHeight()*(8+4*(cnt-17))/30);
+				g2.drawString(String.valueOf(p.getNumTokens()), getWidth()*(198+12*i)/256, getHeight()*14/104+getHeight()*85/688);
 			}
 			else if (cnt == 18){//final score
-				g.drawString(String.valueOf(p.getScore()), getWidth()*(195+12*i)/256, getHeight()*(8+4*(cnt-17))/30);
+				g2.drawString(String.valueOf(p.getScore()), getWidth()*(198+12*i)/256, getHeight()*14/104+getHeight()*193/688);
 			}
 			i++;
-			if(i == game.getPlayerNum() /*number of players in game*/) {
-				i = 0;
+			if(i == game.getPlayerNum()/*number of players in game*/) {
+				i=0;
 				cnt++;
 			}
 		}
@@ -84,6 +102,10 @@ public class ScoringPanel extends JPanel{
 		if(prog<77 /*19*number of players in game +1*/) { // 19 rows*4players = 76
 			wait(200);
 			repaint();
+		}
+		else{
+			add(back);
+			back.setBounds(getWidth()*894/1257, getHeight()/2, getWidth()*363/1257, getHeight()/4);
 		}
 	}
 	
@@ -98,5 +120,14 @@ public class ScoringPanel extends JPanel{
 	
 	public static void updateGame(Game g) {
 		game = g;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(back)){
+			CardLayout cl = (CardLayout) p.getLayout();
+			Constants.stop=true;
+			cl.show(p, "gamePanel");
+		}
 	}
 }

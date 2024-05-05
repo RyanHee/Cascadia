@@ -104,7 +104,7 @@ public class Menu3D extends JPanel implements MouseListener {
         		b="img/framez/00"+i+".jpg";
         	}
         	
-            frames[i-1]=ImageIO.read(new File(b));
+            frames[i-1]=ImageIO.read(getClass().getResource(b));
 
         }
 
@@ -115,8 +115,8 @@ public class Menu3D extends JPanel implements MouseListener {
         }
 
     	try {
-    		buttonPlayer = ImageIO.read(new File("img/Generalimgs/Blue-Button-PNG-File.png"));
-			imgShade = ImageIO.read(new File("img/Generalimgs/ezgif-frame-003ddd.png"));
+    		buttonPlayer = ImageIO.read(getClass().getResource("img/Generalimgs/Blue-Button-PNG-File.png"));
+			imgShade = ImageIO.read(getClass().getResource("img/Generalimgs/ezgif-frame-003ddd.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

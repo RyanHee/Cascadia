@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.nio.Buffer;
-import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -60,8 +57,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         mid.addActionListener(this);
 
         try{
-            outline= ImageIO.read(new File("img/tileOutline.png"));
-            dpad=ImageIO.read(new File("img/DPAD.png"));
+            outline= ImageIO.read(getClass().getResource("img/tileOutline.png"));
+            dpad=ImageIO.read(getClass().getResource("img/DPAD.png"));
         }
         catch (Exception E){
 
@@ -69,8 +66,8 @@ public class BoardPanel extends JPanel implements ActionListener {
     }
     public void paint(Graphics g){
         super.paint(g);
-        int w=120;
-        int h=120;
+        int w=116;
+        int h=116;
         visited =new HashSet<>();
         g.translate(r,u);
         if(!sp){
@@ -86,8 +83,11 @@ public class BoardPanel extends JPanel implements ActionListener {
             mid.setBounds(getWidth()-60, getHeight()-60,30,30);
 
         }
-        
-        putButtons(g, board,getWidth()/2-50, getHeight()/2-h, (int)(w*scale),  (int)(h*scale));
+        if (scale==0.3){
+            w=29;
+            h=29;
+        }
+        putButtons(g, board,getWidth()/2-50, getHeight()/2-120, w,  h);
 
         if(!sp)g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, 90, 90, null);
 
@@ -121,6 +121,9 @@ public class BoardPanel extends JPanel implements ActionListener {
             }
         }
         Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
         g2.rotate(Math.toRadians(n.getRotateAngle()),x+8+ w*50/116,y+ (h/2));
         if(n.getPlaced()&&sp)g2.drawImage(n.getImg(), x+8 , y, w * 50 / 58, h, null);
         if(!sp)g2.drawImage(n.getImg(), x+8 , y, w * 50 / 58, h, null);
@@ -238,23 +241,23 @@ public class BoardPanel extends JPanel implements ActionListener {
 
                      */
                     if(bigPanel.getCurAnimal().equals("B")) {
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getPlayerNum()+1)+ " placed a bear token.");
+                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a bear token.");
                     }
                     if(bigPanel.getCurAnimal().equals("E")) {
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getPlayerNum()+1)+ " placed an elk token");
+                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed an elk token");
                     }
                     if(bigPanel.getCurAnimal().equals("F")) {
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getPlayerNum()+1)+ " placed a fox token");
+                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a fox token");
                     }
                     if(bigPanel.getCurAnimal().equals("H")) {
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getPlayerNum()+1)+ " placed a hawk token");
+                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a hawk token");
                     }
                     if(bigPanel.getCurAnimal().equals("S")) {
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getPlayerNum()+1)+ " placed a salmon token");
+                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a salmon token");
                     }
                     if(hold[0].equals(hold[3])) {
                         bigPanel.getGame().addAction("It was placed on a " +mp.get(hold[0])+" tile.");
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getPlayerNum()+1)+ " gained a nature token.");
+                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " gained a nature token.");
                     	bigPanel.getGame().getCurrPlayer().addNt();
                     }
                     else {

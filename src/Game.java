@@ -1,5 +1,10 @@
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.*;
+import java.util.List;
 
 public class Game {
     private ArrayList<String> tileNames, animalDeck;
@@ -12,13 +17,14 @@ public class Game {
     private String dupAnimal;
     private int turn = 1;
     private HashSet<Node> visited = new HashSet<>();
+    HashMap<String, BufferedImage>pfpmp;
     private boolean animalAllowed = false;
 
     
     public Game(int numOfPlayers) {
         Scanner sc = new Scanner(System.in);
         try{
-         sc = new Scanner(new File("names.txt"));
+            sc = new Scanner(getClass().getResourceAsStream("names.txt"));
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -61,10 +67,11 @@ public class Game {
         startTile=new ArrayList<>();
 
         try{
-            sc = new Scanner(new File("start.txt"));
+
+            sc = new Scanner(getClass().getResourceAsStream("start.txt"));
         }catch(Exception e){
                e.printStackTrace();
-           }
+        }
 
 
 
@@ -90,6 +97,41 @@ public class Game {
         for (int i=0;i<playerlst.length;i++){
             playerlst[i]=new Player(startTile.get(i), i);
         }
+
+        pfpmp=new HashMap<>();
+        ArrayList<String> list = new ArrayList<>();
+        list.add("blue");
+        list.add("pink");
+        list.add("red");
+        list.add("green");
+        try{
+            pfpmp.put("blue", ImageIO.read(getClass().getResource("img/Blue Shell.png")));
+            pfpmp.put("pink", ImageIO.read(getClass().getResource("img/Princess Peach.png")));
+            pfpmp.put("red", ImageIO.read(getClass().getResource("img/Shy Guy.png")));
+            pfpmp.put("green", ImageIO.read(getClass().getResource("img/Yoshi.png")));
+        }
+        catch (Exception E){
+            E.printStackTrace();
+        }
+
+        Collections.shuffle(list);
+        for (int i=0;i<playerlst.length;i++){
+            String s = list.remove(0);
+            playerlst[i].setPfp(pfpmp.get(s));
+            if (s.equals("blue")){
+                playerlst[i].setColor(Color.BLUE);
+            }
+            if (s.equals("red")){
+                playerlst[i].setColor(Color.RED);
+            }
+            if (s.equals("green")){
+                playerlst[i].setColor(Color.GREEN);
+            }
+            if (s.equals("pink")){
+                playerlst[i].setColor(Color.PINK);
+            }
+        }
+
         while(tileNames.size()> (20*playerlst.length)+3) {
         	tileNames.remove(tileNames.size()-1);
         }
@@ -105,215 +147,7 @@ public class Game {
 		 */
         //System.out.println(bonusPlayerScores);
     }
-    /*
-    public void updateBonus() {
-    	for(int i=0; i<playerlst.length; i++) {
-        	getScoring().score(playerlst[i].getBoard());
-        	bonusPlayerScores.put(i, getScoring().getLandScoreMap());
-        }
-    }
 
-    public HashMap<Integer, HashMap<String, Integer>> getAllPlayerBonuses(){
-    	//System.out.println(playerHabitatBonuses);
-    	return playerHabitatBonuses;
-    }
-    
-    public HashMap<String, Integer> getBonuses(){
-    	String[] hold = {"D", "F", "L", "M", "S"};
-    	boolean extra = false;
-    	
-    	for(int i =0; i<playerlst.length; i++) {
-    		bonus.put(Integer.toString(i),0);
-    		HashMap<String, Integer> yeet = new HashMap<>();
-    		for(int q = 0; q < 5; q++) {
-    			yeet.put(hold[q], 0);
-    		}
-    		playerHabitatBonuses.put(i, yeet);
-    	}
-    	updateBonus();
-    	for(int i=0; i<5; i++) {
-    		bonuses.put(hold[i], "9-0");//empty hold
-    	}
-    	calculateBonus();
-    	for(int i=0; i<bonuses.size(); i++) {
-    		//1st place bonus
-    		String pBonus = bonuses.get(hold[i]);
-    		int num = 0;
-    		if(i == bonuses.size()-1) {
-    			return bonus;
-    		}
-    		String holdP = pBonus.substring(0,pBonus.indexOf("-"));
-    		String[] play = holdP.split("&");
-    		if(!pBonus.contains(",")) {
-    			num = Integer.parseInt(pBonus.substring(pBonus.indexOf("-")+1));
-    		}
-    		else {
-    			num = Integer.parseInt(pBonus.substring(pBonus.indexOf("-")+1, pBonus.indexOf(",")));
-    			extra = true;
-    		}
-    		for(int m = 0; m<play.length; m++) {
-    			if(bonus.get(play[m])==null && !play[m].equals("9")) {
-    				bonus.put(play[m], num);
-    				HashMap<String, Integer> yeet = new HashMap<>();
-    				yeet.put(hold[i], num);
-    				playerHabitatBonuses.put(Integer.parseInt(play[m]), yeet);
-    			}
-    			else if (!play[m].equals("9")) {
-    				bonus.put(play[m], bonus.get(play[m])+num);
-    				HashMap<String, Integer> yeet = playerHabitatBonuses.get(Integer.parseInt(play[m]));
-    				yeet.put(hold[i], num);
-    				playerHabitatBonuses.put(Integer.parseInt(play[m]), yeet);
-    			}
-    		}
-    		//2nd place bonus
-    		if(extra) {
-    			String e = pBonus.substring(pBonus.indexOf(",")+1, pBonus.indexOf(",")+2);
-    			if(bonus.get(e)==null && !e.equals("9")) {
-    				bonus.put(e, 1);
-    				HashMap<String, Integer> yeet = new HashMap<>();
-    				yeet.put(hold[i], 1);
-    				playerHabitatBonuses.put(Integer.parseInt(e), yeet);
-    			}
-    			else if (!e.equals("9")){
-    				bonus.put(e, bonus.get(e)+1);
-    				HashMap<String, Integer> yeet = playerHabitatBonuses.get(Integer.parseInt(e));
-    				yeet.put(hold[i], 1);
-    				playerHabitatBonuses.put(Integer.parseInt(e), yeet);
-    			}
-    		}
-    	}
-    	//System.out.println(bonus);
-    	/*for(int i=0; i<playerlst.length; i++) {
-    		playerlst[i].setScore(playerlst[i].getScore()+bonus.get(Integer.toString(i)));
-    	}
-    	//find how much each player gets in points & move from bonuses to bonus
-    	return bonus;
-    }
-
-    private void calculateBonus() {
-    	String[] hold = {"D", "F", "L", "M", "S"};
-    	int max = 1;
-    	int twoLarge = 1;
-    	boolean tie = false;
-    	boolean tieMult = false;
-    	boolean tie2nd = false;
-    	//2 players
-    	if(bonusPlayerScores.size() == 2) {
-    		for(int q = 0; q<5; q++) {
-	    		for(int i =0; i<bonusPlayerScores.size(); i++) {
-	    			HashMap<String, Integer> playerScore = bonusPlayerScores.get(i);
-	    			if(playerScore.get(hold[q]) > max) {
-		    			max = playerScore.get(hold[q]);
-		    			bonuses.put(hold[q], i +"-2");
-		    		}
-	    			else if(playerScore.get(hold[q]) == max && playerScore.get(hold[q])>1) {
-	    				bonuses.remove(hold[q]);
-	    				bonuses.put(hold[q], "0&1-1");
-	    			}
-	    		}
-	    		max = 1;
-    		}
-    	}
-    	//3 or more players
-    	else if(bonusPlayerScores.size() >= 3) {
-	    	for(int q = 0; q<5; q++) {
-	    		for(int i =0; i<bonusPlayerScores.size(); i++) {
-	    			HashMap<String, Integer> playerScore = bonusPlayerScores.get(i);
-	    			//largest = 3 pts 
-		    		if(playerScore.get(hold[q]) > max) {
-		    			if(bonuses.get(hold[q]) == null) {//first bonus max 
-		    				bonuses.put(hold[q], i +"-3");
-		    				System.out.println("first max: player "+i);
-		    			}
-		    			
-		    			else if(!bonuses.get(hold[q]).contains("&")) {//another player was bonus
-		    				twoLarge = max;
-		    				int prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(0,1));
-		    				bonuses.put(hold[q], i + "-3,"+prevTop+"-1");
-		    			}
-		    			else if(bonuses.get(hold[q]).contains("&") && tie && !tieMult){
-		    				int prevTop = 0;
-		    				if(Integer.parseInt(bonuses.get(hold[q]).substring(0,1)) == i) {
-		    					prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(2,3));
-		    					twoLarge = max;
-			    				bonuses.put(hold[q], i + "-3,"+prevTop+"-1");
-			    				System.out.println("prev 2 player tie for 1st; now 1st & 2nd ");
-		    				}
-		    				else if(Integer.parseInt(bonuses.get(hold[q]).substring(2,3)) == i) {
-		    					prevTop = Integer.parseInt(bonuses.get(hold[q]).substring(0,1));
-		    					twoLarge = max;
-			    				bonuses.put(hold[q], i + "-3,"+prevTop+"-1");
-			    				System.out.println("prev 2 player tie for 1st; now 1st 2nd");
-		    				}
-		    				else {
-		    					tie2nd = true;
-		    					twoLarge = 1000;
-		    					tie = false;
-		    					bonuses.put(hold[q], i + "-3");
-		    					System.out.println("1st place, mult 2nds now");
-		    				}
-		    			}
-		    			else if(bonuses.get(hold[q]).contains("&") && tieMult) {//multiple prev tie for 1st -> now tie for 2nd = no points
-		    				twoLarge = 1000; // really high amount so that no other players can reach it
-		    				bonuses.put(hold[q], i +"-3");
-		    				tie = false;
-		    				tieMult = false;
-		    				tie2nd = true;
-		    				System.out.println("prev 3-4 player tie for 1st; now just player "+i);
-		    			}
-		    			max = playerScore.get(hold[q]);
-		    		}
-		    		//tie 2 largest = 2 pts
-		    		else if(playerScore.get(hold[q]) == max && playerScore.get(hold[q])>1 && !tie) {
-		    			tie = true;
-		    			String s = bonuses.get(hold[q]);
-		    			int prevPlayer = Integer.parseInt(s.substring(0,1));
-		    			bonuses.remove(hold[q]);
-		    			bonuses.put(hold[q], prevPlayer+"&"+i+"-2");
-		    		}
-		    		//tie 3 largest = 1 pt
-		    		else if(tie && playerScore.get(hold[q]) == max && playerScore.get(hold[q])>1) {
-		    			if(!tieMult) {
-			    			tieMult = true;
-			    			String s = bonuses.get(hold[q]);
-			    			String prevPlayers = (s.substring(0,3));
-			    			bonuses.remove(hold[q]);
-			    			bonuses.put(hold[q], prevPlayers+"&"+i+"-1");
-		    			}
-		    			// tie 4 largest = 1 pt
-		    			else {
-		    				String s = bonuses.get(hold[q]);
-		    				s = s.substring(0,5) + "&" + i +"-1";
-		    				bonuses.put(hold[q], s);
-		    			}
-		    		}
-		    		//2nd place bonus
-		    		else {
-		    			if(!tie) {
-			    			if(playerScore.get(hold[q]) > twoLarge) {
-			    				twoLarge = playerScore.get(hold[q]);
-			    				String holdBonus = bonuses.get(hold[q]);
-			    				bonuses.remove(hold[q]);
-			    				bonuses.put(hold[q], holdBonus+","+i+"-1");
-			    			}
-			    			else if(playerScore.get(hold[q]) == twoLarge && playerScore.get(hold[q])>1 &&!tie2nd) {
-			    				tie2nd = true;//already checked for 2 players tied for 2nd
-			    				String recount = bonuses.get(hold[q]);
-			    				bonuses.remove(hold[q]);
-			    				bonuses.put(hold[q], recount.substring(0,recount.indexOf(",")));
-			    			}
-		    			}
-		    		}
-	    		}
-	    		max = 1;
-	    		twoLarge = 1;
-	    		tie = false;
-	    		tieMult = false;
-	    		tie2nd = false;
-	    	}
-    	}
-    }
-    */
     public Scoring getScoring() {
     	return scoring;
     }
@@ -401,16 +235,18 @@ public class Game {
         return playerlst[cur];
     }
     
-    public int getPlayerNum() {
+    public int getCurPlayerNum() {
     	return cur;
     }
+
+    public int getPlayerNum(){
+        return playerlst.length;
+    }
+
     public Player[] pList() {
     	return playerlst;
     }
 
-    public int getcur(){
-        return cur;
-    }
 
 	public void scoreAllPlayer(){
 		HashMap[]hmplst=new HashMap[playerlst.length];
@@ -418,7 +254,7 @@ public class Game {
 			int a = scoring.score(playerlst[i].getBoard());
             playerlst[i].setLandmp(scoring.getLandScoreMap());
             playerlst[i].setAnimalmp(scoring.getAnimalmp());
-            System.out.println("mp: "+i+" "+playerlst[i].getAnimalmp());
+            //System.out.println("mp: "+i+" "+playerlst[i].getAnimalmp());
 			playerlst[i].setLandScore(scoring.getLandScore());
             playerlst[i].setAnimalScore(scoring.getAnimalScore());
 			hmplst[i]=scoring.getLandScoreMap();

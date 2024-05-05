@@ -32,7 +32,7 @@ public class Node extends JButton {
         land=new HashSet<>();
         hexagon = new Polygon(xPoints, yPoints, 6);
         try{
-            img = ImageIO.read(new File("img/blank.png"));
+            img = ImageIO.read(getClass().getResource("img/blank.png"));
         }
         catch (Exception e){
         }
@@ -57,7 +57,7 @@ public class Node extends JButton {
         land=new HashSet<>();
         hexagon = new Polygon(xPoints, yPoints, 6);
         try{
-            img = ImageIO.read(new File("img/Tile/"+val+".png"));
+            img = ImageIO.read(getClass().getResource("img/Tile/"+val+".png"));
         }
         catch (Exception e){
         }
@@ -193,7 +193,7 @@ public class Node extends JButton {
         isPlaced=true;
         //System.out.println(val);
         try{
-            img = ImageIO.read(new File("img/Tile/"+val+".png"));
+            img = ImageIO.read(getClass().getResource("img/Tile/"+val+".png"));
             String[]lst=val.split("-");
             String left=lst[0].substring(0,1);
             String right=lst[0].substring(1,2);

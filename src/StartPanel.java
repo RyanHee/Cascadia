@@ -34,7 +34,7 @@ public class StartPanel extends JPanel implements ActionListener {
 
             //img = ImageIO.read(Panel.class.getResource("tile.png"));
             //img1 = ImageIO.read(Panel.class.getResource("tile1.png"));
-            background=ImageIO.read(new File("img/tileOutline.png"));
+            background=ImageIO.read(getClass().getResource("img/tileOutline.png"));
             
             String b;
             for (int i=1;i<67;i++){
@@ -45,7 +45,7 @@ public class StartPanel extends JPanel implements ActionListener {
             		b="img/framez/00"+i+".jpg";
             	}
 
-                frames[i-1]=ImageIO.read(new File(b));
+                frames[i-1]=ImageIO.read(getClass().getResource(b));
 
             }
 

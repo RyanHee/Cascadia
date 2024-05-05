@@ -1,3 +1,5 @@
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class Player {
@@ -8,6 +10,8 @@ public class Player {
     private Node board;
     private HashMap<String, Integer>bonusmp;
     private HashMap<String, Integer>landmp, animalmp;
+    private BufferedImage pfp;
+    private Color color;
 
     public Player(Node n, int t){
         turn = t;
@@ -93,6 +97,22 @@ public class Player {
 
     public HashMap<String, Integer> getBonusmp() {
         return bonusmp;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void setPfp(BufferedImage pfp) {
+        this.pfp = pfp;
+    }
+
+    public BufferedImage getPfp() {
+        return pfp;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }
 
