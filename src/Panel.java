@@ -565,7 +565,7 @@ public class Panel extends JPanel implements ActionListener {
         nextB.setVisible(true); //only for testing
         mini =0;
         game.addAction("Next Turn: Player "+(game.getCurPlayerNum()+1));
-        if(game.getTurn() > 2) {
+        if(game.getTurn() > 20) {
         	//end the game
 
             if (!Constants.stop){
