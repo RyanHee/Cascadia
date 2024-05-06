@@ -295,10 +295,12 @@ public class Menu3D extends JPanel implements MouseListener {
             repaint();
         }
         else {
+
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
             cardLayout.show(contentPane, "gamePanel");
             //Frame.update();
-            runAnim = false;
+            //runAnim = false;
+
         }
 
 
