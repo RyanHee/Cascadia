@@ -209,7 +209,7 @@ public class Panel extends JPanel implements ActionListener {
         g2.drawImage(selectOutline, getWidth()*57/128, getHeight()*22/25+4, 50, 58, null);
         g2.setFont(new Font("Comic Sans", Font.BOLD, 45));
         FontMetrics f = g2.getFontMetrics();
-        g2.drawString("H", getWidth()*57/128+25 - f.stringWidth("H")/2, getHeight()*22/25+29+f.getAscent()/2);
+        g2.drawString("H", getWidth()*57/128+25 - f.stringWidth("H")/2, getHeight()*22/25+27+f.getAscent()/2);
         g2.setFont(new Font("Arial", Font.BOLD, 15));
 
         String h = Integer.toString(game.getCurPlayerNum());
@@ -568,7 +568,7 @@ public class Panel extends JPanel implements ActionListener {
         nextB.setVisible(true); //only for testing
         mini =0;
         game.addAction("Next Turn: Player "+(game.getCurPlayerNum()+1));
-        if(game.getTurn() > 2) {
+        if(game.getTurn() > 20) {
             //end the game
 
             if (!Constants.stop){
