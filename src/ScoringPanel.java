@@ -20,7 +20,7 @@ public class ScoringPanel extends JPanel implements ActionListener {
 	private boolean hover=false;
 	private static Game game;
 	private HashMap<Integer, String> inttostring;
-	private JButton back, skip;
+	private JButton back;
 	Rectangle r;
 	public ScoringPanel(JPanel panel, Game g) {
 		p = panel;//added end panel
@@ -55,7 +55,10 @@ public class ScoringPanel extends JPanel implements ActionListener {
 		catch(Exception e) {
 			
 		}
-
+		back=new InvisButton("");
+		//back = new JButton(new ImageIcon(backimg.getScaledInstance(p.getWidth()*894/1257, p.getHeight()/2, Image.SCALE_SMOOTH)));
+		//back.addActionListener(this);
+		add(back);
 
 	}
 	public void paint(Graphics g) {
@@ -120,9 +123,8 @@ public class ScoringPanel extends JPanel implements ActionListener {
 		}
 		else{
 			g2.drawImage(backimg, getWidth()*894/1257, getHeight()/2, getWidth()*363/1257, getHeight()/4, null);
-			back = new JButton(new ImageIcon(backimg.getScaledInstance(getWidth()*363/1257, getHeight()/4, Image.SCALE_SMOOTH)));
+
 			back.addActionListener(this);
-			add(back);
 			back.setBounds(getWidth()*894/1257, getHeight()/2, getWidth()*363/1257, getHeight()/4);
 			int max = 0;
 			String first = "";
