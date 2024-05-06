@@ -223,36 +223,30 @@ public class Menu3D extends JPanel implements MouseListener {
         if(fram>12)fram=5;
 
 
-        if(pressedIndex==0) {
-            if(runAnim==false){
-                pressedBut=true;
-                g2d.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
-
-                BufferedImage image = null;
-                double b= getWidth()/1.92;
-                g2d.drawImage(buttonPlayer,getWidth()*0, getHeight()*6/8,getWidth()/7,getHeight()/7, null);
-                g2d.drawImage(buttonPlayer,(int)((b-(b/7))/2), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
-                g2d.drawImage(buttonPlayer,(int)(b-(b/7)), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
-                g2d.setColor(new Color(255, 255, 255));
-                g2d.setFont(new Font("Arial", Font.PLAIN, 60));
-                g2d.drawString("Select the Number of Players", getWidth()*2/32-10, getHeight()*7/16);
-                g2d.setFont(new Font("Arial", Font.PLAIN, 20));
-                g2d.drawString("2 Players", getWidth()*2/32-30, getHeight()*13/16+getHeight()/128);
-                g2d.drawString("3 Players", getWidth()*9/32-20, getHeight()*13/16+getHeight()/128);
-                g2d.drawString("4 Players", getWidth()*16/32-10, getHeight()*13/16+getHeight()/128);
-            }
+        if(pressedIndex==0 && !runAnim) {
+           
+	        pressedBut=true;
+	        g2d.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
+	
+	        BufferedImage image = null;
+	        double b= getWidth()/1.92;
+	        g2d.drawImage(buttonPlayer,getWidth()*0, getHeight()*6/8,getWidth()/7,getHeight()/7, null);
+	        g2d.drawImage(buttonPlayer,(int)((b-(b/7))/2), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
+	        g2d.drawImage(buttonPlayer,(int)(b-(b/7)), getHeight()*6/8,getWidth()/7,getHeight()/7, null);
+	        g2d.setColor(new Color(255, 255, 255));
+	        g2d.setFont(new Font("Arial", Font.PLAIN, 60));
+	        g2d.drawString("Select the Number of Players", getWidth()*2/32-10, getHeight()*7/16);
+	        g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+	        g2d.drawString("2 Players", getWidth()*2/32-30, getHeight()*13/16+getHeight()/128);
+	        g2d.drawString("3 Players", getWidth()*9/32-20, getHeight()*13/16+getHeight()/128);
+	        g2d.drawString("4 Players", getWidth()*16/32-10, getHeight()*13/16+getHeight()/128);
+            
 
 		    /*if(once==0) {
 		        addMenuItem("2 PLAYERS");
 		        addMenuItem("3 PLAYERS");
 		        addMenuItem("4 PLAYERS");
 	        once++;}*/
-
-
-
-
-
-
         }
         if(pressedIndex==1) {
             pressedBut=false;
