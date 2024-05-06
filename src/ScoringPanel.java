@@ -121,6 +121,26 @@ public class ScoringPanel extends JPanel implements ActionListener {
 			back.addActionListener(this);
 			add(back);
 			back.setBounds(getWidth()*894/1257, getHeight()/2, getWidth()*363/1257, getHeight()/4);
+			int max = 0;
+			String first = "";
+			for(int q =0; q<game.getPlayerList().length; q++) {
+				if(game.getPlayerList()[q].getScore() >= max) {
+					max = game.getPlayerList()[q].getScore();
+					if(!first.equals("")) {
+						first = first+" & "+(Integer.toString(q+1));
+					}
+					else {
+						first = (Integer.toString(q+1));
+					}
+				}
+			}
+			g.setFont(new Font("Arial", Font.BOLD, 30));
+			if(first.length() > 1) {
+				g.drawString("WINNER: Players "+first, getWidth()*29/40, getHeight() *7/8);//add winner
+			}
+			else {
+				g.drawString("WINNER: Player "+first, getWidth()*29/40, getHeight() *7/8);
+			}
 		}
 	}
 	
