@@ -134,7 +134,7 @@ public class ScoringPanel extends JPanel implements ActionListener {
 
 			Collections.sort(list);
 			first = (list.get(game.getPlayerNum()-1).getTurn()+1)+"";
-			g2.setFont(new Font("Comic Sans", Font.PLAIN, 50));
+			g2.setFont(new Font("Comic Sans", Font.PLAIN, 50*getWidth()/1920));
 			g2.drawString("WINNER: Player "+first, getWidth()*29/40, getHeight() *7/8+50);
 			g2.drawImage(list.get(game.getPlayerNum()-1).getPfp(), getWidth()*29/40+10+g2.getFontMetrics().stringWidth("WINNER: Player "+first), getHeight() *7/8, 50, 50, null);
 
