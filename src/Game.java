@@ -273,7 +273,7 @@ public class Game {
 					playerlst[0].setBonus(s, 2);
 					playerlst[1].setBonus(s, 0);
 				}
-				else{
+				else if (score1>score0){
 					playerlst[0].setBonus(s, 0);
 					playerlst[1].setBonus(s, 2);
 				}
