@@ -372,6 +372,10 @@ public class Panel extends JPanel implements ActionListener {
         }
         else {
             cancelB.setVisible(false);
+            if(!tileChose && nodeSelected == null && prog == 102) {
+            	g2.setFont(new Font("Arial", Font.PLAIN, 20));
+            	g2.drawString("Press on a habitat tile to place on the board.", getWidth()/30-30, getHeight()*19/20);
+            }
         }
         if(nodeSelected!=null) {
             //removeDups.setVisible(false);
