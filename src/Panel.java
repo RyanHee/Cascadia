@@ -66,7 +66,7 @@ public class Panel extends JPanel implements ActionListener {
             mixMatchImage=ImageIO.read(getClass().getResource("img/buttonimages/mix match.png"));
             nextImage=ImageIO.read(getClass().getResource("img/buttonimages/next.png"));
             removeDupImage=ImageIO.read(getClass().getResource("img/buttonimages/Remove Triplets.png"));
-            scoreCardImage= (BufferedImage) ImageIO.read(getClass().getResource("img/buttonimages/score cards.png"));
+            scoreCardImage= ImageIO.read(getClass().getResource("img/buttonimages/score cards.png"));
             useNTImage=ImageIO.read(getClass().getResource("img/buttonimages/use nature token.png"));
             frameImg=ImageIO.read(getClass().getResource("img/goldframe.png"));
 
@@ -462,7 +462,7 @@ public class Panel extends JPanel implements ActionListener {
             clearAnimals.setVisible(false);
             mixMatch.setVisible(false);
             try{
-                wait(5);
+                wait(3);
             }
             catch (Exception E){
 
@@ -470,7 +470,7 @@ public class Panel extends JPanel implements ActionListener {
             repaint();
         }else if (prog==101){
             try{
-                wait(250);
+                wait(150);
                 prog++;
                 nextTurn();
             }
@@ -566,6 +566,9 @@ public class Panel extends JPanel implements ActionListener {
         numSelectedTile = -1;
         numSelectedAnimal =-1;
         curAnimal ="";
+        rotate.setVisible(false);
+        confirmB.setVisible(false);
+        cancelB.setVisible(false);
         help.setVisible(true);
         scoreCards.setVisible(true);
         actionLog.setVisible(true);
