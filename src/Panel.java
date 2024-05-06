@@ -332,13 +332,13 @@ public class Panel extends JPanel implements ActionListener {
                 }
                 
                 //game.getPlayerList()[pNum-1].setBonus(map.get(Integer.toString(pNum-1)));
-        		g2.setFont(new Font("Arial", Font.PLAIN, 18));
-        		g2.drawString("Player "+pNum, getWidth()*13/16+10,getHeight()*(yPlay)/4+getHeight()*8/256);
-                g2.drawImage(game.getPlayerList()[pNum-1].getPfp(), getWidth()*13/16+20+g2.getFontMetrics().stringWidth("Player "+pNum), getHeight()*yPlay/4+getHeight()/32-g2.getFontMetrics().getAscent()-5, 25, 25, null);
+        		g2.setFont(new Font("Arial", Font.PLAIN, 15));
+        		g2.drawString("Player "+pNum, getWidth()*13/16,getHeight()*(yPlay)/4+getHeight()*8/256);
+                g2.drawImage(game.getPlayerList()[pNum-1].getPfp(), getWidth()*13/16+10+g2.getFontMetrics().stringWidth("Player "+pNum), getHeight()*yPlay/4+getHeight()/32-g2.getFontMetrics().getAscent()-5, 25, 25, null);
         		g2.setFont(new Font("Arial", Font.BOLD, 15));
         		g2.drawImage(natureToken, getWidth()*7/8+getWidth()/128, getHeight()*yPlay/4+getHeight()/128+getHeight()/512, 25, 25, null);
         		g2.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+getWidth()/32-getWidth()/128, getHeight()*yPlay/4+getHeight()/32-getHeight()/256);
-        		g2.setFont(new Font("Arial", Font.PLAIN, 18));
+        		g2.setFont(new Font("Arial", Font.PLAIN, 12));
         		g2.drawString("Current Score: "+ game.getPlayerList()[pNum - 1].getScore(), getWidth()*13/14, getHeight()*yPlay/4+getHeight()*7/256);
         		g2.fillRect(getWidth()*13/16, getHeight()*(yPlay+1)/4, getWidth()*24/128, 2);
         		//draw other players boards (but not as buttons)
