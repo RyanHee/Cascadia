@@ -592,8 +592,8 @@ public class Panel extends JPanel implements ActionListener {
             catch(Exception e) {
 
             }
-            ImageIcon card = new ImageIcon(scoreCard);
-            JOptionPane.showMessageDialog(null, "Hawk: Individual\nBear: Group of 3\nElk: Group\nSalmon: Run (2 or Less Neighbors)\nFox: Adjacent Unique Animals", "Cascadia Scoring Cards", JOptionPane.INFORMATION_MESSAGE, card);
+            ImageIcon card = new ImageIcon(scoreCard.getScaledInstance(1112, 514, Image.SCALE_SMOOTH));
+            JOptionPane.showMessageDialog(null, "Bear: Group of 3\nElk: Group\nFox: Adjacent Unique Animals\nHawk: Individual\nSalmon: Run (2 or Less Neighbors)", "Cascadia Scoring Cards", JOptionPane.INFORMATION_MESSAGE, card);
         }
         else {
             JOptionPane.showMessageDialog(null, message, "Cascadia", JOptionPane.INFORMATION_MESSAGE);
