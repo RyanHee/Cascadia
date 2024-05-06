@@ -28,12 +28,19 @@ public class Game {
         }catch(Exception e){
             e.printStackTrace();
         }
+        ArrayList<String>tn1=new ArrayList<>();
         tileNames = new ArrayList<>();
         animalDeck = new ArrayList<>();
         actionLog = new LinkedList<>();
         while (sc.hasNext()){
-            tileNames.add(sc.next());
+            tn1.add(sc.next());
         }
+
+        int tilenum = numOfPlayers*20+3;
+        for (int i=0;i<tilenum;i++){
+            tileNames.add(tn1.remove(0));
+        }
+
         for (int i=0;i<20;i++){
             /*
             animalDeck.add("S");
