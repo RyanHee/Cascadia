@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public class Player {
+public class Player implements Comparable {
     private final int turn;
     private int nt;
     private int lscore;
@@ -113,6 +113,34 @@ public class Player {
 
     public Color getColor() {
         return color;
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        try{
+            Player p = (Player) o;
+            if (this.getScore()==p.getScore()){
+                if (this.getNumTokens()==p.getNumTokens()){
+                    if (this.getTurn()>p.getTurn()){
+                        return 1;
+                    }
+                    return -1;
+                }
+                else if(this.getNumTokens()>p.getNumTokens()){
+                    return 1;
+                }
+                return -1;
+            }
+            else if (this.getScore()>p.getScore()){
+                return 1;
+            }
+            return -1;
+        }
+        catch (Exception E){
+
+        }
+        return 0;
     }
 }
 

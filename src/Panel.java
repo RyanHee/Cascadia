@@ -253,7 +253,7 @@ public class Panel extends JPanel implements ActionListener {
 
 
         if (actionLogUsed){
-            g2.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight()*3/4);
+            //g2.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight()*3/4);
             g2.setColor(new Color(0, 40, 86));
             g2.fillRect(getWidth()*6/8+getWidth()/16,getHeight()*3/4,getWidth()*2/10,getHeight()/4);
             g2.setColor(Color.WHITE);
@@ -268,7 +268,7 @@ public class Panel extends JPanel implements ActionListener {
             g2.drawImage(frameImg, getWidth()*13/16, getHeight()*3/4+2, getWidth()*24/128, getHeight()/4-2, null);
         }
         else{
-            g2.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight());
+            //g2.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight());
         }
 
         g2.setColor(Color.BLACK);
@@ -280,9 +280,11 @@ public class Panel extends JPanel implements ActionListener {
                 bplst[yPlay].setScale(.3);
                 bplst[yPlay].sp = true;
                 bplst[yPlay].setBoard(game.pList()[pNum-1].getBoard());
+                bplst[yPlay].setBackground(game.pList()[pNum-1].getColor());
                 bplst[yPlay].setShift(0,(int)(120*.7));
                 bplst[yPlay].setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
-
+                g2.setColor(game.pList()[pNum-1].getColor());
+                g2.fillRect(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4,getWidth()*2/10,getHeight()*3/18);
                 /*
                 if(yPlay==0){
                     sp.setScale(.3);
@@ -312,7 +314,7 @@ public class Panel extends JPanel implements ActionListener {
                 //System.out.println("bruh time"+game.getPlayerList()[0].getScore());
 
 
-
+                g2.setColor(Color.BLACK);
 
                 g2.setFont(new Font("Arial", Font.BOLD, 14));
                 g2.drawImage(selectOutline,  getWidth()*5/6-getWidth()/64,  getHeight()*yPlay/4+getHeight()/24+1, 22, 25, null);
@@ -332,10 +334,11 @@ public class Panel extends JPanel implements ActionListener {
                 //game.getPlayerList()[pNum-1].setBonus(map.get(Integer.toString(pNum-1)));
         		g2.setFont(new Font("Arial", Font.PLAIN, 18));
         		g2.drawString("Player "+pNum, getWidth()*13/16+10,getHeight()*(yPlay)/4+getHeight()*8/256);
+                g2.drawImage(game.getPlayerList()[pNum-1].getPfp(), getWidth()*13/16+20+g2.getFontMetrics().stringWidth("Player "+pNum), getHeight()*yPlay/4+getHeight()/32-g2.getFontMetrics().getAscent()-5, 25, 25, null);
         		g2.setFont(new Font("Arial", Font.BOLD, 15));
         		g2.drawImage(natureToken, getWidth()*7/8+getWidth()/128, getHeight()*yPlay/4+getHeight()/128+getHeight()/512, 25, 25, null);
         		g2.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+getWidth()/32-getWidth()/128, getHeight()*yPlay/4+getHeight()/32-getHeight()/256);
-        		g2.setFont(new Font("Arial", Font.BOLD, 10));
+        		g2.setFont(new Font("Arial", Font.PLAIN, 18));
         		g2.drawString("Current Score: "+ game.getPlayerList()[pNum - 1].getScore(), getWidth()*13/14, getHeight()*yPlay/4+getHeight()*7/256);
         		g2.fillRect(getWidth()*13/16, getHeight()*(yPlay+1)/4, getWidth()*24/128, 2);
         		//draw other players boards (but not as buttons)
@@ -565,7 +568,7 @@ public class Panel extends JPanel implements ActionListener {
         nextB.setVisible(true); //only for testing
         mini =0;
         game.addAction("Next Turn: Player "+(game.getCurPlayerNum()+1));
-        if(game.getTurn() > 20) {
+        if(game.getTurn() > 2) {
         	//end the game
 
             if (!Constants.stop){

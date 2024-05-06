@@ -4,6 +4,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -70,7 +73,7 @@ public class ScoringPanel extends JPanel implements ActionListener {
 		for (int i=0;i<game.getPlayerNum();i++){
 			g2.drawImage(game.getPlayerList()[i].getPfp(), getWidth()*40/256-25+getWidth()*149*i/1257, getHeight()*3/104, 50, 50, null);
 			g2.drawString("("+(i+1)+")", getWidth()*40/256-25+getWidth()*149*i/1257+58, getHeight()*3/104+35);
-			g2.drawImage(game.getPlayerList()[i].getPfp(), getWidth()*(198+12*i)/256-25, getHeight()*5/104, 50, 50, null);
+			g2.drawImage(game.getPlayerList()[i].getPfp(), getWidth()*(198+12*i)/256-20, getHeight()*5/104, 50, 50, null);
 		}
 
 		int i = 0;
@@ -96,7 +99,7 @@ public class ScoringPanel extends JPanel implements ActionListener {
 				g2.drawString(bonusmp.get(inttostring.get(cnt)).toString(), getWidth()*47/256+getWidth()*149*i/1257, getHeight()*57/104+getHeight()*55*(cnt-11)/688);
 			}
 			else if(cnt == 16){//each player, total habitat score
-				g2.drawString(String.valueOf(p.getLandScore()),  getWidth()*40/256+getWidth()*149*i/1257, getHeight()*57/104+getHeight()*55*(cnt-11)/688);
+				g2.drawString(String.valueOf(p.getLandScore()+p.bonusScore()),  getWidth()*40/256+getWidth()*149*i/1257, getHeight()*57/104+getHeight()*55*(cnt-11)/688);
 			}
 			else if(cnt == 17) {//nature token
 				g2.drawString(String.valueOf(p.getNumTokens()), getWidth()*(198+12*i)/256, getHeight()*14/104+getHeight()*85/688);
@@ -123,24 +126,18 @@ public class ScoringPanel extends JPanel implements ActionListener {
 			back.setBounds(getWidth()*894/1257, getHeight()/2, getWidth()*363/1257, getHeight()/4);
 			int max = 0;
 			String first = "";
-			for(int q =0; q<game.getPlayerList().length; q++) {
-				if(game.getPlayerList()[q].getScore() >= max) {
-					max = game.getPlayerList()[q].getScore();
-					if(!first.equals("")) {
-						first = first+" & "+(Integer.toString(q+1));
-					}
-					else {
-						first = (Integer.toString(q+1));
-					}
-				}
+
+			ArrayList<Player>list=new ArrayList<>();
+			for (Player p:game.getPlayerList()){
+				list.add(p);
 			}
-			g.setFont(new Font("Arial", Font.BOLD, 30));
-			if(first.length() > 1) {
-				g.drawString("WINNER: Players "+first, getWidth()*29/40, getHeight() *7/8);//add winner
-			}
-			else {
-				g.drawString("WINNER: Player "+first, getWidth()*29/40, getHeight() *7/8);
-			}
+
+			Collections.sort(list);
+			first = (list.get(game.getPlayerNum()-1).getTurn()+1)+"";
+			g2.setFont(new Font("Comic Sans", Font.PLAIN, 50));
+			g2.drawString("WINNER: Player "+first, getWidth()*29/40, getHeight() *7/8+50);
+			g2.drawImage(list.get(game.getPlayerNum()-1).getPfp(), getWidth()*29/40+10+g2.getFontMetrics().stringWidth("WINNER: Player "+first), getHeight() *7/8, 50, 50, null);
+
 		}
 	}
 	
