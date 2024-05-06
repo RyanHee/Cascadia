@@ -121,7 +121,7 @@ public class Menu3D extends JPanel implements MouseListener {
             imgShade = ImageIO.read(getClass().getResource("img/Generalimgs/ezgif-frame-003ddd.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

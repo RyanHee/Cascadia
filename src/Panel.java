@@ -58,7 +58,7 @@ public class Panel extends JPanel implements ActionListener {
             selectOutline=ImageIO.read(getClass().getResource("img/selectedTile.png"));
             natureToken=ImageIO.read(getClass().getResource("img/tokens/nature-token.png"));
             actionLogImage=ImageIO.read(getClass().getResource("img/buttonimages/action log.png"));
-            cancelImage= (BufferedImage) ImageIO.read(getClass().getResource("img/buttonimages/cancel.png"));
+            cancelImage= ImageIO.read(getClass().getResource("img/buttonimages/cancel.png"));
             clearAnimalImage=ImageIO.read(getClass().getResource("img/buttonimages/clear animals.png"));
             confirmImage=ImageIO.read(getClass().getResource("img/buttonimages/confirm.png"));
             confirmClearImage=ImageIO.read(getClass().getResource("img/buttonimages/confirm clear animals.png"));
@@ -577,6 +577,7 @@ public class Panel extends JPanel implements ActionListener {
 
             if (!Constants.stop){
                 p.add(new ScoringPanel(p, game), "Scoring panel");
+                System.out.println("here");
                 CardLayout cardLayout = (CardLayout) p.getLayout();
 
                 cardLayout.show(p, "Scoring panel");
