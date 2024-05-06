@@ -316,12 +316,12 @@ public class Panel extends JPanel implements ActionListener {
 
                 g2.setColor(Color.BLACK);
 
-                g2.setFont(new Font("Arial", Font.BOLD, 14));
+                g2.setFont(new Font("Arial", Font.BOLD, 14*getWidth()/1920));
                 g2.drawImage(selectOutline,  getWidth()*5/6-getWidth()/64,  getHeight()*yPlay/4+getHeight()/24+1, 22, 25, null);
 
                 FontMetrics f1 = g2.getFontMetrics();
                 g2.drawString("H", getWidth()*5/6-getWidth()/64+11-f1.stringWidth("H")/2, getHeight()*yPlay/4+12+getHeight()/24+f1.getAscent()/2);
-                g2.setFont(new Font("Arial", Font.BOLD, 12));
+                g2.setFont(new Font("Arial", Font.BOLD, 12*getWidth()/1920));
                 int sjs = game.getPlayerList()[pNum-1].getLandScore();
                 g2.drawString(sjs +" / "+ game.getPlayerList()[pNum-1].bonusScore(), getWidth()*5/6+getWidth()/512, getHeight()*yPlay/4+getHeight()/16);
 
@@ -332,13 +332,13 @@ public class Panel extends JPanel implements ActionListener {
                 }
 
                 //game.getPlayerList()[pNum-1].setBonus(map.get(Integer.toString(pNum-1)));
-                g2.setFont(new Font("Arial", Font.PLAIN, 18));
+                g2.setFont(new Font("Arial", Font.PLAIN, 18*getWidth()/1920));
                 g2.drawString("Player "+pNum, getWidth()*13/16+10,getHeight()*(yPlay)/4+getHeight()*8/256);
                 g2.drawImage(game.getPlayerList()[pNum-1].getPfp(), getWidth()*13/16+20+g2.getFontMetrics().stringWidth("Player "+pNum), getHeight()*yPlay/4+getHeight()/32-g2.getFontMetrics().getAscent()-5, 25, 25, null);
-                g2.setFont(new Font("Arial", Font.BOLD, 15));
+                g2.setFont(new Font("Arial", Font.BOLD, 15*getWidth()/1920));
                 g2.drawImage(natureToken, getWidth()*7/8+getWidth()/128, getHeight()*yPlay/4+getHeight()/128+getHeight()/512, 25, 25, null);
                 g2.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+getWidth()/32-getWidth()/128, getHeight()*yPlay/4+getHeight()/32-getHeight()/256);
-                g2.setFont(new Font("Arial", Font.PLAIN, 18));
+                g2.setFont(new Font("Arial", Font.PLAIN, 18*getWidth()/1920));
                 g2.drawString("Current Score: "+ game.getPlayerList()[pNum - 1].getScore(), getWidth()*13/14-20, getHeight()*yPlay/4+getHeight()*7/256);
                 g2.fillRect(getWidth()*13/16, getHeight()*(yPlay+1)/4, getWidth()*24/128, 2);
                 //draw other players boards (but not as buttons)
