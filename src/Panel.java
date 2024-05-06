@@ -228,7 +228,7 @@ public class Panel extends JPanel implements ActionListener {
         String[] animal = new String[]{"B", "E", "F", "H", "S"};
         for(int i = 0; i<animal.length; i++) {
         	g2.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*(134+15*i)/256, getHeight()*22/25+getHeight()/128, 50, 50, null);
-        	g2.drawString(": "+game.getCurrPlayer().getAnimalmp().get(animal[i]), getWidth()*(134+15*i)/256+55, getHeight()*23/25);
+        	g2.drawString(": "+game.getCurrPlayer().getAnimalmp().get(animal[i]), getWidth()*(134+15*i)/256+53, getHeight()*23/25);
         }
         g2.drawImage(game.getCurrPlayer().getPfp(), 17, 22, 75, 75, null);
         //g2.drawImage(pfpFrameImg, 2, 2, 110, 110, null);
@@ -236,14 +236,14 @@ public class Panel extends JPanel implements ActionListener {
         g2.setColor(new Color(0,0,0));
         g2.setFont(new Font("Arial", Font.PLAIN, 30));
 
-        g2.drawString("Turn "+Math.min(game.getTurn(), 20), getWidth()/40-30, 140);
+        g2.drawString("Turn "+Math.min(game.getTurn(), 20), getWidth()/15+30, 40);
         g2.setFont(new Font("Arial", Font.PLAIN, 25));
-        g2.drawString("Player "+(game.getCurPlayerNum()+1), getWidth()/15+30, 140);
+        g2.drawString("Player "+(game.getCurPlayerNum()+1), getWidth()/15+30, 75);
         g2.setFont(new Font("Arial", Font.PLAIN, 20));
 
         g2.drawImage(natureToken, getWidth()/5, 10, 50, 50, null);
         g2.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 40);
-        g2.drawString("Current Score: "+ game.curPlayerScore(), getWidth()/5, 100);
+        g2.drawString("Current Score: "+ game.curPlayerScore(), getWidth()/5, 75);
        
         
         //System.out.println("bruh "+game.getPlayerList()[0].getScore());
@@ -326,7 +326,7 @@ public class Panel extends JPanel implements ActionListener {
 
                 for(int i = 0; i<animal.length; i++) {
                 	g2.drawImage(animalTokenMap.get(animal[i])[0], getWidth()*144/168+getWidth()*i*15/512, getHeight()*(yPlay)/4+getHeight()*3/64, 20, 20, null);
-                	g2.drawString(game.getPlayerList()[pNum-1].getAnimalmp().get(animal[i]).toString(), getWidth()*144/168+getWidth()*i*15/512+27, getHeight()*yPlay/4+getHeight()/16);
+                	g2.drawString(game.getPlayerList()[pNum-1].getAnimalmp().get(animal[i]).toString(), getWidth()*144/168+getWidth()*i*15/512+25, getHeight()*yPlay/4+getHeight()/16);
                 }
                 
                 //game.getPlayerList()[pNum-1].setBonus(map.get(Integer.toString(pNum-1)));
@@ -335,7 +335,7 @@ public class Panel extends JPanel implements ActionListener {
         		g2.setFont(new Font("Arial", Font.BOLD, 15));
         		g2.drawImage(natureToken, getWidth()*7/8+getWidth()/128, getHeight()*yPlay/4+getHeight()/128+getHeight()/512, 25, 25, null);
         		g2.drawString(": "+game.getPlayerList()[pNum-1].getNumTokens(), getWidth()*7/8+getWidth()/32-getWidth()/128, getHeight()*yPlay/4+getHeight()/32-getHeight()/256);
-        		g2.setFont(new Font("Arial", Font.BOLD, 15));
+        		g2.setFont(new Font("Arial", Font.BOLD, 10));
         		g2.drawString("Current Score: "+ game.getPlayerList()[pNum - 1].getScore(), getWidth()*13/14, getHeight()*yPlay/4+getHeight()*7/256);
         		g2.fillRect(getWidth()*13/16, getHeight()*(yPlay+1)/4, getWidth()*24/128, 2);
         		//draw other players boards (but not as buttons)
