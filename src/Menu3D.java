@@ -257,7 +257,7 @@ public class Menu3D extends JPanel implements MouseListener {
         if(pressedIndex==1) {
             pressedBut=false;
             g2d.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
-            g2d.drawImage(meme, 800, 600, 310, 198, null);
+            g2d.drawImage(meme, 500, 300, 310, 198, null);
 
         }
         if(pressedIndex==2) {
@@ -265,8 +265,8 @@ public class Menu3D extends JPanel implements MouseListener {
             g2d.setColor(new Color(91,103,171));
             g2d.setFont(new Font("Arial", Font.PLAIN, 30));
             g2d.drawImage(imgShade,0, 0,getWidth(),getHeight(), null);
-            g2d.drawImage(credit, 700, 600, 738, 95, null);
-            g2d.drawString("This game is programmed by Matthew, Ryan, Jola, and Ratnesh", 700, 795);
+            g2d.drawImage(credit, 75, 300, 738, 95, null);
+            g2d.drawString("This game is programmed by Matthew, Ryan, Jola, and Ratnesh", 75, 495);
 
         }
 
