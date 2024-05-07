@@ -41,12 +41,13 @@ public class Panel extends JPanel implements ActionListener {
     private boolean first = true;
     private int mini = 0;
     private JPanel p;//added
-
+    private int increment;
     //private HexButton hexButton;
     public Panel(JPanel panel, int numOfPlayers)  {
         p = panel;//added
         nodeSelected=null;
         numSelectedAnimal=-1;
+        increment =4;
         game=new Game(numOfPlayers);//change to right number of players
         try{
             //img = ImageIO.read(Panel.class.getResource("tile.png"));
@@ -434,13 +435,13 @@ public class Panel extends JPanel implements ActionListener {
 
 
 
-        if(prog<104){
+        if(prog<100+ increment){
             g2.setStroke(new BasicStroke(6));
             g2.setColor(Color.BLACK);
             g2.drawRect(getWidth()/15, getHeight()/10*9, getWidth()/3, getHeight()/20);
             g2.setColor(Color.GREEN);
             g2.fillRect(getWidth()/15, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
-            prog+=4;
+            prog+= increment;
             help.setVisible(false);
             scoreCards.setVisible(false);
             actionLog.setVisible(false);
@@ -457,7 +458,7 @@ public class Panel extends JPanel implements ActionListener {
 
             }
             repaint();
-        }else if (prog==104){
+        }else if (prog==100+ increment){
             try{
                 wait(10);
                 prog++;
@@ -609,8 +610,8 @@ public class Panel extends JPanel implements ActionListener {
         //System.out.println(state);
         //will need to remove later on
         if (e.getSource().equals(nextB)){
-            if (prog<104){
-                prog=104;
+            if (prog<100+ increment){
+                prog=100+ increment;
                 return;
             }
             nextTurn();
