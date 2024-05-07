@@ -172,36 +172,26 @@ public class BoardPanel extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(up)){
-            System.out.println("UP");
-            	this.shift(0, -116);
-
+            this.shift(0, -116);
             repaint();
             return;
         }
         if (e.getSource().equals(down)){
-            System.out.println("DOWN");
             this.shift(0, 116);
-
-
             repaint();
             return;
         }
         if (e.getSource().equals(right)){
-            System.out.println("RIGHT");
             this.shift(100, 0);
-
-
             repaint();
             return;
         }
         if (e.getSource().equals(left)){
-            System.out.println("LEFT");
             this.shift(-100, 0);
             repaint();
             return;
         }
         if (e.getSource().equals(mid)){
-            System.out.println("MID");
             setShift(0,0);
             repaint();
             return;
@@ -223,26 +213,6 @@ public class BoardPanel extends JPanel implements ActionListener {
                 if (setCurNodeAnimal(bigPanel.getCurAnimal())){
                     //if keystone tile-> add nature token
                     String[] hold = curNode.getSides();
-                    /*
-                    for(int i =0; i<6;i++) {
-                    	if(hold[i].equals("D")) {
-                    		hold[i] = "Desert";
-                    	}
-                    	if(hold[i].equals("F")) {
-                    		hold[i] = "Forest";
-                    	}
-                    	if(hold[i].equals("L")) {
-                    		hold[i] = "Lake";
-                    	}
-                    	if(hold[i].equals("M")) {
-                    		hold[i] = "Mountain";
-                    	}
-                    	if(hold[i].equals("S")) {
-                    		hold[i] = "Swamp";
-                    	}
-                    }
-
-                     */
                     if(bigPanel.getCurAnimal().equals("B")) {
                     	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a bear token.");
                     }
@@ -269,7 +239,7 @@ public class BoardPanel extends JPanel implements ActionListener {
                     bigPanel.nextA();
                     bigPanel.resetProg();
                     bigPanel.getGame().scoreAllPlayer();
-                    repaint();
+                    //repaint();
                 }
             }
             repaint();
