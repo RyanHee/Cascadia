@@ -443,15 +443,14 @@ public class Panel extends JPanel implements ActionListener {
 
 
 
-        if(prog<=100){
+
+        if(prog<104){
             g2.setStroke(new BasicStroke(6));
             g2.setColor(Color.BLACK);
             g2.drawRect(getWidth()/15, getHeight()/10*9, getWidth()/3, getHeight()/20);
             g2.setColor(Color.GREEN);
             g2.fillRect(getWidth()/15, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
-        }
-        if(prog<101){
-            prog++;
+            prog+=4;
             help.setVisible(false);
             scoreCards.setVisible(false);
             actionLog.setVisible(false);
@@ -468,9 +467,9 @@ public class Panel extends JPanel implements ActionListener {
 
             }
             repaint();
-        }else if (prog==101){
+        }else if (prog==104){
             try{
-                wait(150);
+                wait(10);
                 prog++;
                 nextTurn();
             }
@@ -548,7 +547,7 @@ public class Panel extends JPanel implements ActionListener {
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
         }
         catch (java.io.IOException e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 
