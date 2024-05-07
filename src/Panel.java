@@ -171,17 +171,7 @@ public class Panel extends JPanel implements ActionListener {
         aggrrrrhhhhhhh= 0;
     }
 
-    /*public void updateGame(int numOfPlayers) {
-    	game=new Game(numOfPlayers);//change to right number of players
-    	sp1 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
-        sp2 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
-        sp3 = new BoardPanel(game.getCurrPlayer().getBoard(),animalTokenMap,this);
-        add(sp1); 
-        add(sp2);
-        add(sp3);
-        bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
-        add(bp);
-    }*/
+
 
     public void paint(Graphics g){
         //System.out.println("sdohfihsod" +Menu3D.playerCount);
@@ -456,7 +446,7 @@ public class Panel extends JPanel implements ActionListener {
             actionLog.setVisible(false);
             useNature.setVisible(false);
             removeDups.setVisible(false);
-            nextB.setVisible(false);
+            //nextB.setVisible(false);
             confirmClear.setVisible(false);
             clearAnimals.setVisible(false);
             mixMatch.setVisible(false);
@@ -619,8 +609,12 @@ public class Panel extends JPanel implements ActionListener {
         //System.out.println(state);
         //will need to remove later on
         if (e.getSource().equals(nextB)){
+            if (prog<104){
+                prog=104;
+                return;
+            }
             nextTurn();
-            repaint();
+            //repaint();
             return;
         }
 
