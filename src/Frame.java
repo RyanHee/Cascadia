@@ -12,7 +12,7 @@ public class Frame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //setSize(1600, 900);
-        JPanel contentPane = new JPanel();
+        contentPane = new JPanel();
         panel1 = new Menu3D(contentPane);
         //panel2 = new Panel(contentPane, Menu3D.playerCount);
         contentPane.setLayout(new CardLayout());
