@@ -42,13 +42,6 @@ public class Game {
         }
 
         for (int i=0;i<20;i++){
-            /*
-            animalDeck.add("S");
-            animalDeck.add("S");
-            animalDeck.add("S");
-            animalDeck.add("S");
-            animalDeck.add("S");
-             */
 
             animalDeck.add("B");
             animalDeck.add("E");
@@ -58,12 +51,6 @@ public class Game {
         }
         Collections.shuffle(animalDeck);
         Collections.shuffle(tileNames);
-        
-        //testing purposes
-        //animalDeck.add(0,"B");
-        //animalDeck.add(0,"B");
-        //animalDeck.add(0,"B");
-        //animalDeck.add(0,"B");
 
         tileName4=new String[4];
         animalToken4=new String[4];
@@ -144,15 +131,6 @@ public class Game {
         }
         cur=0;
         scoring=new Scoring();
-		/*
-        bonuses = new HashMap<>();
-        bonus = new HashMap<>();
-        bonusPlayerScores = new HashMap<>();
-        playerHabitatBonuses = new HashMap<>();
-        getBonuses();
-
-		 */
-        //System.out.println(bonusPlayerScores);
     }
 
     public Scoring getScoring() {
@@ -230,7 +208,6 @@ public class Game {
         if(cur>=playerlst.length) {
         	cur=cur%playerlst.length;
         	turn++;
-        	//System.out.println("turn"+ turn);
         }
     }
     
@@ -354,15 +331,6 @@ public class Game {
 	}
     
     public int curPlayerScore(){
-        /*
-        scoreAllPlayer();
-        int num = scoring.score(playerlst[cur].getBoard());
-
-        String h = Integer.toString(cur);
-        playerlst[cur].setLandScore(num);
-
-         */
-        //scoreAllPlayer();
         return playerlst[cur].getScore();
     }
     
@@ -371,15 +339,12 @@ public class Game {
              return ;
         if (visited.contains(n))
              return ;
-        //System.out.println("its new and exists");
         visited.add(n);
     	if(n.animalsAllowed(animal)) {
     		animalAllowed = true;
-    		//System.out.println("its allowed");
     		return ;
     	}
     	else {
-    		//System.out.println("neighbor check");
 	    	for (Node c:n.getNeighbors())
 	            getAllowedSpace(c, animal);
     	}
@@ -388,7 +353,6 @@ public class Game {
     public boolean getAnimalAllowed(Node n, String animal) {
     	animalAllowed = false;
     	getAllowedSpace(n,animal);
-    	//System.out.println("animal"+animalAllowed);
     	visited.clear();
     	return animalAllowed;
     }

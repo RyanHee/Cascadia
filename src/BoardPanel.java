@@ -16,7 +16,6 @@ public class BoardPanel extends JPanel implements ActionListener {
     private int r, u;
     private JButton up,down,right,left,mid;
     private BufferedImage outline, dpad;
-    private int moveUD=0, moveLR=0;
     private HashMap<String, String>mp;
     private double scale;
     public boolean sp;
@@ -132,12 +131,10 @@ public class BoardPanel extends JPanel implements ActionListener {
         if(!sp) g2.drawPolygon(xlst,ylst,6);
 
         if (animalTokenMap.get(n.getAnimal())!=null){
-            //System.out.println("animal: "+n.getAnimal());
             if (sp){
                 g.drawImage(animalTokenMap.get(n.getAnimal())[0], x-2+w/2, y+h/2-(int)(25*scale), (int)(50*scale),(int)(50*scale), null);
             }
             else{
-                //System.out.println(w);
                 g.drawImage(animalTokenMap.get(n.getAnimal())[0], x-(int)(25*scale)+w/2, y+h/2-(int)(25*scale), (int)(50*scale),(int)(50*scale), null);
             }
 
@@ -239,7 +236,6 @@ public class BoardPanel extends JPanel implements ActionListener {
                     bigPanel.nextA();
                     bigPanel.resetProg();
                     bigPanel.getGame().scoreAllPlayer();
-                    //repaint();
                 }
             }
             repaint();

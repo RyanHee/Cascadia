@@ -42,13 +42,12 @@ public class Panel extends JPanel implements ActionListener {
     private int mini = 0;
     private JPanel p;//added
     private int increment;
-    //private HexButton hexButton;
     public Panel(JPanel panel, int numOfPlayers)  {
         p = panel;//added
         nodeSelected=null;
         numSelectedAnimal=-1;
         increment =4;
-        game=new Game(numOfPlayers);//change to right number of players
+        game=new Game(numOfPlayers);
         try{
             //img = ImageIO.read(Panel.class.getResource("tile.png"));
             //img1 = ImageIO.read(Panel.class.getResource("tile1.png"));
@@ -83,7 +82,6 @@ public class Panel extends JPanel implements ActionListener {
                 fourButtonTiles[i].addActionListener(this);
                 fourButtonAnimal[i]=new InvisButton("");
                 fourButtonAnimal[i].addActionListener(this);
-                //fourButtonAnimal[i].showButton();
             }
 
             //System.out.println("here");
@@ -155,11 +153,7 @@ public class Panel extends JPanel implements ActionListener {
             bplst[i]=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
             add(bplst[i]);
         }
-    	/*
-        add(sp1);
-        add(sp2);
-        add(sp3);
-        */
+    	
         bp=new BoardPanel(game.getCurrPlayer().getBoard(), animalTokenMap, this);
 
         add(bp);
@@ -175,18 +169,9 @@ public class Panel extends JPanel implements ActionListener {
 
 
     public void paint(Graphics g){
-        //System.out.println("sdohfihsod" +Menu3D.playerCount);
+       
         super.paint(g);
 
-        //System.out.println("boo"+game.getPlayerList().length);
-        /*
-        if(first) {
-        	first = false;
-        	game.scoreAllPlayer();
-        	
-
-        }
-         */
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -204,15 +189,7 @@ public class Panel extends JPanel implements ActionListener {
         g2.setFont(new Font("Arial", Font.BOLD, 15));
 
         String h = Integer.toString(game.getCurPlayerNum());
-        /*
-        System.out.println(game.getcur());
-        for (Player player:game.getPlayerList()){
-            System.out.println(player.getTurn()+": "+ player.getAnimalmp());
-            System.out.println(player.getLandmp());
-        }
-
-         */
-
+        
         int n = game.getCurrPlayer().getLandScore();
 
         g2.drawString(n +" / "+game.getCurrPlayer().bonusScore(), getWidth()*126/256, getHeight()*23/25);
@@ -222,7 +199,6 @@ public class Panel extends JPanel implements ActionListener {
             g2.drawString(": "+game.getCurrPlayer().getAnimalmp().get(animal[i]), getWidth()*(134+15*i)/256+53, getHeight()*23/25);
         }
         g2.drawImage(game.getCurrPlayer().getPfp(), 17, 22, 75, 75, null);
-        //g2.drawImage(pfpFrameImg, 2, 2, 110, 110, null);
 
         g2.setColor(new Color(0,0,0));
         g2.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -236,15 +212,13 @@ public class Panel extends JPanel implements ActionListener {
         g2.drawString(": "+game.getCurrPlayer().getNumTokens(), getWidth()/5+60, 40);
         g2.drawString("Current Score: "+ game.curPlayerScore(), getWidth()/5, 75);
 
-
-        //System.out.println("bruh "+game.getPlayerList()[0].getScore());
         g2.setColor(new Color(222,184,135));
         g2.setColor(new Color(159, 223, 223));
         g2.setColor(new Color(165, 213, 232));
 
 
         if (actionLogUsed){
-            //g2.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight()*3/4);
+            
             g2.setColor(new Color(0, 40, 86));
             g2.fillRect(getWidth()*6/8+getWidth()/16,getHeight()*3/4,getWidth()*2/10,getHeight()/4);
             g2.setColor(Color.WHITE);
@@ -257,9 +231,6 @@ public class Panel extends JPanel implements ActionListener {
                 i++;
             }
             g2.drawImage(frameImg, getWidth()*13/16, getHeight()*3/4+2, getWidth()*24/128, getHeight()/4-2, null);
-        }
-        else{
-            //g2.fillRect(getWidth()*6/8+getWidth()/16,0,getWidth()*2/10,getHeight());
         }
 
         g2.setColor(Color.BLACK);
@@ -276,34 +247,6 @@ public class Panel extends JPanel implements ActionListener {
                 bplst[yPlay].setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
                 g2.setColor(game.pList()[pNum-1].getColor());
                 g2.fillRect(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4,getWidth()*2/10,getHeight()*3/18);
-                /*
-                if(yPlay==0){
-                    sp.setScale(.3);
-                    sp1.sp = true;
-                    sp1.setBoard(game.pList()[pNum-1].getBoard());
-                    sp1.setShift(0,(int)(120*.7));
-                    sp1.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
-
-                }else if(yPlay==1){
-                    sp2.setScale(.3);
-                    sp2.sp = true;
-                    sp2.setBoard(game.pList()[pNum-1].getBoard());
-                    sp2.setShift(0,(int)(120*.7));
-                    sp2.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
-                    
-                }else  if(yPlay==2){
-                    sp3.setScale(.3);
-                    sp3.sp = true;
-                    sp3.setBoard(game.pList()[pNum-1].getBoard());
-                    sp3.setShift(0,(int)(120*.7));
-                    sp3.setBounds(getWidth()*6/8+getWidth()/16,getHeight()*yPlay/4+getHeight()/12,getWidth()*2/10,getHeight()*3/18);
-                    
-                }
-
-
-                 */
-                //System.out.println("bruh time"+game.getPlayerList()[0].getScore());
-
 
                 g2.setColor(Color.BLACK);
 
@@ -322,7 +265,6 @@ public class Panel extends JPanel implements ActionListener {
                     g2.drawString(game.getPlayerList()[pNum-1].getAnimalmp().get(animal[i]).toString(), getWidth()*144/168+getWidth()*i*15/512+25, getHeight()*yPlay/4+getHeight()/16);
                 }
 
-                //game.getPlayerList()[pNum-1].setBonus(map.get(Integer.toString(pNum-1)));
                 g2.setFont(new Font("Arial", Font.PLAIN, 18*getWidth()/1920));
                 g2.drawString("Player "+pNum, getWidth()*13/16+10,getHeight()*(yPlay)/4+getHeight()*8/256);
                 g2.drawImage(game.getPlayerList()[pNum-1].getPfp(), getWidth()*13/16+20+g2.getFontMetrics().stringWidth("Player "+pNum), getHeight()*yPlay/4+getHeight()/32-g2.getFontMetrics().getAscent()-5, 25, 25, null);
@@ -332,7 +274,6 @@ public class Panel extends JPanel implements ActionListener {
                 g2.setFont(new Font("Arial", Font.PLAIN, 18*getWidth()/1920));
                 g2.drawString("Current Score: "+ game.getPlayerList()[pNum - 1].getScore(), getWidth()*13/14-20, getHeight()*yPlay/4+getHeight()*7/256);
                 g2.fillRect(getWidth()*13/16, getHeight()*(yPlay+1)/4, getWidth()*24/128, 2);
-                //draw other players boards (but not as buttons)
                 yPlay++;
             }
         }
@@ -343,7 +284,7 @@ public class Panel extends JPanel implements ActionListener {
             g2.drawRect(getWidth()/7-i, getHeight()/8-i, getWidth() - getWidth() / 3+2*i, getHeight()*3/4 +2*i);
         }
 
-        //cancelB.setVisible(false);//make buttons appear at right time
+        //System.out.println("tile" + tileChose);
         if((tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) && prog == 102) {
             cancelB.setVisible(true);
             if(noAnimalPlace) {
@@ -368,7 +309,7 @@ public class Panel extends JPanel implements ActionListener {
             	g2.drawString("Press on a habitat tile to place on the board.", getWidth()/30-30, getHeight()*19/20);
             }
         }
-        if(nodeSelected!=null) {
+        if(nodeSelected!=null && state >0) {
             //removeDups.setVisible(false);
             confirmB.setVisible(true);
             g2.drawImage(rotateImage, 125, getHeight()*2/3-2, 50, 55, null);
@@ -430,11 +371,6 @@ public class Panel extends JPanel implements ActionListener {
             fourButtonAnimal[i].setBounds(115, getHeight()/a+i*95+13, 60, 60);
         }
 
-
-
-
-
-
         if(prog<100+ increment){
             g2.setStroke(new BasicStroke(6));
             g2.setColor(Color.BLACK);
@@ -470,11 +406,11 @@ public class Panel extends JPanel implements ActionListener {
         }
         //91 width = getWidth()/15; 51 height = getHeight()/15 
         rotate.setBounds(125, getHeight()*2/3, 50, 50);
-        //add(bp);
+        
         bp.setBounds(getWidth()/7, getHeight()/8, getWidth()*2/3, getHeight()*3/4);
         scorePB.setBounds(getWidth()-100, getHeight()-50, 100, 50);
         if (Constants.stop){
-            //add(scorePB);
+            
             g2.drawImage(nextImage, getWidth()-100, getHeight()-50, 100, 50, null);
             scorePB.setVisible(true);
 
@@ -543,7 +479,7 @@ public class Panel extends JPanel implements ActionListener {
     }
 
     public void nextTurn() {
-        //game.curPlayerScore();//sets score of player
+        
         game.nextTurn();
         bp.setBoard(game.getCurrPlayer().getBoard());
         state=0;
@@ -566,7 +502,6 @@ public class Panel extends JPanel implements ActionListener {
         mini =0;
         game.addAction("Next Turn: Player "+(game.getCurPlayerNum()+1));
         if(game.getTurn() > 20) {
-            //end the game
 
             if (!Constants.stop){
                 p.add(new ScoringPanel(p, game), "Scoring panel");
@@ -576,7 +511,6 @@ public class Panel extends JPanel implements ActionListener {
                 cardLayout.show(p, "Scoring panel");
             }
 
-            //send end panel the game
         }
         repaint();
         //return;
@@ -607,15 +541,13 @@ public class Panel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        //System.out.println(state);
-        //will need to remove later on
         if (e.getSource().equals(nextB)){
             if (prog<100+ increment){
                 prog=100+ increment;
                 return;
             }
             nextTurn();
-            //repaint();
+
             return;
         }
 
@@ -699,8 +631,6 @@ public class Panel extends JPanel implements ActionListener {
             help.setVisible(true);
             scoreCards.setVisible(true);
             actionLog.setVisible(true);
-            //dupAnimalsUsed = false;
-            //natureTokenUsed = false;
             repaint();
         }
 
@@ -711,7 +641,7 @@ public class Panel extends JPanel implements ActionListener {
             scoreCards.setVisible(false);
             actionLog.setVisible(false);
             useNature.setVisible(false);
-            dupAnimalsUsed = true;//turns off replace duplicate after using nature token
+            dupAnimalsUsed = true;
             removeDups.setVisible(false);
             clearAnimals.setVisible(true);
             mixMatch.setVisible(true);
@@ -720,7 +650,7 @@ public class Panel extends JPanel implements ActionListener {
                 game.addAction("Player "+(game.getCurPlayerNum()+1)+" used a nature token.");
             }
             repaint();
-            //remove token (token >0 -> nature token buttons appears)
+            
         }
 
 
@@ -742,16 +672,15 @@ public class Panel extends JPanel implements ActionListener {
         for (int i=0;i<4;i++){
             HexButton b = fourButtonTiles[i];
             if (e.getSource().equals(b) && state==0 && !curVal.equals(game.getTileName4()[i])){
-                //System.out.println("FourbUttons");
+                
                 curVal= game.getTileName4()[i];
-                //System.out.println(curVal);
+                
                 numSelectedTile=i;
                 if(!mixMatchUsed) {
-                    //System.out.println("no mixMatch");
+                    
                     numSelectedAnimal=i;
                     curAnimal = game.getAnimalToken4()[i];
-                    //drawHighlightAnimal=true;
-                    //state = 3;
+                    
                 }
 
                 nodeSelected=null;
@@ -846,7 +775,7 @@ public class Panel extends JPanel implements ActionListener {
             for (int i=0;i<4;i++){
                 InvisButton b = fourButtonAnimal[i];
                 if (e.getSource().equals(b)){
-                    //System.out.println("click to clear");
+                    
                     if(!animalsToClear.contains(i)) {
                         animalsToClear.add(i);
                     }
@@ -889,7 +818,7 @@ public class Panel extends JPanel implements ActionListener {
             drawHighlightAnimal = false;
             state++;
             if(actionLogUsed) {
-                //game.addAction("Player "+(game.getPlayerNum()+1)+" had no place to put a "+ curAnimal+ "token.");
+                
 
                 if(curAnimal.equals("B")) {
                     game.addAction("Player "+(game.getCurPlayerNum()+1)+ " had no place to put a bear token.");
@@ -909,7 +838,7 @@ public class Panel extends JPanel implements ActionListener {
             }
             repaint();
 
-            //System.out.println("no space for animal");
+            
         }
 
         else if(state == 3 && game.getAnimalAllowed(game.getCurrPlayer().getBoard(), curAnimal)) {
@@ -923,7 +852,7 @@ public class Panel extends JPanel implements ActionListener {
             }
             drawHighlightAnimal = false;
             resetProg();
-            //nextTurn();
+            
             repaint();
             return;
         }
@@ -933,7 +862,7 @@ public class Panel extends JPanel implements ActionListener {
             game.returnAnimalToken(game.getAnimalToken4()[numSelectedAnimal]);
             game.updateAnimal4(numSelectedAnimal);
             resetProg();
-            //nextTurn();
+           
             repaint();
             return;
         }

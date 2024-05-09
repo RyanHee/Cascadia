@@ -22,7 +22,7 @@ public class Scoring {
         for (String s:land){
             landScore.put(s, 0);
         }
-        landScore.put("B", 0);//add bonus
+        //landScore.put("B", 0);//add bonus
     }
 
     public int score(Node node){
@@ -122,7 +122,6 @@ public class Scoring {
         }
         if (hawkAcnt==1) {
             animalScore.put("H", 2);
-            //System.out.println("here");
             return 2;
         }
         if (hawkAcnt<6) {
