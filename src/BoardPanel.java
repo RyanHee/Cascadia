@@ -197,6 +197,9 @@ public class BoardPanel extends JPanel implements ActionListener {
             return;
         }
         try{
+            if (scale==0.3){
+                return;
+            }
             curNode=(Node) e.getSource();
             if (bigPanel.getState()==1){
                 if (curNode.getVal()==null|| curNode.getVal().isEmpty()){
