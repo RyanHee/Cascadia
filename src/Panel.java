@@ -114,6 +114,7 @@ public class Panel extends JPanel implements ActionListener {
         scorePB = new JButton(new ImageIcon(nextImage.getScaledInstance(100, 50, Image.SCALE_SMOOTH)));
         rotate = new HexButton("arrow.png");
 
+
         confirmB.addActionListener(this);
         cancelB.addActionListener(this);
         nextB.addActionListener(this);
@@ -126,6 +127,8 @@ public class Panel extends JPanel implements ActionListener {
         clearAnimals.addActionListener(this);
         mixMatch.addActionListener(this);
         scorePB.addActionListener(this);
+
+
         add(cancelB);
         add(nextB);
         add(confirmB);
@@ -215,6 +218,39 @@ public class Panel extends JPanel implements ActionListener {
         g2.setColor(new Color(222,184,135));
         g2.setColor(new Color(159, 223, 223));
         g2.setColor(new Color(165, 213, 232));
+
+
+
+        if(prog<100+ increment){
+            g2.setStroke(new BasicStroke(6));
+            g2.setColor(Color.BLACK);
+            g2.drawRect(getWidth()/15, getHeight()/10*9, getWidth()/3, getHeight()/20);
+            g2.setColor(Color.GREEN);
+            g2.fillRect(getWidth()/15, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
+            prog+= increment;
+
+            if(game.getTurn() != 1 && game.getCurPlayerNum() != 0 || prog!=106) {
+                nextB.setVisible(false);
+            }
+
+            try{
+                wait(3);
+            }
+            catch (Exception E){
+
+            }
+            repaint();
+        }else if (prog==100+ increment){
+            try{
+                wait(10);
+                prog++;
+                nextTurn();
+            }
+            catch (Exception E){
+
+            }
+        }
+
 
 
         if (actionLogUsed){
@@ -371,41 +407,7 @@ public class Panel extends JPanel implements ActionListener {
             fourButtonAnimal[i].setBounds(115, getHeight()/a+i*95+13, 60, 60);
         }
 
-        if(prog<100+ increment){
-            g2.setStroke(new BasicStroke(6));
-            g2.setColor(Color.BLACK);
-            g2.drawRect(getWidth()/15, getHeight()/10*9, getWidth()/3, getHeight()/20);
-            g2.setColor(Color.GREEN);
-            g2.fillRect(getWidth()/15, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
-            prog+= increment;
-            help.setVisible(false);
-            scoreCards.setVisible(false);
-            actionLog.setVisible(false);
-            useNature.setVisible(false);
-            removeDups.setVisible(false);
-            if(game.getTurn() != 1 && game.getCurPlayerNum() != 0 || prog!=106) {
-            	nextB.setVisible(false);
-            }
-            confirmClear.setVisible(false);
-            clearAnimals.setVisible(false);
-            mixMatch.setVisible(false);
-            try{
-                wait(3);
-            }
-            catch (Exception E){
 
-            }
-            repaint();
-        }else if (prog==100+ increment){
-            try{
-                wait(10);
-                prog++;
-                nextTurn();
-            }
-            catch (Exception E){
-
-            }
-        }
         //91 width = getWidth()/15; 51 height = getHeight()/15 
         rotate.setBounds(125, getHeight()*2/3, 50, 50);
         
