@@ -309,7 +309,7 @@ public class Panel extends JPanel implements ActionListener {
             	g2.drawString("Press on a habitat tile to place on the board.", getWidth()/30-30, getHeight()*19/20);
             }
         }
-        if(nodeSelected!=null && state >0) {
+        if(nodeSelected!=null && state > 0) {
             //removeDups.setVisible(false);
             confirmB.setVisible(true);
             g2.drawImage(rotateImage, 125, getHeight()*2/3-2, 50, 55, null);
