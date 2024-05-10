@@ -151,6 +151,7 @@ public class Menu3D extends JPanel implements MouseListener {
         addMenuItem("PLAY (press)");
         addMenuItem("MORE (press)");
         addMenuItem("CREDITS (press)");
+        addMenuItem("HELP (press)");
     }
 
     public void addEvent(EventMenu event) {
@@ -263,7 +264,12 @@ public class Menu3D extends JPanel implements MouseListener {
             g2d.drawString("This game is programmed by Matthew, Ryan, Jola, and Ratnesh", 75, 495);
 
         }
-
+        
+        if(pressedIndex == 3) {
+        	pressedBut = false;
+        	openWebPage("https://www.alderac.com/wp-content/uploads/2021/08/Cascadia-Rules.pdf");
+        	pressedIndex = -1;
+        }
 
         Graphics2D g2 = (Graphics2D) g2d.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -297,13 +303,18 @@ public class Menu3D extends JPanel implements MouseListener {
 
         }
 
-
-
-
-
-
-
     }
+    
+    public void openWebPage(String url){
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+        }
+        catch (java.io.IOException e) {
+            //System.out.println(e.getMessage());
+        }
+    }
+    
+    
     @Override
     public void paintComponent(Graphics g) {
 
