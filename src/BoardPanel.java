@@ -1,8 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,14 +18,14 @@ public class BoardPanel extends JPanel implements ActionListener {
     private HashMap<String, String>mp;
     private double scale;
     public boolean sp;
-    public static int ahhhh;
+    private MouseInfo mouseInfo;
+
     public BoardPanel (Node n, HashMap<String, BufferedImage[]>map, Panel BigPan){
         super();
         sp = false;
         scale = 1;
         board=n;
         animalTokenMap=map;
-        
         // setBackground(new Color(159, 223, 223));//bright light sky blue
         //setBackground(new Color(210, 232, 206));//light mint
         // setBackground(new Color(200, 207, 208));//light gray-faint blue
@@ -280,4 +279,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         r=x;
         u=y;
     }
+
+
 }
