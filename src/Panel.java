@@ -229,7 +229,7 @@ public class Panel extends JPanel implements ActionListener {
             g2.fillRect(getWidth()/15, getHeight()/10*9, getWidth()*prog/300, getHeight()/20);
             prog+= increment;
 
-            if(game.getTurn() != 1 && game.getCurPlayerNum() != 0 || prog!=106) {
+            if(game.getTurn() == 1 && game.getCurPlayerNum() == 0 || prog!=106) {
                 nextB.setVisible(false);
             }
 
@@ -321,7 +321,7 @@ public class Panel extends JPanel implements ActionListener {
         }
 
         //System.out.println("tile" + tileChose);
-        if((tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) && prog == 102) {
+        if((tileChose || (mixMatchUsed && state == 4) || noAnimalPlace) && (prog == 106 || prog == 105)) {
             cancelB.setVisible(true);
             if(noAnimalPlace) {
                 g2.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -333,14 +333,15 @@ public class Panel extends JPanel implements ActionListener {
             }
         }
         //allow the user to choose not to keep animal
-        else if(!noAnimalPlace && !clearAnimalsUsed && state == 3 && prog == 102) {
+        else if(!noAnimalPlace && !clearAnimalsUsed && state == 3 && (prog == 106 || prog == 105)) {
             cancelB.setVisible(true);
             g2.setFont(new Font("Arial", Font.PLAIN, 15));
-            g2.drawString("You may choose to click cancel, not place an animal and end your turn.", getWidth()*1/50, getHeight()*23/25);
+            g2.drawString("Click CANCEL to not place an animal and end your turn.", getWidth()*1/50, getHeight()*23/25);
+            g2.drawString("OR choose an available space to put the animal on your board.", getWidth()*1/50, getHeight()*24/25);
         }
         else {
             cancelB.setVisible(false);
-            if(!tileChose && nodeSelected == null && prog == 102) {
+            if(!tileChose && nodeSelected == null && (prog == 106 || prog == 105)) {
             	g2.setFont(new Font("Arial", Font.PLAIN, 20));
             	g2.drawString("Press on a habitat tile to place on the board.", getWidth()/30-30, getHeight()*19/20);
             }
@@ -502,7 +503,7 @@ public class Panel extends JPanel implements ActionListener {
         help.setVisible(true);
         scoreCards.setVisible(true);
         actionLog.setVisible(true);
-        nextB.setVisible(true); //only for testing
+        nextB.setVisible(false); //only for testing
         mini =0;
         game.addAction("Next Turn: Player "+(game.getCurPlayerNum()+1));
         if(game.getTurn() > 20) {
@@ -535,10 +536,6 @@ public class Panel extends JPanel implements ActionListener {
             JOptionPane.showMessageDialog(null, message, "Cascadia", JOptionPane.INFORMATION_MESSAGE);
         }
 
-    }
-
-    public void useInfoBox(String message) {
-        infoBox(message);
     }
 
 
