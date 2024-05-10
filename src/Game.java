@@ -358,7 +358,7 @@ public class Game {
     	getAllowedSpace(n,animal);
     	visited.clear();
     	if(!animalAllowed) {
-    		infoBox("There is no animal space for the animal so please click the next button to continue.");
+    		infoBox("There is no animal space for the animal so please click the cancel button to continue.");
     	}
     	return animalAllowed;
     }

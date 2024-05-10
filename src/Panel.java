@@ -336,7 +336,7 @@ public class Panel extends JPanel implements ActionListener {
         else if(!noAnimalPlace && !clearAnimalsUsed && state == 3 && (prog == 106 || prog == 105)) {
             cancelB.setVisible(true);
             g2.setFont(new Font("Arial", Font.PLAIN, 15));
-            g2.drawString("Click CANCEL to not place an animal and end your turn.", getWidth()*1/50, getHeight()*23/25);
+            g2.drawString("Click Cancel to not place an animal and end your turn.", getWidth()*1/50, getHeight()*23/25);
             g2.drawString("OR choose an available space to put the animal on your board.", getWidth()*1/50, getHeight()*24/25);
         }
         else {
