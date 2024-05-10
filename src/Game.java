@@ -1,4 +1,7 @@
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -151,7 +154,7 @@ public class Game {
                 returnAnimalToken(animalToken4[i]);
                 updateAnimal4(i);
             }
-            //Panel.useInfoBox("The 4 animals shown were the same and were cleared.");
+            infoBox("The 4 animals shown were the same and cleared.");
         }
         return animalToken4;
     }
@@ -354,6 +357,9 @@ public class Game {
     	animalAllowed = false;
     	getAllowedSpace(n,animal);
     	visited.clear();
+    	if(!animalAllowed) {
+    		infoBox("There is no animal space for the animal so please click the next button to continue.");
+    	}
     	return animalAllowed;
     }
     
@@ -372,4 +378,8 @@ public class Game {
     	return actionLog;
     }
 
+    public void infoBox(String message) {
+        JOptionPane.showMessageDialog(null, message, "Cascadia", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
 }
