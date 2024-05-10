@@ -383,7 +383,9 @@ public class Panel extends JPanel implements ActionListener {
             actionLog.setVisible(false);
             useNature.setVisible(false);
             removeDups.setVisible(false);
-            //nextB.setVisible(false);
+            if(game.getTurn() != 1 && game.getCurPlayerNum() != 0 || prog!=106) {
+            	nextB.setVisible(false);
+            }
             confirmClear.setVisible(false);
             clearAnimals.setVisible(false);
             mixMatch.setVisible(false);
@@ -669,61 +671,63 @@ public class Panel extends JPanel implements ActionListener {
 
 
         //select tile
-        for (int i=0;i<4;i++){
-            HexButton b = fourButtonTiles[i];
-            if (e.getSource().equals(b) && state==0 && !curVal.equals(game.getTileName4()[i])){
-                
-                curVal= game.getTileName4()[i];
-                
-                numSelectedTile=i;
-                if(!mixMatchUsed) {
-                    
-                    numSelectedAnimal=i;
-                    curAnimal = game.getAnimalToken4()[i];
-                    
-                }
-
-                nodeSelected=null;
-                state++;
-                tileChose = true;
-                if(actionLogUsed) {
-                    String habitats = curVal.substring(0,2);
-                    String animals = curVal.substring(3);
-                    int l = animals.length();
-                    if(habitats.contains("D")) habitats += " and Desert";
-                    if(habitats.contains("F")) habitats += " and Forest";
-                    if(habitats.contains("L")) habitats += " and Lake";
-                    if(habitats.contains("M")) habitats += " and Mountain";
-                    if(habitats.contains("S")) habitats += " and Swamp";
-                    habitats = habitats.substring(7);
-                    if(animals.contains("B")) animals += " and Bear";
-                    if(animals.contains("E")) animals += " and Elk";
-                    if(animals.contains("F")) animals += " and Fox";
-                    if(animals.contains("H")) animals += " and Hawk";
-                    if(animals.contains("S")) animals += " and Salmon";
-                    animals = animals.substring(l+5);
-
-                    game.addAction("Player "+(game.getCurPlayerNum()+1)+" picked tile: "+habitats+".");
-                    game.addAction("This tile can hold "+animals+".");
-                }
-
-                repaint();
-                return;
-            }
-            //cancel tile via clicking it
-            else if(curVal.equals(game.getTileName4()[i])){
-                curVal ="";
-                numSelectedTile = -1;
-                numSelectedAnimal = -1;
-                curAnimal = "";
-                state = 0;
-                tileChose = false;
-                if(actionLogUsed) {
-                    game.addAction("Player "+(game.getCurPlayerNum()+1)+" unselected their tile.");
-                }
-                repaint();
-                return;
-            }
+        if(!natureTokenUsed || mixMatchUsed) {
+	        for (int i=0;i<4;i++){
+	            HexButton b = fourButtonTiles[i];
+	            if (e.getSource().equals(b) && state==0 && !curVal.equals(game.getTileName4()[i])){
+	                
+	                curVal= game.getTileName4()[i];
+	                
+	                numSelectedTile=i;
+	                if(!mixMatchUsed) {
+	                    
+	                    numSelectedAnimal=i;
+	                    curAnimal = game.getAnimalToken4()[i];
+	                    
+	                }
+	
+	                nodeSelected=null;
+	                state++;
+	                tileChose = true;
+	                if(actionLogUsed) {
+	                    String habitats = curVal.substring(0,2);
+	                    String animals = curVal.substring(3);
+	                    int l = animals.length();
+	                    if(habitats.contains("D")) habitats += " and Desert";
+	                    if(habitats.contains("F")) habitats += " and Forest";
+	                    if(habitats.contains("L")) habitats += " and Lake";
+	                    if(habitats.contains("M")) habitats += " and Mountain";
+	                    if(habitats.contains("S")) habitats += " and Swamp";
+	                    habitats = habitats.substring(7);
+	                    if(animals.contains("B")) animals += " and Bear";
+	                    if(animals.contains("E")) animals += " and Elk";
+	                    if(animals.contains("F")) animals += " and Fox";
+	                    if(animals.contains("H")) animals += " and Hawk";
+	                    if(animals.contains("S")) animals += " and Salmon";
+	                    animals = animals.substring(l+5);
+	
+	                    game.addAction("Player "+(game.getCurPlayerNum()+1)+" picked tile: "+habitats+".");
+	                    game.addAction("This tile can hold "+animals+".");
+	                }
+	
+	                repaint();
+	                return;
+	            }
+	            //cancel tile via clicking it
+	            else if(curVal.equals(game.getTileName4()[i])){
+	                curVal ="";
+	                numSelectedTile = -1;
+	                numSelectedAnimal = -1;
+	                curAnimal = "";
+	                state = 0;
+	                tileChose = false;
+	                if(actionLogUsed) {
+	                    game.addAction("Player "+(game.getCurPlayerNum()+1)+" unselected their tile.");
+	                }
+	                repaint();
+	                return;
+	            }
+	        }
         }
         //cancel tile
         if(e.getSource().equals(cancelB) && state==1) {
