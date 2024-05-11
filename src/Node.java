@@ -42,7 +42,7 @@ public class Node extends JButton {
             public void mouseEntered(MouseEvent e) {
                 //if (!e.getSource().equals(this))return;
                 if (!getPlaced()){
-                    System.out.println("in");
+                    //System.out.println("in");
                     try{
                         img = ImageIO.read(getClass().getResource("img/potentialPlacement.png"));
                     }
@@ -54,7 +54,7 @@ public class Node extends JButton {
             public void mouseExited(MouseEvent e) {
                 //if (!e.getSource().equals(this))return;
                 if (!getPlaced()){
-                    System.out.println("exit");
+                    //System.out.println("exit");
                     try{
                         img = ImageIO.read(getClass().getResource("img/blank.png"));
                     }
