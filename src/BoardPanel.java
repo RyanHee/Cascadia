@@ -159,12 +159,20 @@ public class BoardPanel extends JPanel implements ActionListener{
 
 
         }
+
         g2.dispose();
         n.paintComponent(g);
-        n.addActionListener(this);
+        if (scale == 0.3 || sp) {
+            n.removeActionListener(this);
+        }
+        else{
+            n.addActionListener(this);
+            add(n);
+            n.setBounds(x+r,y+u,w,h);
+        }
 
-        add(n);
-        n.setBounds(x+r,y+u,w,h);
+
+
         visited.add(n);
 
 
@@ -216,57 +224,57 @@ public class BoardPanel extends JPanel implements ActionListener{
         if (Constants.stop){
             return;
         }
-        try{
-            if (scale==0.3){
-                return;
-            }
-            curNode=(Node) e.getSource();
-            if (bigPanel.getState()==1){
-                if (curNode.getVal()==null|| curNode.getVal().isEmpty()){
-                    setCurNodeVal(bigPanel.getCurVal());
-                    bigPanel.next(curNode);
-                }
+        if (scale==0.3||sp){
+            System.out.println("NO");
+            return;
+        }
 
-            }
-            else if (bigPanel.getState()==3){
 
-                if (setCurNodeAnimal(bigPanel.getCurAnimal())){
-                    //if keystone tile-> add nature token
-                    String[] hold = curNode.getSides();
-                    if(bigPanel.getCurAnimal().equals("B")) {
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a bear token.");
-                    }
-                    if(bigPanel.getCurAnimal().equals("E")) {
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed an elk token");
-                    }
-                    if(bigPanel.getCurAnimal().equals("F")) {
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a fox token");
-                    }
-                    if(bigPanel.getCurAnimal().equals("H")) {
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a hawk token");
-                    }
-                    if(bigPanel.getCurAnimal().equals("S")) {
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a salmon token");
-                    }
-                    if(hold[0].equals(hold[3])) {
-                        bigPanel.getGame().addAction("It was placed on a " +mp.get(hold[0])+" tile.");
-                    	bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " gained a nature token.");
-                    	bigPanel.getGame().getCurrPlayer().addNt();
-                    }
-                    else {
-                    	bigPanel.getGame().addAction("It was placed on a " +mp.get(hold[0])+" and "+mp.get(hold[3])+" tile.");
-                    }
-                    bigPanel.nextA();
-                    bigPanel.resetProg();
-                    bigPanel.getGame().scoreAllPlayer();
-                }
+        curNode=(Node) e.getSource();
+        if (bigPanel.getState()==1){
+            if (curNode.getVal()==null|| curNode.getVal().isEmpty()){
+                setCurNodeVal(bigPanel.getCurVal());
+                bigPanel.next(curNode);
             }
-            repaint();
 
         }
-        catch (ClassCastException E){
-            System.out.println("error");
+        else if (bigPanel.getState()==3){
+
+            if (setCurNodeAnimal(bigPanel.getCurAnimal())){
+                //if keystone tile-> add nature token
+                String[] hold = curNode.getSides();
+                if(bigPanel.getCurAnimal().equals("B")) {
+                    bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a bear token.");
+                }
+                if(bigPanel.getCurAnimal().equals("E")) {
+                    bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed an elk token");
+                }
+                if(bigPanel.getCurAnimal().equals("F")) {
+                    bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a fox token");
+                }
+                if(bigPanel.getCurAnimal().equals("H")) {
+                    bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a hawk token");
+                }
+                if(bigPanel.getCurAnimal().equals("S")) {
+                    bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " placed a salmon token");
+                }
+                if(hold[0].equals(hold[3])) {
+                    bigPanel.getGame().addAction("It was placed on a " +mp.get(hold[0])+" tile.");
+                    bigPanel.getGame().addAction("Player "+(bigPanel.getGame().getCurPlayerNum()+1)+ " gained a nature token.");
+                    bigPanel.getGame().getCurrPlayer().addNt();
+                }
+                else {
+                    bigPanel.getGame().addAction("It was placed on a " +mp.get(hold[0])+" and "+mp.get(hold[3])+" tile.");
+                }
+                bigPanel.nextA();
+                bigPanel.resetProg();
+                bigPanel.getGame().scoreAllPlayer();
+            }
         }
+        repaint();
+
+
+
     }
     public Node getCurNode(){
         return curNode;
