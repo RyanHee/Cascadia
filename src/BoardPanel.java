@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class BoardPanel extends JPanel implements ActionListener {
+public class BoardPanel extends JPanel implements ActionListener{
     private Node board;
     private HashSet<Node>visited;
     private HashMap<String, BufferedImage[]>animalTokenMap;
@@ -14,8 +14,9 @@ public class BoardPanel extends JPanel implements ActionListener {
     private Panel bigPanel;
     private int r, u;
     private JButton up,down,right,left,mid;
-    private BufferedImage outline, dpad;
+    private BufferedImage outline, dpad, pp;
     private HashMap<String, String>mp;
+    private Node clicked;
     private double scale;
     public boolean sp;
     private MouseInfo mouseInfo;
@@ -53,10 +54,10 @@ public class BoardPanel extends JPanel implements ActionListener {
         right.addActionListener(this);
         left.addActionListener(this);
         mid.addActionListener(this);
-
         try{
             outline= ImageIO.read(getClass().getResource("img/tileOutline.png"));
             dpad=ImageIO.read(getClass().getResource("img/DPAD.png"));
+            pp=ImageIO.read(getClass().getResource("img/potentialPlacement.png"));
         }
         catch (Exception E){
 
@@ -89,8 +90,27 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         if(!sp)g.drawImage(dpad, getWidth()-90-r, getHeight()-90-u, 90, 90, null);
 
+        //dfs(bigPanel.getGame().getCurrPlayer().getBoard(), 0, 0);
 
-}
+    }
+
+
+    private void dfs(Node n, int x, int y){
+        if (visited.contains(n)){
+            return;
+        }
+        if (n==null){
+            return;
+        }
+        System.out.println(n+""+n.getX()+n.getY());
+        visited.add(n);
+        n.isOver();
+        for (Node c:n.getNeighbors()){
+            dfs(c,x,y);
+        }
+    }
+
+
     private void putButtons(Graphics g, Node n, int x, int y, int w, int h){
         if (n==null){
             return;
@@ -142,6 +162,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         g2.dispose();
         n.paintComponent(g);
         n.addActionListener(this);
+
         add(n);
         n.setBounds(x+r,y+u,w,h);
         visited.add(n);
@@ -279,6 +300,11 @@ public class BoardPanel extends JPanel implements ActionListener {
         r=x;
         u=y;
     }
+
+
+
+
+
 
 
 }

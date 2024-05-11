@@ -1,6 +1,10 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Arrays;
@@ -17,7 +21,7 @@ public class Node extends JButton {
     private boolean isPlaced;
     private BufferedImage img;
     private String[] Sides;
-    public Node(String label){
+    public Node(String label) {
         super(label);
         animal="";
         xPoints = new int[6];
@@ -27,10 +31,43 @@ public class Node extends JButton {
         isPlaced=false;
         setOpaque(false);
         setContentAreaFilled(false);
+        setFocusPainted(false);
         rotateAngle=0;
         animals=new HashSet<>();
         land=new HashSet<>();
         hexagon = new Polygon(xPoints, yPoints, 6);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //if (!e.getSource().equals(this))return;
+                if (!getPlaced()){
+                    System.out.println("in");
+                    try{
+                        img = ImageIO.read(getClass().getResource("img/potentialPlacement.png"));
+                    }
+                    catch (Exception E){
+                    }
+                    getParent().repaint();
+                }
+            }
+            public void mouseExited(MouseEvent e) {
+                //if (!e.getSource().equals(this))return;
+                if (!getPlaced()){
+                    System.out.println("exit");
+                    try{
+                        img = ImageIO.read(getClass().getResource("img/blank.png"));
+                    }
+                    catch (Exception E){
+                    }
+                    getParent().repaint();
+                }
+            }
+        });
+
+
+
+
         try{
             img = ImageIO.read(getClass().getResource("img/blank.png"));
         }
@@ -38,6 +75,10 @@ public class Node extends JButton {
         }
     }
 
+
+    public void setImg(BufferedImage img){
+        this.img=img;
+    }
 
     public Node(String label, String s){
         super(label);
@@ -282,6 +323,28 @@ public class Node extends JButton {
             neighbor.setNeighbor(neighbor1, num);
         }
     }
+
+    public void isOver(){
+        if (getPlaced()){
+            return;
+        }
+        if (getModel().isArmed()){
+            try{
+                img = ImageIO.read(getClass().getResource("img/potentialPlacement.png"));
+            }
+            catch (Exception E){
+            }
+        }
+        else{
+            try{
+                img = ImageIO.read(getClass().getResource("img/blank.png"));
+            }
+            catch (Exception E){
+            }
+        }
+    }
+
+
 
     protected void paintComponent(Graphics g) {
        // g.setColor(rrgb(45, 160, 224));
