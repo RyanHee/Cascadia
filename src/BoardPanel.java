@@ -142,7 +142,7 @@ public class BoardPanel extends JPanel implements ActionListener{
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-        g2.rotate(Math.toRadians(n.getRotateAngle()),x+8+ w*50/116,y+ (h/2));
+        g2.rotate(Math.toRadians(n.getRotateAngle()),(double) x+8+ (double) (w * 50) /116,(double) y+ ((double) h /2));
         if(n.getPlaced()&&sp)g2.drawImage(n.getImg(), x+8 , y, w * 50 / 58, h, null);
         if(!sp)g2.drawImage(n.getImg(), x+8 , y, w * 50 / 58, h, null);
         g2.setStroke(new BasicStroke(2));
