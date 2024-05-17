@@ -380,6 +380,7 @@ public class Panel extends JPanel implements ActionListener {
 
 
         for (int i=0;i<4;i++){
+            if (tiles4[i]==null)continue;
             add(fourButtonTiles[i]);
             add(fourButtonAnimal[i]);
             int a = 6;
