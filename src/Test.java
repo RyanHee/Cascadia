@@ -7,7 +7,8 @@ public class Test {
         Scoring scoring=new Scoring();
         Node n = new Node("", "MF-FBE");
         n.getNeighbors()[0].setVal("FF-E");
-
-        System.out.println(scoring.landMass(n));
+        int x=29;
+        int w=29;
+        System.out.println((double) x+8+ w*50/116);
     }
 }
